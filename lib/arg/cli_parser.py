@@ -82,7 +82,7 @@ class CLIParser:
             *args: a collection of command arguments
 
         Returns:
-            A Namespace containing all parsed commands and their values.
+            A Namespace object containing all parsed commands and their values.
         """
         return self.__parser.parse_args(*args)
 
