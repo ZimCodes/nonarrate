@@ -14,18 +14,18 @@ class TestArgChecker(unittest.TestCase):
         ArgChecker.check_args(args)
 
     def test_folder_exists(self):
-        self.assertIsNone(self.check_args("tests/dummy/"))
+        self.assertIsNone(self.check_args(f"{fixture.DUMMY_PATH}/"))
 
     def test_folder_or_file_not_exists(self):
-        for command in ["tests/jrajj/", "tests/dummy/file.txt"]:
+        for command in ["tests/jrajj/", f"{fixture.DUMMY_PATH}/file.txt"]:
             with self.subTest(name=command):
                 with self.assertRaises(FileNotFoundError):
                     self.check_args(command)
 
     def test_valid_file(self):
-        self.assertIsNone(self.check_args("tests/dummy/errors.txt"))
+        self.assertIsNone(self.check_args(f"{fixture.DUMMY_PATH}/errors.txt"))
 
     def test_invalid_file(self):
         """Tests against an actual file in dummy folder called real.txt"""
         with self.assertRaises(WrongFileError):
-            self.check_args("tests/dummy/real.txt")
+            self.check_args(f"{fixture.DUMMY_PATH}/real.txt")

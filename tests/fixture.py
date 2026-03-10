@@ -1,8 +1,12 @@
 from lib.arg.cli_parser import CLIParser
 
+DUMMY_PATH = "tests/dummy"  # Path to dummy file directory
 
-def get_args(parser: CLIParser, arguments: str):
-    return parser.parse_args(arguments.split())
+
+def get_args(parser: CLIParser, arguments: str | list):
+    if isinstance(arguments, str):
+        return parser.parse_args(arguments.split())
+    return parser.parse_args(arguments)
 
 
 def get_dialogue_list(valid_indexes: list[int], dialogues: dict[int, str]):

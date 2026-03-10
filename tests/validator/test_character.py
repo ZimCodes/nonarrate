@@ -1,6 +1,6 @@
 import unittest
 from ..fixture import get_dialogue_list
-from lib.validator.speaker import BasicCharacterStrategy
+from lib.validator.speaker import BasicCharacterStrategy, CharacterStrategy
 from lib.validator.ivalidator_chain import IValidatorChain
 
 
@@ -21,6 +21,14 @@ class TestCharacter(unittest.TestCase):
             10: 'narrator" "Today I heard something new and unmemorable."',
             11: '"narrator "Today I heard something new and unmemorable."',
             12: 'narrator "Today I heard something new and unmemorable."',
+            # Custom basic
+            13: '"maya" "Today I heard something new and unmemorable."',
+            14: '"maya thinking" "Today I heard something new and unmemorable."',
+            15: '"maya thoughts" "Today I heard something new and unmemorable."',
+            16: 'maya" "Today I heard something new and unmemorable."',
+            17: '"maya "Today I heard something new and unmemorable."',
+            18: 'maya "Today I heard something new and unmemorable."',
+            19: '"maya cornstarke" "Today I heard something new and unmemorable."',
         }
 
     def validate_lines(self):
@@ -40,4 +48,7 @@ class TestCharacter(unittest.TestCase):
         self.validate_lines()
 
     def test_basic_char(self):
-        self.start(BasicCharacterStrategy(), [3, 7, 8, 9])
+        self.start(BasicCharacterStrategy(), [3, 7, 8, 9, 14, 15])
+
+    def test_custom_char(self):
+        self.start(CharacterStrategy("maya"), [13, 14, 15, 19])

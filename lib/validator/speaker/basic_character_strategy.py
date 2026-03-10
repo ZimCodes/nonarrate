@@ -1,9 +1,9 @@
-import re
+from .character_strategy import CharacterStrategy
 from ..ivalidator_chain import IValidatorChain
 
 
-class BasicCharacterStrategy(IValidatorChain):
-    """Validator that validates a character/speaker is a basic narrator.
+class BasicCharacterStrategy(CharacterStrategy):
+    """Validator that validates if a character/speaker is a commonly known narrator.
 
     The speaker must be surrounded by quotes, followed by their dialogue.
 
@@ -12,8 +12,5 @@ class BasicCharacterStrategy(IValidatorChain):
     """
 
     def __init__(self, next_validator: "IValidatorChain | None" = None) -> None:
-        super().__init__(next_validator)
         narrators = ["thinking", "thought", "narrator"]
-        self._regexPat = re.compile(
-            rf'".*(?:{"|".join(narrators)}).*"\s*"[^"]+"', re.IGNORECASE
-        )
+        super().__init__("|".join(narrators), next_validator)

@@ -49,11 +49,11 @@ class CLIParser:
         # This should be fixed when 'const' is replaced with class object
         self.__add_filter_arg('--basic-char', dest='narr_types', action=AppendUniqueConst,
                               const='--basic-char', help='Removes default narrators not in a Character object')
-        self.__add_filter_arg('--custom-tag', '--ct', metavar='TAG_NAME', action='append',
+        self.__add_filter_arg('--custom-tag', '--ct', metavar='TAG_NAME', nargs='*',
                               help="Removes dialogue wrapped entirely in a custom text tag. Ex:{t}..{/t}")
-        self.__add_filter_arg('--custom-basic-char', '--cbc', metavar='SPEAKER_NAME', action='append',
-                              help='Removes a speaker not in a Character object')
-        self.__add_filter_arg('--custom-basic-char-obj', '--cbco', metavar='SPEAKER_NAME', action='append',
+        self.__add_filter_arg('--custom-basic-char', '--cbc', metavar='SPEAKER_NAME', nargs='*',
+                              help='Removes a speaker NOT in a Character object, but surrounded by quotes.')
+        self.__add_filter_arg('--custom-basic-char-obj', '--cbco', metavar='SPEAKER_OBJECT_NAME', nargs='*',
                               help='Removes a speaker saved to a Character object')
 
     def __add_no_filters(self, optnames: dict[str, str]):

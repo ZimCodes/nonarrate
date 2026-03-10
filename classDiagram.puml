@@ -7,39 +7,45 @@ abstract class IValidatorChain {
 	+setNextValidator(chain: IValidatorChain)
 }
 'Ex: "Narrator" "Player listen to me..."
-class BasicCharStrategy
-class CustomCharStrategy
-'Ex: narr "Player, please select this choice."
-class BasicCharObjStrategy {
+class CharacterStrategy
+class BasicCharacterStrategy
+
+class ObjectStrategy {
 	-definedSpeakers: List<str>
 	'Map[file_url][hasChanged or lines in file]
 	+setDefinedSpeakers(fileMap: Map<str,Map<str,bool|List<str>>>)
 }
-class CustomCharObjStrategy
+'Ex: narr "Player, please select this choice."
+class BasicObjectStrategy
+class CustomObjectStrategy
+
 class ItalicStrategy
 class ParenthesisStrategy
-'Ex: "<i>What am I thinking! I can't do that... right?</i>" OR
-'Ex: "Player" "<i>What am I thinking! I can't do that... right?</i>"
+'Ex: "{i}What am I thinking! I can't do that... right?{/i}" OR
+'Ex: "Player" "{i}What am I thinking! I can't do that... right?{/i}"
 class CustomTextTagStrategy
 'Ex: "Marco jumps over the fence, scrapping his arm in the process"
 class BasicStrategy
 
 'File Descriptors
-class  FileReader <<Singleton>> {
-	+readLines(fileURL: str): List<str>
-	+walkFiles(rootDir:str): str
+class Reader {
+	+readLines(fileURL: str): Dictionary<str,List<str>>
+	+walkFiles(rootDir:str): List<str>
 }
-class  FileWriter <<Singleton>>{
-	+writeLines(fileURL: str)
+class RenpyReader {
+  +walkFiles(rootDir:str): List<str>
 }
-class  FileDeleter <<Singleton>>{
+class Writer {
+	+writeLines(fileURL: str,lines: List<str>)
+}
+class Deleter {
 	+delete(fileURL: str)
 }
 
 'ThreadExecutors
 class  FileExecutor <<Singleton>>{
-	+getFileLines(reader:FileReader): Map<str,Map<str,bool|List<str>>>
-	+writeToFiles(writer:FileWriter,fileLines: Map<str,Map<str,bool|List<str>>>)
+	{static}+fileLines(reader:Reader,rootDir:str): List<Dictionary<str,List<str>>>
+	{static}+writeFiles(writer:Writer,fileInfo:Dictionary<str,List<str>>)
 }
 
 'Narrator
@@ -76,10 +82,12 @@ IValidatorChain <|-- BasicStrategy
 IValidatorChain <|-- CustomTextTagStrategy
 IValidatorChain <|-- ParenthesisStrategy
 IValidatorChain <|-- ItalicStrategy
-IValidatorChain <|-- BasicCharStrategy
-BasicCharStrategy <|-- CustomCharStrategy
-BasicStrategy <|-- BasicCharObjStrategy
-BasicCharObjStrategy <|-- CustomCharObjStrategy
+IValidatorChain <|-- ObjectStrategy
+IValidatorChain <|-- CharacterStrategy
+CharacterStrategy <|-- BasicCharacterStrategy
+ObjectStrategy <|-- CustomObjectStrategy
+ObjectStrategy <|-- BasicObjectStrategy
+Reader <|-- RenpyReader
 
 'Argument Relations
 ArgChecker --> CLIParser : uses
