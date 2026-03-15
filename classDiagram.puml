@@ -75,9 +75,23 @@ class CLIParser {
     +getArgs(commands:str)
 }
 class ArgChecker {
-    -parser: CLIParser
-    -validate()
-    +getArgs(): Namespace
+    {static}+checkArgs(args: Namespace)
+    {static}-validateFolderOrFileArg(folderOrFileArg: Path)
+}
+class ArgAssembler {
+  {static}-validators: Dictionary<str,Type>
+  {static}+assemble(args)
+}
+
+enum FilterTag {
+  NO_BASIC_CHAR
+  NO_ITALIC_NARR
+  NO_PARENTHESIS_NARR
+  NO_BASIC_NARR
+  NO_BASIC_CHAR_OBJ
+  CUSTOM_CHAR_OBJ
+  CUSTOM_TEXT_TAG
+  CUSTOM_CHAR
 }
 
 'Validator Relations
@@ -93,5 +107,5 @@ ObjectStrategy <|-- ObjectNoneItemStrategy
 Reader <|-- RenpyReader
 
 'Argument Relations
-ArgChecker --> CLIParser : uses
+ArgChecker ..> CLIParser : uses
 @enduml

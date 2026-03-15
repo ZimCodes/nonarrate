@@ -1,6 +1,7 @@
 import unittest
 from lib.arg.cli_parser import CLIParser
 import tests.fixture as fixture
+from lib.custom_types import FilterTag
 
 
 class TestRemoveUniqueConst(unittest.TestCase):
@@ -8,14 +9,14 @@ class TestRemoveUniqueConst(unittest.TestCase):
         self.parser = CLIParser()
 
     def test_action(self):
-        option = '--no-basic-narr'
-        args = fixture.get_args(self.parser, f'game/ {option}')
+        option = FilterTag.NO_BASIC_NARR.value
+        args = fixture.get_args(self.parser, f"game/ {option}")
         self.assertNotIn(option, args.narr_types)
 
     def test_multiple(self):
-        options = ['--no-basic-narr', '--no-italic-narr']
-        args = fixture.get_args(self.parser, f'game/ {options[0]} {options[1]}')
+        options = [FilterTag.NO_BASIC_NARR.value, FilterTag.NO_ITALIC_NARR.value]
+        args = fixture.get_args(self.parser, f"game/ {options[0]} {options[1]}")
         for i in range(len(options)):
             with self.subTest(name=options[i]):
                 self.assertNotIn(options[i], args.narr_types)
-        self.assertIn('--no-basic-char-obj',args.narr_types)
+        self.assertIn(FilterTag.NO_BASIC_CHAR_OBJ.value, args.narr_types)

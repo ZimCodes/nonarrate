@@ -13,10 +13,6 @@ class CustomTextTagStrategy(IValidatorChain):
         gabby "{ba=100}Big bold asterisk text!{/ba}
     """
 
-    def __init__(
-        self, tag_name: str, next_validator: "IValidatorChain | None" = None
-    ) -> None:
+    def __init__(self, tag_name: str, next_validator: "IValidatorChain | None" = None) -> None:
         super().__init__(next_validator)
-        self._validate_pat = re.compile(
-            rf'[^=]+"{{{tag_name}(?:=[^}}]+)?}}.+{{/?{tag_name}}}'
-        )
+        self._validate_pat = re.compile(rf'[^=]+"{{(?:{tag_name})(?:=[^}}]+)?}}.+{{/?(?:{tag_name})}}')

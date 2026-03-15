@@ -68,26 +68,26 @@ class TestDialogue(unittest.TestCase):
             47: 'mc "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
             48: 'mc "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
             49: 'mc "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
-            50: '"Narrator" "He found a {fzs}leprechaun in his walnut shell."',
-            51: '"Narrator" "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            52: '"Narrator" "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            53: '"Narrator" "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
-            54: '"Narrator" "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
-            55: '"Narrator" "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
-            56: '"Narrator" "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
-            57: 'myvar = "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            58: 'myvar = "He found a {fzs}leprechaun in his walnut shell."',
-            59: 'myvar = "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            60: 'myvar = "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
-            61: 'myvar = "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
-            62: 'myvar = "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
-            63: 'myvar = "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
+            50: 'mc "{pyw=100}He found a leprechaun in his walnut shell.{/pyw}"',
+            51: '"Narrator" "He found a {fzs}leprechaun in his walnut shell."',
+            52: '"Narrator" "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            53: '"Narrator" "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            54: '"Narrator" "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
+            55: '"Narrator" "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
+            56: '"Narrator" "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
+            57: '"Narrator" "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
+            58: 'myvar = "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            59: 'myvar = "He found a {fzs}leprechaun in his walnut shell."',
+            60: 'myvar = "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            61: 'myvar = "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
+            62: 'myvar = "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
+            63: 'myvar = "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
+            64: 'myvar = "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
+            65: 'myvar = "{pyw=100}He found a leprechaun in his walnut shell.{/pyw}"',
         }
 
     def validate_lines(self):
-        valid_lines, invalid_lines = get_dialogue_list(
-            self.valid_indexes, TestDialogue.dialogues
-        )
+        valid_lines, invalid_lines = get_dialogue_list(self.valid_indexes, TestDialogue.dialogues)
         for line in valid_lines:
             with self.subTest(line=line):
                 self.assertTrue(self.validator.is_valid(line), line)
@@ -110,4 +110,4 @@ class TestDialogue(unittest.TestCase):
         self.start(ItalicStrategy(), [29, 35])
 
     def test_custom(self):
-        self.start(CustomTextTagStrategy("fzs"), [45, 46, 48, 49, 52, 53, 55, 56])
+        self.start(CustomTextTagStrategy("fzs|pyw"), [45, 46, 48, 49, 50, 53, 54, 56, 57])

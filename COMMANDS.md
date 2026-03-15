@@ -74,7 +74,7 @@ Backup the folder before removing narration from `.rpy` files.
 |----------------------------------|------------------------------------------------------------|---------------------------------------------------------------------|
 | no-basic-char-obj               | n = Character(“Narrator”, …)                               | Narrator saved to character object.                                 |
 | custom-char-obj,<br>cco | d = Character(“Developer”, …)                              | Custom speaker saved to character object |
-| basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
+| no-basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
 | custom-char,<br>cc      | “My Mind” “It would be a good idea to distract them first” | Custom Speaker wrapped in quotes |
 
 ***—no-basic-char-obj***
@@ -103,7 +103,7 @@ narrator can introduce itself as *Emily*, *Dev*, *The Chosen One*, or anything e
 
 **Side Note**: Each character name can be written as a **Regular Expression**. See [REGEX Examples](#regex-examples) for more info.
 
-***—basic-char***
+***—no-basic-char***
 
 Removes [default narrators](#default-narrators) introduced in quotes.
 

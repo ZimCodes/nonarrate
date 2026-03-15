@@ -8,6 +8,9 @@ class ObjectStrategy(IValidatorChain):
 
     This validator will need to first look through all files where the Character object is initially defined
     to work properly.
+
+    Example:
+        define lily = Character("Lily")
     """
 
     def __init__(
@@ -24,9 +27,7 @@ class ObjectStrategy(IValidatorChain):
         if type(char_item) is list:
             char_item = "|".join(char_item)
         if char_item:
-            self._char_item_pat = re.compile(
-                rf"Character\(.*\b(?:{char_item})\b[^)]*\)"
-            )
+            self._char_item_pat = re.compile(rf"Character\(.*\b(?:{char_item})\b[^)]*\)")
 
     def define_speakers(self, file_infos: list[FileInfo]):
         """Gather object names of speakers saved to a Character() object.
@@ -41,9 +42,7 @@ class ObjectStrategy(IValidatorChain):
         for file_info in file_infos:
             for line in (line for lines in file_info.values() for line in lines):
                 if self._char_item_pat.search(line):
-                    speaker_matches = (
-                        self._obj_name_pat.match(line) if self._obj_name_pat else None
-                    )
+                    speaker_matches = self._obj_name_pat.match(line) if self._obj_name_pat else None
                     speaker = speaker_matches.group(1) if speaker_matches else None
                     if speaker:
                         self._speaker_objects.add(speaker)

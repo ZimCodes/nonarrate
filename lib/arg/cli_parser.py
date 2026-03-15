@@ -3,11 +3,14 @@
 This module defines a class, 'CLIParser', which encapsulate methods and attributes for
 extracting command line arguments from the command line interface.
 """
+
 import argparse
 import pathlib
 from typing import Any
 
 from lib.arg.actions import *
+from lib.custom_types import FilterTag
+
 
 class CLIParser:
     """Represents a class for parsing arguments from the command line.
@@ -16,7 +19,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = '0.1'
+        self.__version_num = "0.1.0"
         self.__setup()
 
     def __setup(self):
@@ -27,44 +30,88 @@ class CLIParser:
     def __init_parser(self):
         self.__parser = argparse.ArgumentParser(
             prog="nonarrate",
-            description="Remove narration & thoughts from Ren'Py visual novel games.")
+            description="Remove narration & thoughts from Ren'Py visual novel games.",
+        )
 
     def __init_parser_groups(self):
-        self.__filter_group = self.__parser.add_argument_group('Filters', 'Types of narration to remove. (choose 1+)')
+        self.__filter_group = self.__parser.add_argument_group("Filters", "Types of narration to remove. (choose 1+)")
 
     def __configure_opts(self):
-        self.__add_arg("folder_or_file", metavar='game/ folder OR errors.txt', type=pathlib.Path,
-                       help='Removes narration from .rpy files OR fix errors from errors.txt file')
-        self.__add_arg("--no-pauses", action="store_true",
-                       help='Do now show narrated scenes stripped of narration')
-        self.__add_arg("-v", "--version", action="version", version="%(prog)s " + self.__version_num)
-        self.__add_arg('-b', '--backup', action='store_true', help='Backup the folder before using %(prog)s')
-        # TODO: Replace const of narr_types with actual classes
-        no_filters: dict[str, str] = {'--no-basic-narr': "Do not remove dialogues that don't have a speaker",
-                                      '--no-basic-char-obj': 'Do not remove default narrators saved to a Character object',
-                                      '--no-italic-narr': 'Do not remove dialogues that are fully italic',
-                                      '--no-parenthesis-narr': 'Do not remove dialogue fully wrapped in a parenthesis'}
+        self.__add_arg(
+            "folder_or_file",
+            metavar="game/ folder OR errors.txt",
+            type=pathlib.Path,
+            help="Removes narration from .rpy files OR fix errors from errors.txt file",
+        )
+        self.__add_arg(
+            "--no-pauses",
+            action="store_true",
+            help="Do now show narrated scenes stripped of narration",
+        )
+        self.__add_arg(
+            "-v",
+            "--version",
+            action="version",
+            version="%(prog)s " + self.__version_num,
+        )
+        self.__add_arg(
+            "-b",
+            "--backup",
+            action="store_true",
+            help="Backup the folder before using %(prog)s",
+        )
+        no_filters: dict[str, str] = {
+            FilterTag.NO_BASIC_NARR.value: "Do not remove dialogues that don't have a speaker",
+            FilterTag.NO_BASIC_CHAR_OBJ.value: "Do not remove default narrators saved to a Character object",
+            FilterTag.NO_ITALIC_NARR.value: "Do not remove dialogues that are fully italic",
+            FilterTag.NO_PARENTHESIS_NARR.value: "Do not remove dialogue fully wrapped in a parenthesis",
+            FilterTag.NO_BASIC_CHAR.value: "Removes default narrators not in a Character object",
+        }
         self.__add_no_filters(no_filters)
-        # TODO: This option should be allowed many uses. Right now its in a set(), so only 1 usage is possible.
-        # This should be fixed when 'const' is replaced with class object
-        self.__add_filter_arg('--basic-char', dest='narr_types', action=AppendUniqueConst,
-                              const='--basic-char', help='Removes default narrators not in a Character object')
-        self.__add_filter_arg('--custom-tag', '--ct', metavar='TAG_NAME', nargs='*',
-                              help="Removes dialogue wrapped entirely in a custom text tag. Ex:{t}..{/t}")
-        self.__add_filter_arg('--custom-char', '--cc', metavar='SPEAKER_NAME', nargs='*',
-                              help='Removes speaker(s) surrounded by quotes.')
-        self.__add_filter_arg('--custom-char-obj', '--cco', metavar='SPEAKER_OBJECT_NAME', nargs='*',
-                              help='Removes speaker(s) saved to a Character object')
+        self.__add_filter_arg(
+            FilterTag.CUSTOM_TEXT_TAG.value,
+            "--ct",
+            metavar="TAG_NAME",
+            nargs="*",
+            help="Removes dialogue wrapped entirely in a custom text tag. Ex:{t}..{/t}",
+        )
+        self.__add_filter_arg(
+            FilterTag.CUSTOM_CHAR.value,
+            "--cc",
+            metavar="SPEAKER_NAME",
+            nargs="*",
+            help="Removes speaker(s) surrounded by quotes.",
+        )
+        self.__add_filter_arg(
+            FilterTag.CUSTOM_CHAR_OBJ.value,
+            "--cco",
+            metavar="SPEAKER_OBJECT_NAME",
+            nargs="*",
+            help="Removes speaker(s) saved to a Character object",
+        )
 
     def __add_no_filters(self, optnames: dict[str, str]):
         has_default = False
+        initial_default = set(optnames)
         for optname, helpMsg in optnames.items():
             if not has_default:
-                self.__add_filter_arg(optname, dest='narr_types', action=RemoveUniqueConst, const=optname,
-                                      default=optnames, help=helpMsg)
+                self.__add_filter_arg(
+                    optname,
+                    dest="narr_types",
+                    action=RemoveUniqueConst,
+                    const=optname,
+                    default=initial_default,
+                    help=helpMsg,
+                )
                 has_default = True
             else:
-                self.__add_filter_arg(optname, dest='narr_types', action=RemoveUniqueConst, const=optname, help=helpMsg)
+                self.__add_filter_arg(
+                    optname,
+                    dest="narr_types",
+                    action=RemoveUniqueConst,
+                    const=optname,
+                    help=helpMsg,
+                )
 
     def __add_arg(self, *args, **kwargs: Any):
         self.__parser.add_argument(*args, **kwargs)
@@ -85,7 +132,3 @@ class CLIParser:
             A Namespace object containing all parsed commands and their values.
         """
         return self.__parser.parse_args(*args)
-
-if __name__ == "__main__":
-    parser = CLIParser()
-    parser.parse_args()
