@@ -108,4 +108,5 @@ Reader <|-- RenpyReader
 
 'Argument Relations
 ArgChecker ..> CLIParser : uses
+ArgAssembler ..> CLIParser : uses
 @enduml

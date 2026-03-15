@@ -13,6 +13,10 @@ class ObjectStrategy(IValidatorChain):
         define lily = Character("Lily")
     """
 
+    # TODO: Create a class attribute to hold all regex patterns.
+
+    # TODO: Make '_speaker_objects' static too.
+
     def __init__(
         self,
         char_item: str | list[str] | None,
@@ -29,6 +33,8 @@ class ObjectStrategy(IValidatorChain):
         if char_item:
             self._char_item_pat = re.compile(rf"Character\(.*\b(?:{char_item})\b[^)]*\)")
 
+    # TODO: Make this static.
+    # Verify against the new class attribute
     def define_speakers(self, file_infos: list[FileInfo]):
         """Gather object names of speakers saved to a Character() object.
 
