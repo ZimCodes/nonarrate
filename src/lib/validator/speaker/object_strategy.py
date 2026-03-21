@@ -31,7 +31,7 @@ class ObjectStrategy(IValidatorChain):
         if type(char_item) is list:
             char_item = "|".join(char_item)
         if char_item:
-            cls._char_item_pats.append(re.compile(rf"Character\([^)]*(?:{char_item})[^)]*\)"))
+            cls._char_item_pats.append(re.compile(rf"Character\s*\([^)]*(?:{char_item})[^)]*\)"))
 
     @classmethod
     def reset(cls):

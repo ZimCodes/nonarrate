@@ -39,7 +39,7 @@ class CLIParser:
     def __configure_opts(self):
         self.__add_arg(
             "folder_or_file",
-            metavar="game/ folder OR errors.txt",
+            metavar="Folder of *.rpy files OR errors.txt",
             type=pathlib.Path,
             help="Removes narration from .rpy files OR fix errors from errors.txt file",
         )
@@ -59,7 +59,7 @@ class CLIParser:
             "-b",
             "--backup",
             type=pathlib.Path,
-            help="Backup the folder at specified location before using %(prog)s",
+            help="Backup .rpy files to a specified location.",
         )
         self.__add_arg(
             "-e",

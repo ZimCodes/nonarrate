@@ -25,8 +25,10 @@ class FileExecutor:
     max_workers = min(32, (os.cpu_count() or 1) + 4)
 
     @classmethod
-    def file_lines(cls, reader: Reader, root_dir: str) -> list[FileInfo]:
+    def file_lines(cls, reader: Reader, root_dir: str, backup_dir: pathlib.Path | None = None) -> list[FileInfo]:
         files = reader.walk_files(root_dir)
+        if backup_dir:
+            Writer.backup_dir(files, backup_dir)
         file_infos = None
         with ThreadPoolExecutor(cls.max_workers) as ex:
             results = ex.map(reader.read_lines, files)
@@ -46,11 +48,16 @@ class FileExecutor:
         with ThreadPoolExecutor(cls.max_workers) as ex:
             Log.wait("Fixing errors")
             ex.map(cls.__fix_func, errors.values())
+        Log.log("DONE! Enjoy!")
 
     @classmethod
     def __fix_func(cls, errors: list[RenpyError]):
-        reader = Reader()
-        writer = Writer()
-        deleter = Deleter()
-        fixer = ErrorFixer()
-        fixer.fix(errors, reader, writer, deleter)
+        try:
+            reader = Reader()
+            writer = Writer()
+            deleter = Deleter()
+            fixer = ErrorFixer()
+            fixer.fix(errors, reader, writer, deleter)
+        except Exception as e:
+            Log.log(f"[Error] in fix_func: {e}")
+            raise

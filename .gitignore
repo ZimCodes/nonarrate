@@ -4,3 +4,4 @@ Samples/
 __pycache__/
 build/
 .venv
+*.egg-info/

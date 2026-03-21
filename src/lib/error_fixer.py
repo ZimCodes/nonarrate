@@ -2,6 +2,7 @@ from typing import final
 import re
 import pathlib
 import os
+import enum
 
 from lib.custom_types import FileInfo, RenpyError
 from lib.file.deleter import Deleter
@@ -9,6 +10,16 @@ from lib.file.reader import Reader
 from lib.file.writer import Writer
 from lib.log import Log
 from lib.narrator_handler import NarratorHandler
+
+
+class ErrorType(enum.StrEnum):
+    """Represents types of errors."""
+
+    NON_EMPTY = "non-empty"
+    INDENTED_LINE = "Line is indented"
+    EXPECTED_STATEMENT = "expected statement"
+    INDENT_MISMATCH = "Indentation mismatch"
+    DUPLICATE = enum.auto()
 
 
 @final
@@ -21,7 +32,9 @@ class ErrorFixer:
 
     _dest_pat: re.Pattern = re.compile(r"(?:and )?File\s+.+(game/.+\.rpy)")
     _line_num_pat: re.Pattern = re.compile(r".+line (\d+):")
-    _type_pat: re.Pattern = re.compile(r".+(non-empty|Line is indented|expected statement)")
+    _type_pat: re.Pattern = re.compile(
+        rf".+({ErrorType.NON_EMPTY}|{ErrorType.INDENTED_LINE}|{ErrorType.EXPECTED_STATEMENT}|{ErrorType.INDENT_MISMATCH})"
+    )
     _project_dir: str | None = None
 
     @staticmethod
@@ -39,7 +52,7 @@ class ErrorFixer:
         line_num = int(cls._line_num_pat.match(line).group(1)) if cls._line_num_pat.match(line) else None
         category = cls._type_pat.match(line).group(1) if cls._type_pat.match(line) else None
         if not category and line.startswith("and File"):
-            category = "duplicate"
+            category = ErrorType.DUPLICATE
         return RenpyError(file_url, line_num, category)
 
     @classmethod
@@ -72,29 +85,52 @@ class ErrorFixer:
         Log.log(f"Total errors detected: {total_errors_log}")
         return errors
 
-    def __dedent_lines(self, file_info: FileInfo, start_index: int) -> list[str]:
+    def __dedent_lines(self, lines: list[str], start_index: int) -> list[str]:
         """Correct indentation by decreasing indent level by 1.
 
-        indentation will be decreased by 1 level (4 spaces) until a line with the
+        Indentation will be decreased by 1 level (4 spaces) until a line with the
         same indentation level as the first indented dedented line is reached.
 
         Args:
-            file_info: represents file information.
+            lines: lines of text found in a file
             start_index: the index of the line with the starting indentation problem specified by errors.txt
 
         Returns:
             a list including dedented lines.
         """
         min_indent = None
-        for i, line in enumerate(file_info.lines[start_index:], start_index):
+        for i, line in enumerate(lines[start_index:], start_index):
             if min_indent is None:
-                file_info.lines[i] = line[4:]
-                min_indent = NarratorHandler.get_indent_num(file_info.lines[i])
+                lines[i] = line[4:]
+                min_indent = NarratorHandler.get_indent_num(lines[i])
             elif NarratorHandler.get_indent_num(line) > min_indent:
-                file_info.lines[i] = line[4:]
+                lines[i] = line[4:]
             else:
-                return file_info.lines
-        return file_info.lines
+                break
+        return lines
+
+    def __reverse_dedent_lines(self, lines: list[str], start_index: int) -> list[str]:
+        """Correct indentation by decreasing indent level by 1 going up to preceding lines.
+
+        All preceding lines with an indentation level higher than the starting line will be dedented 1 level.
+        This is the case until a line with an indentation level equal or lesser than the starting line is reached.
+
+        Args:
+            lines: lines of text found in a found
+            start_index: the index of the line with the starting indentation problem specified by errors.txt
+
+        Returns:
+            a list including dedented lines.
+        """
+        min_indent = NarratorHandler.get_indent_num(lines[start_index])
+        start_index = start_index - 1
+        for i in range(start_index, 0, -1):
+            line = lines[i]
+            line_indent = NarratorHandler.get_indent_num(line)
+            if line_indent <= min_indent:
+                break
+            lines[i] = line[4:]
+        return lines
 
     def fix(self, errors: list[RenpyError], reader: Reader, writer: Writer, deleter: Deleter):
         """Attempts to fix an error generated from 'errors.txt'.
@@ -103,7 +139,7 @@ class ErrorFixer:
             error: error information
             reader: class for extracting content from a file.
         """
-        if not self._project_dir:
+        if self._project_dir is None:
             return
         temp_err_loc = errors[0].file_loc if errors[0].file_loc else ""
         current_file_loc = os.path.join(self._project_dir, temp_err_loc)
@@ -111,12 +147,13 @@ class ErrorFixer:
         errors.reverse()
         for error in errors:
             if error.category:
-                if "non-empty" in error.category or "expected statement" in error.category:
-                    if error.line_num:
+                if error.line_num:
+                    if ErrorType.NON_EMPTY in error.category or ErrorType.EXPECTED_STATEMENT in error.category:
                         file_info.lines.pop(error.line_num - 1)
-                elif "Line is indented" in error.category:
-                    if error.line_num:
-                        file_info.lines = self.__dedent_lines(file_info, error.line_num - 1)
-                elif "duplicate" in error.category:
+                    elif ErrorType.INDENTED_LINE in error.category:
+                        file_info.lines = self.__dedent_lines(file_info.lines, error.line_num - 1)
+                    elif ErrorType.INDENT_MISMATCH in error.category:
+                        file_info.lines = self.__reverse_dedent_lines(file_info.lines, error.line_num - 1)
+                elif ErrorType.DUPLICATE in error.category:
                     deleter.delete(current_file_loc)
-            writer.write_lines(file_info)
+        writer.write_lines(file_info)

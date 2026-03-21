@@ -12,7 +12,7 @@ nonarrate [folder of .rpy files OR errors.txt] [options]
 
 **Accepts**:
 
-- The folder containing your `.rpy` files. **Recommend:** `game/` folder
+- Folder containing your `.rpy` files. **Recommend:** `game/` folder
 - The `errors.txt` file
 
 ```bash
@@ -33,7 +33,7 @@ MyRenpyProject/
 
 **Examples:**
 
-This removes narration from *mycoolgame*
+This removes narration from *mycoolgame* `game/` folder.
 
 ```bash
 python nonarrate C:\mycoolgame\game
@@ -67,9 +67,9 @@ In reality, the next sequence is *also* a pause statement.
 
 ***-b, --backup*** `<backup-path-directory>`
 
-Creates a backup folder at specified location.
+Backup *.rpy* files to a specified location.
 
-Backup the project before removing narration from `.rpy` files.
+Backup the project's *.rpy* files to a specified location before removing narration.
 
 **-e, --regex**
 

@@ -14,15 +14,13 @@ def run():
     if arg_namespace.folder_or_file.is_file() and arg_namespace.folder_or_file.name == "errors.txt":
         Log.complete("Parsing")
         file_executor.fix_errors(arg_namespace.folder_or_file, reader)
-        Log.log("DONE! Enjoy!")
         return
     ArgChecker.check_args(arg_namespace)
     ArgAssembler.assemble(arg_namespace)
     Log.complete("Parsing")
     writer = Writer()
-    writer.backup_dir(arg_namespace)
     Log.wait("Extracting lines from .rpy files")
-    file_infos = file_executor.file_lines(reader, arg_namespace.folder_or_file)
+    file_infos = file_executor.file_lines(reader, arg_namespace.folder_or_file, arg_namespace.backup)
     Log.complete("Extraction")
     Log.log("Getting ready for removal process")
     ObjectStrategy.define_speakers(file_infos)

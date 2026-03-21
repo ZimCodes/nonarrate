@@ -15,5 +15,5 @@ class ObjectNoneItemStrategy(ObjectStrategy):
         next_validator: "IValidatorChain | None" = None,
     ) -> None:
         super().__init__(None, next_validator)
-        ObjectNoneItemStrategy._char_item_pats.append(re.compile(r"Character\((?:name\s?=\s?)?None\)"))
-        ObjectNoneItemStrategy._char_item_pats.append(re.compile(r"Character\(\)"))
+        ObjectNoneItemStrategy._char_item_pats.append(re.compile(r"Character\s*\((?:name\s?=\s?)?None\)"))
+        ObjectNoneItemStrategy._char_item_pats.append(re.compile(r"Character\s*\(\)"))

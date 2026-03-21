@@ -29,6 +29,7 @@ class RenpyReader(Reader):
             "voices",
             "functions",
             "music",
+            "audio",
         }
         invalid_files = {"gui.rpy", "options.rpy", "screens.rpy", "images.rpy"}
         rpy_file_ext = "rpy"

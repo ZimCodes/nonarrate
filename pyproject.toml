@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "nonarrate"
 version = "0.1.0"
@@ -14,10 +18,7 @@ license = "Unlicense"
 license-files = ["UNLICENSE"]
 
 [project.scripts]
-nonarrate = "main:run"
-
-[tool.setuptools.packages.find]
-where = ["lib"]
+nonarrate = "lib.main:run"
 
 [tool.ruff]
 line-length = 120

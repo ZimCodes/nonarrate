@@ -32,6 +32,10 @@ class TestCharacter(unittest.TestCase):
                     'default blanka = Character("Blanka", kind=base)',
                     "define none = Character(None)",
                     "default not_here = Character(None)",
+                    "default not_now = Character     (None)",
+                    'default ip = Character ("Ipol Thought")',
+                    'define uma = Character  ("Umeha", kind=base)',
+                    'define l = Character   ("Linda")',
                 ],
             )
         ]
@@ -85,6 +89,10 @@ class TestCharacter(unittest.TestCase):
             44: 'loval "And so the story would move forward."',
             45: 'none "And so the story would move forward."',
             46: 'not_here "And so the story would move forward."',
+            47: 'ip "And so the story would move forward."',
+            48: 'l "And so the story would move forward."',
+            49: 'uma "And so the story would move forward."',
+            50: 'not_now "And so the story would move forward."',
         }
 
     def setUp(self) -> None:
@@ -121,13 +129,21 @@ class TestCharacter(unittest.TestCase):
         self.start_object(ObjectStrategy("Marco"), [34])
 
     def test_object_char_item(self):
-        self.start_object(ObjectStrategy("base"), [38, 39])
+        self.start_object(ObjectStrategy("base"), [38, 39, 49])
 
     def test_basic_object_char(self):
-        self.start_object(BasicObjectStrategy(), [34, 40, 41, 43, 44])
+        self.start_object(BasicObjectStrategy(), [34, 40, 41, 43, 44, 47])
 
     def test_object_none_char_item(self):
-        self.start_object(ObjectNoneItemStrategy(), [45, 46])
+        self.start_object(ObjectNoneItemStrategy(), [45, 46, 50])
 
     def test_chaining(self):
-        self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [34, 38, 39, 40, 41, 43, 44])
+        self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [34, 38, 39, 40, 41, 43, 44, 47, 49])
+
+    def test_spaces(self):
+        """Test spaces between character object and calling parenthesis.
+
+        Example:
+            default n = Character     ('Nadia')
+        """
+        self.start_object(ObjectStrategy(["Linda", "Umeha"]), [48, 49])

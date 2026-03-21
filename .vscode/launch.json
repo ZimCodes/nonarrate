@@ -3,7 +3,7 @@
   "configurations": [{
     "type": "python",
     "request": "launch",
-    "program": "${workspaceFolder}/main.py",
-    "name": "start main.py in root project"
+    "program": "${workspaceFolder}/src/lib/main.py",
+    "name": "start main.py"
   }]
 }

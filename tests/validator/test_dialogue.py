@@ -47,43 +47,52 @@ class TestDialogue(unittest.TestCase):
             27: 'mc "{i}He found a {i}leprechaun in his walnut{/i} shell.{/i}"',
             28: 'mc "He found a {i}leprechaun in his walnut{/i} shell."',
             29: 'mc "{i}He found a leprechaun in his walnut shell.{/i}"',
-            30: '"Narrator" "He found a {i}leprechaun in his walnut shell."',
-            31: '"Narrator" "He found a {i}leprechaun in his walnut shell.{/i}"',
-            32: '"Narrator" "{i}He found a {i}leprechaun in his walnut shell.{/i}"',
-            33: '"Narrator" "{i}He found a {i}leprechaun in his walnut{/i} shell.{/i}"',
-            34: '"Narrator" "He found a {i}leprechaun in his walnut{/i} shell."',
-            35: '"Narrator" "{i}He found a leprechaun in his walnut shell.{/i}"',
-            36: 'myvar = "He found a {i}leprechaun in his walnut shell.{/i}"',
-            37: 'myvar = "He found a {i}leprechaun in his walnut shell."',
-            38: 'myvar = "{i}He found a {i}leprechaun in his walnut shell.{/i}"',
-            39: 'myvar = "{i}He found a {i}leprechaun in his walnut{/i} shell.{/i}"',
-            40: 'myvar = "He found a {i}leprechaun in his walnut{/i} shell."',
-            41: 'myvar = "{i}He found a leprechaun in his walnut shell.{/i}"',
+            30: 'mc "{i}He found a leprechaun in his walnut shell."',
+            31: '"Narrator" "He found a {i}leprechaun in his walnut shell."',
+            32: '"Narrator" "He found a {i}leprechaun in his walnut shell.{/i}"',
+            33: '"Narrator" "{i}He found a {i}leprechaun in his walnut shell.{/i}"',
+            34: '"Narrator" "{i}He found a {i}leprechaun in his walnut{/i} shell.{/i}"',
+            35: '"Narrator" "He found a {i}leprechaun in his walnut{/i} shell."',
+            36: '"Narrator" "{i}He found a leprechaun in his walnut shell.{/i}"',
+            37: '"Narrator" "{i}He found a leprechaun in his walnut shell."',
+            38: 'myvar = "He found a {i}leprechaun in his walnut shell.{/i}"',
+            39: 'myvar = "He found a {i}leprechaun in his walnut shell."',
+            40: 'myvar = "{i}He found a {i}leprechaun in his walnut shell.{/i}"',
+            41: 'myvar = "{i}He found a {i}leprechaun in his walnut{/i} shell.{/i}"',
+            42: 'myvar = "He found a {i}leprechaun in his walnut{/i} shell."',
+            43: 'myvar = "{i}He found a leprechaun in his walnut shell.{/i}"',
+            44: 'myvar = "{i}He found a leprechaun in his walnut shell."',
             # Custom
-            42: '"{fzs}Jim liked driving around town with his hazard lights on.{/fzs}"',
-            43: 'mc "He found a {fzs}leprechaun in his walnut shell."',
-            44: 'mc "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            45: 'mc "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            46: 'mc "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
-            47: 'mc "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
-            48: 'mc "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
-            49: 'mc "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
-            50: 'mc "{pyw=100}He found a leprechaun in his walnut shell.{/pyw}"',
-            51: '"Narrator" "He found a {fzs}leprechaun in his walnut shell."',
-            52: '"Narrator" "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            53: '"Narrator" "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            54: '"Narrator" "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
-            55: '"Narrator" "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
-            56: '"Narrator" "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
-            57: '"Narrator" "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
-            58: 'myvar = "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            59: 'myvar = "He found a {fzs}leprechaun in his walnut shell."',
-            60: 'myvar = "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
-            61: 'myvar = "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
-            62: 'myvar = "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
-            63: 'myvar = "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
-            64: 'myvar = "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
-            65: 'myvar = "{pyw=100}He found a leprechaun in his walnut shell.{/pyw}"',
+            45: '"{fzs}Jim liked driving around town with his hazard lights on.{/fzs}"',
+            46: 'mc "He found a {fzs}leprechaun in his walnut shell."',
+            47: 'mc "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            48: 'mc "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            49: 'mc "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
+            50: 'mc "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
+            51: 'mc "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
+            52: 'mc "{fzs}He found a leprechaun in his walnut shell."',
+            53: 'mc "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
+            54: 'mc "{pyw=100}He found a leprechaun in his walnut shell.{/pyw}"',
+            55: 'mc "{pyw=100}He found a leprechaun in his walnut shell."',
+            56: '"Narrator" "He found a {fzs}leprechaun in his walnut shell."',
+            57: '"Narrator" "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            58: '"Narrator" "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            59: '"Narrator" "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
+            60: '"Narrator" "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
+            61: '"Narrator" "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
+            62: '"Narrator" "{fzs}He found a leprechaun in his walnut shell."',
+            63: '"Narrator" "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
+            64: '"Narrator" "{fzs=100}He found a leprechaun in his walnut shell."',
+            65: 'myvar = "He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            66: 'myvar = "He found a {fzs}leprechaun in his walnut shell."',
+            67: 'myvar = "{fzs}He found a {fzs}leprechaun in his walnut shell.{/fzs}"',
+            68: 'myvar = "{fzs}He found a {fzs}leprechaun in his walnut{/fzs} shell.{/fzs}"',
+            69: 'myvar = "He found a {fzs}leprechaun in his walnut{/fzs} shell."',
+            70: 'myvar = "{fzs}He found a leprechaun in his walnut shell.{/fzs}"',
+            71: 'myvar = "{fzs}He found a leprechaun in his walnut shell."',
+            72: 'myvar = "{fzs=100}He found a leprechaun in his walnut shell.{/fzs}"',
+            73: 'myvar = "{pyw=100}He found a leprechaun in his walnut shell.{/pyw}"',
+            74: 'myvar = "{pyw=100}He found a leprechaun in his walnut shell."',
         }
 
     def validate_lines(self):
@@ -101,13 +110,13 @@ class TestDialogue(unittest.TestCase):
         self.validate_lines()
 
     def test_basic(self):
-        self.start(BasicStrategy(), [0, 4, 23, 42])
+        self.start(BasicStrategy(), [0, 4, 23, 45])
 
     def test_parenthesis(self):
         self.start(ParenthesisStrategy(), [10, 16])
 
     def test_italic(self):
-        self.start(ItalicStrategy(), [29, 35])
+        self.start(ItalicStrategy(), [29, 30, 36, 37])
 
     def test_custom(self):
-        self.start(CustomTextTagStrategy("fzs|pyw"), [45, 46, 48, 49, 50, 53, 54, 56, 57])
+        self.start(CustomTextTagStrategy("fzs|pyw"), [48, 49, 51, 52, 53, 54, 55, 58, 59, 61, 62, 63, 64])
