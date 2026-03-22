@@ -17,3 +17,4 @@ class ObjectNoneItemStrategy(ObjectStrategy):
         super().__init__(None, next_validator)
         ObjectNoneItemStrategy._char_item_pats.append(re.compile(r"Character\s*\((?:name\s?=\s?)?None\)"))
         ObjectNoneItemStrategy._char_item_pats.append(re.compile(r"Character\s*\(\)"))
+        ObjectNoneItemStrategy._char_item_pats.append(re.compile(r'Character\s*\(\s*""\s*.*\)'))

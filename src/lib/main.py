@@ -20,7 +20,7 @@ def run():
     Log.complete("Parsing")
     writer = Writer()
     Log.wait("Extracting lines from .rpy files")
-    file_infos = file_executor.file_lines(reader, arg_namespace.folder_or_file, arg_namespace.backup)
+    file_infos = file_executor.file_lines(reader, arg_namespace)
     Log.complete("Extraction")
     Log.log("Getting ready for removal process")
     ObjectStrategy.define_speakers(file_infos)

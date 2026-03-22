@@ -8,6 +8,7 @@ class FilterTag(Enum):
     NO_ITALIC_NARR = "--no-italic-narr"
     NO_PARENTHESIS_NARR = "--no-parenthesis-narr"
     NO_BASIC_CHAR = "--no-basic-char"
+    NO_NONE_CHAR_OBJ = "--no-none-char-obj"
     CUSTOM_TEXT_TAG = "--custom-tag"
     CUSTOM_CHAR = "--custom-char"
     CUSTOM_CHAR_OBJ = "--custom-char-obj"

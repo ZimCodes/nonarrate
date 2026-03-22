@@ -37,10 +37,14 @@ class TestCharacter(unittest.TestCase):
                     'default ip = Character ("Ipol Thought")',
                     'define uma = Character  ("Umeha", kind=base)',
                     'define l = Character   ("Linda")',
+                    'define po = Character   ("")',
+                    'define pop = Character( "" , what_color="FFFF00")',
                     'define b_ = Character("Balum", what_italic=True)',
                     'define bi_ = Character("Bilf",what_color="#FFFF00", what_italic=True)',
                     'define bik_ = Character("Bikwaski", what_color="#FFFF00", what_italic= True)',
                     'define bik_g = Character("Big Guy", what_color="#FFFF00", what_italic = True)',
+                    'default sind = Character("", what_color="#FFFF00", what_italic = True)',
+                    'default nigel = Character("Nigel", "", what_italic = True)',
                 ],
             )
         ]
@@ -102,6 +106,10 @@ class TestCharacter(unittest.TestCase):
             52: 'bi_ "And so the story would move forward."',
             53: 'bik_ "And so the story would move forward."',
             54: 'bik_g "And so the story would move forward."',
+            55: 'po "And so the story would move forward."',
+            56: 'pop "And so the story would move forward."',
+            57: 'sind "And so the story would move forward."',
+            58: 'nigel "And so the story would move forward."',
         }
 
     def setUp(self) -> None:
@@ -144,7 +152,7 @@ class TestCharacter(unittest.TestCase):
         self.start_object(BasicObjectStrategy(), [34, 40, 41, 43, 44, 47])
 
     def test_object_none_char_item(self):
-        self.start_object(ObjectNoneItemStrategy(), [45, 46, 50])
+        self.start_object(ObjectNoneItemStrategy(), [45, 46, 50, 55, 56, 57])
 
     def test_chaining(self):
         self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [34, 38, 39, 40, 41, 43, 44, 47, 49])
@@ -159,4 +167,4 @@ class TestCharacter(unittest.TestCase):
 
     def test_italic_object(self):
         """Test if Character object has 'what_italic=True' parameter."""
-        self.start_object(ItalicObjectStrategy(), [51, 52, 53, 54])
+        self.start_object(ItalicObjectStrategy(), [51, 52, 53, 54, 57, 58])

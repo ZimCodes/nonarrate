@@ -19,13 +19,17 @@ class ObjectStrategy {
   {static}#charItemPats: List<Regex>
   {static}#validatePat: Regex
   {static}-initCharItem(char_item: str|list<str>|None)
-	+defineSpeakers(fileMap: List<FileInfo>)
+  {static}+reset()
+	+defineSpeakers(fileInfos: List<FileInfo>)
   +isValid(line:str): bool
 }
 'Ex: narr "Player, please select this choice."
 class BasicObjectStrategy
 'Ex: define narr = Character(None)
 class ObjectNoneItemStrategy
+'Ex: define narr = Character("Mi", what_italic=True)
+class ItalicObjectStrategy
+class NullStrategy
 
 class ItalicStrategy
 class ParenthesisStrategy
@@ -37,16 +41,15 @@ class BasicStrategy
 
 'File Descriptors
 class Reader {
-	+readLines(fileURL: str): FileInfo
+	+readLines(fileURL: Union[str,Path]): FileInfo
   +walkFiles(rootDir:str): List<str>
 }
 class RenpyReader {
-  +walkFiles(rootDir:str): List<str>
+  +walkFiles(rootDir:str,invalid_folders: Union[Set<str>,None], invalid_files:Union[Set<str>,None]): List<str>
 }
 class Writer {
-	+writeLines(fileURL: str,lines: List<str>)
-  +copyTree(srcDir:str,destDir:str)
-  +backupDir(arg:Namespace)
+	+writeLines(fileInfo:FileInfo)
+  +backupDir(filePaths:List<str>,backupDirPath:Path)
 }
 class Deleter {
 	+delete(fileURL: str)
@@ -54,8 +57,8 @@ class Deleter {
 
 'ThreadExecutors
 class  FileExecutor <<Singleton>>{
-	{static}+fileLines(reader:Reader,rootDir:str): List<FileInfo>
-  {static}+writeFiles(writer:Writer,fileInfo:FileInfo)
+	{static}+fileLines(reader:RenpyReader,arg:Namespace): List<FileInfo>
+  {static}+writeFiles(writer:Writer,fileInfos:List<FileInfo>)
   {static}+fix_errors(error_txt:Path,reader:Reader)
   {static}-fixFunc(errors: List<RenpyError>)
 }
@@ -78,8 +81,9 @@ class  ErrorFixer <<Singleton>>{
   +fix(errors: List<RenpyError>,reader:Reader,writer:Writer,deleter:Deleter)
   {static}-addError(errors: Dictionary<str,List<RenpyError>>,error: RenpyError)
   {static}-getError(line:str): RenpyError
-  -dedentedLines(file_info:FileInfo,start_index: int): List<str>
-	-getErrors(errors_txt:Path, reader:FileReader): Dictionary<str,List<RenpyError>>
+  -dedentLines(lines:List<str>,startIndex: int,startIndent: Union[int,None]): List<str>
+  -reverseDedentLines(lines:List<str>,startIndex: int): List<str>
+	-getErrors(errors_txt:Path, reader:Reader): Dictionary<str,List<RenpyError>>
 }
 class Log {
   {static}+log(text:str)
@@ -122,6 +126,7 @@ enum FilterTag {
   NO_PARENTHESIS_NARR
   NO_BASIC_NARR
   NO_BASIC_CHAR_OBJ
+  NO_NONE_CHAR_OBJ
   CUSTOM_CHAR_OBJ
   CUSTOM_TEXT_TAG
   CUSTOM_CHAR
@@ -135,6 +140,7 @@ IValidatorChainSolo <|-- ParenthesisStrategy
 IValidatorChainSolo <|-- ItalicStrategy
 IValidatorChain <|-- ObjectStrategy
 IValidatorChainSolo <|-- CharacterStrategy
+IValidatorChainSolo <|-- NullStrategy
 CharacterStrategy <|-- BasicCharacterStrategy
 ObjectStrategy <|-- BasicObjectStrategy
 ObjectStrategy <|-- ObjectNoneItemStrategy

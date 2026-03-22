@@ -19,7 +19,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "0.1.0"
+        self.__version_num = "1.0.0"
         self.__setup()
 
     def __setup(self):
@@ -67,12 +67,39 @@ class CLIParser:
             action="store_true",
             help="Enable regular expressions when specifying filter values.",
         )
+        self.__add_arg(
+            "--invalid-dirs",
+            action=AppendUnique,
+            default={
+                "tl",
+                "menu",
+                "gui",
+                "saves",
+                "images",
+                "cache",
+                "fonts",
+                "voices",
+                "functions",
+                "music",
+                "audio",
+            },
+            metavar="IGNORE_FOLDERS",
+            help="Ignore specified [folders] when looking for .rpy files",
+        )
+        self.__add_arg(
+            "--invalid-files",
+            action=AppendUnique,
+            default={"gui.rpy", "options.rpy", "screens.rpy", "images.rpy", "gallery.rpy"},
+            metavar="IGNORE_FILES",
+            help="Ignore specified [files] when looking for .rpy files. Must include .rpy suffix!",
+        )
         no_filters: dict[str, str] = {
             FilterTag.NO_BASIC_NARR.value: "Do not remove dialogues that don't have a speaker",
             FilterTag.NO_BASIC_CHAR_OBJ.value: "Do not remove default narrators saved to a Character object",
             FilterTag.NO_ITALIC_NARR.value: "Do not remove dialogues that are fully italic",
             FilterTag.NO_PARENTHESIS_NARR.value: "Do not remove dialogue fully wrapped in a parenthesis",
-            FilterTag.NO_BASIC_CHAR.value: "Removes default narrators not in a Character object",
+            FilterTag.NO_BASIC_CHAR.value: "Do not remove default narrators not in a Character object",
+            FilterTag.NO_NONE_CHAR_OBJ.value: "Do not remove empty Character objects.",
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(

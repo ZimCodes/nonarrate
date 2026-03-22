@@ -2,6 +2,7 @@ import re
 from argparse import Namespace
 from typing import final
 from lib.validator.dialogue import ParenthesisStrategy, ItalicStrategy, BasicStrategy, CustomTextTagStrategy
+from lib.validator.null_strategy import NullStrategy
 from lib.validator.speaker import (
     ObjectNoneItemStrategy,
     ObjectStrategy,
@@ -23,6 +24,7 @@ class ArgAssembler:
         FilterTag.NO_ITALIC_NARR.value: ItalicStrategy,
         FilterTag.NO_PARENTHESIS_NARR.value: ParenthesisStrategy,
         FilterTag.NO_BASIC_CHAR.value: BasicCharacterStrategy,
+        FilterTag.NO_NONE_CHAR_OBJ.value: ObjectNoneItemStrategy,
         FilterTag.CUSTOM_TEXT_TAG.value: CustomTextTagStrategy,
         FilterTag.CUSTOM_CHAR.value: CharacterStrategy,
         FilterTag.CUSTOM_CHAR_OBJ.value: ObjectStrategy,
@@ -46,7 +48,7 @@ class ArgAssembler:
         Args:
             args: Namespace class containing parsed arguments.
         """
-        args.validator = ObjectNoneItemStrategy()
+        args.validator = NullStrategy()
         current_validator = args.validator
         if args.narr_types:
             for narr_type in args.narr_types:

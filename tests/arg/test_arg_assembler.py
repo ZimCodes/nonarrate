@@ -2,6 +2,7 @@ import unittest
 
 from lib.arg.arg_assembler import ArgAssembler
 from lib.arg.cli_parser import CLIParser
+from lib.validator.null_strategy import NullStrategy
 from tests import fixture
 from lib.custom_types import FilterTag
 from lib.validator.speaker import ObjectNoneItemStrategy, ObjectStrategy, CharacterStrategy, BasicObjectStrategy
@@ -40,7 +41,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.NO_ITALIC_NARR.value,
             FilterTag.NO_BASIC_NARR.value,
         ]
-        self.start(args, {ObjectNoneItemStrategy, ParenthesisStrategy, BasicObjectStrategy})
+        self.start(args, {NullStrategy, ObjectNoneItemStrategy, ParenthesisStrategy, BasicObjectStrategy})
 
     def test_nargs(self):
         args = [
@@ -61,7 +62,9 @@ class TestArgAssembler(unittest.TestCase):
             "ben",
             "karla",
         ]
-        self.start(args, {ObjectNoneItemStrategy, CustomTextTagStrategy, CharacterStrategy, ObjectStrategy})
+        self.start(
+            args, {NullStrategy, ObjectNoneItemStrategy, CustomTextTagStrategy, CharacterStrategy, ObjectStrategy}
+        )
 
     def test_regex_chain(self):
         args = [
@@ -71,6 +74,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.NO_PARENTHESIS_NARR.value,
             FilterTag.NO_BASIC_CHAR_OBJ.value,
             FilterTag.NO_BASIC_NARR.value,
+            FilterTag.NO_NONE_CHAR_OBJ.value,
             "--regex",
             FilterTag.CUSTOM_CHAR.value,
             "ten{3}",
@@ -89,6 +93,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.NO_PARENTHESIS_NARR.value,
             FilterTag.NO_BASIC_CHAR_OBJ.value,
             FilterTag.NO_BASIC_NARR.value,
+            FilterTag.NO_NONE_CHAR_OBJ.value,
             FilterTag.CUSTOM_CHAR.value,
             "ten{3}",
             "seco.+",

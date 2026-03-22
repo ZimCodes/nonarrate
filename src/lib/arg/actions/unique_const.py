@@ -4,8 +4,10 @@ UniqueConst ensures duplicate values are not added to the collection.
 This is useful to prevent flags from producing the same value.
 
 """
+
 import argparse
 from abc import ABC, abstractmethod
+
 
 class UniqueConst(argparse.Action, ABC):
     """Represents a parser action to enforce an option to have unique values.
@@ -16,8 +18,19 @@ class UniqueConst(argparse.Action, ABC):
         _shared_list: A set of 'const' values
     """
 
-    def __init__(self, option_strings, dest, const=None, default=None, type=None, choices=None,
-                 required=False, help=None, metavar=None, deprecated=False):
+    def __init__(
+        self,
+        option_strings,
+        dest,
+        const=None,
+        default=None,
+        type=None,
+        choices=None,
+        required=False,
+        help=None,
+        metavar=None,
+        deprecated=False,
+    ):
         self._shared_list = None
         if const is None:
             raise ValueError(f'{self.__class__.__name__} requires "const" to have a value!')
@@ -27,9 +40,9 @@ class UniqueConst(argparse.Action, ABC):
         """Handle new 'const' value introduced by an argument.
 
         When an argument with this action is used, this method is called.
-        The method makes sure new unique 'const' values are added to the 
+        The method makes sure new unique 'const' values are added to the
         collection.
-        
+
         Args:
             parser: The parser used to extract values from arguments.
             namespace: The current namespace object holding all parsed values.
@@ -47,7 +60,7 @@ class UniqueConst(argparse.Action, ABC):
             self._shared_list = set(self._shared_list)
 
     @abstractmethod
-    def _modify_set(self, option_string: str):
+    def _modify_set(self, option_string: str | None):
         """Manage a set of constant values.
 
         Args:

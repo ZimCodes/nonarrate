@@ -71,22 +71,48 @@ Backup *.rpy* files to a specified location.
 
 Backup the project's *.rpy* files to a specified location before removing narration.
 
-**-e, --regex**
+***-e, --regex***
 
 Enable regular expressions when specifying filter values.
 
 For filters that allow for user input, all values are treated as a regular expression.
 See [REGEX Example](#regex-examples) for more info.
 
-### Filters
+### File Filters
+
+***--invalid-dirs***
+
+```bash
+# While looking through 'mycoolgame\game' ignore directories: gui/, gamepad_control_schemes/, and cache/
+nonarrate mycoolgame\game --invalid-dirs gui gamepad_control_schemes "cache"
+```
+
+Ignore specified folders when looking for *.rpy* files.
+
+nonarrate will search subdirectories starting from the folder you point it to for
+*.rpy* files. Use this option to prevent certain directories from being entered.
+
+***--invalid-files***
+
+```bash
+# While looking through 'mycoolgame\game' ignore files named: options.rpy, image.rpy, keymap.rpy
+nonarrate mycoolgame\game --invalid-files options.rpy image.rpy keymap.rpy
+```
+
+Ignore specified files when looking for *.rpy* files.
+
+nonarrate will ignore the specified files when searching for *.rpy* files.
+
+### Narrator Filters
 
 #### Character/Speaker
 
 | Commands                         | Script Example                                             | Description                                                         |
 |----------------------------------|------------------------------------------------------------|---------------------------------------------------------------------|
-| no-basic-char-obj               | n = Character(“Narrator”, …)                               | Narrator saved to character object.                                 |
+| no-basic-char-obj               | n = Character(“Narrator”, …)                               | [Default narrators](#default-narrators) saved to character object.                                 |
 | custom-char-obj,<br>cco | d = Character(“Developer”, …)                              | Custom speaker saved to character object |
 | no-basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
+| no-none-char-obj | narr = Character("") / narr = Character(None) / narr = Character() | Narrators using an empty character object. |
 | custom-char,<br>cc      | “My Mind” “It would be a good idea to distract them first” | Custom Speaker wrapped in quotes |
 
 ***—no-basic-char-obj***
@@ -117,10 +143,20 @@ narrator can introduce itself as *Emily*, *Dev*, *The Chosen One*, or anything e
 
 ***—no-basic-char***
 
-Removes [default narrators](#default-narrators) introduced in quotes.
+Do not remove [default narrators](#default-narrators) introduced in quotes.
 
-This removes all [default narrators](#default-narrators) explicitly written alongside their dialogue. These types of
-narrators are **NOT** saved to a `Character` object.
+Prevents all [default narrators](#default-narrators) explicitly written
+alongside their dialogue from being removed. These types of narrators are
+**NOT** saved to a `Character` object.
+
+***--no-none-char-obj***
+
+Do not remove narrator objects with empty Character objects.
+
+Empty character objects, written as `Character(), Character(None), or Character("")`,
+are often saved and either used as blank speakers or are later assigned an
+actual speaker name *(especially used when naming the main character later in
+the game.)*. This option prevents these character objects from being removed.
 
 ***—custom-char***, ***—cc*** `<speaker name>...`
 
@@ -163,19 +199,20 @@ Developers tend to use italics to indicate what a person is thinking about. Use 
 
 Do **not** remove dialogue wrapped entirely in a parenthesis
 
-Parentheses are used to indicate thoughts. Sometimes, it’s used for narration. Use this option to allow this feature.
+Parentheses are used to indicate thoughts. It’s often used for narration.
+Use this option to allow this feature.
 
 ***—custom-tag***, ***—ct*** `<tag name>...`
 
 ```bash
-# Removes dialogues fully wrapped in either a {t}, {fzs}, or {wys} tag
-nonarrate mycoolgame\game --custom-tag t fzs wys
+# Removes dialogues fully wrapped in either a {fzs}, {b}, or {color} tag
+nonarrate mycoolgame\game --custom-tag fzs b color
 ```
 
 Removes dialogue wrapped entirely in a custom text tag
 
 Developers can create their own [custom text tags](https://www.renpy.org/doc/html/custom_text_tags.html), adding
-custom style properties to them. Use this option to remove dialogue completely surrounded by a custom text tag.
+custom style properties to them like `{color}` or `{font}`. Use this option to remove dialogue completely surrounded by a custom text tag.
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.  See [REGEX Examples](#regex-examples) for examples.
 

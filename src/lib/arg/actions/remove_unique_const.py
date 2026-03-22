@@ -3,7 +3,9 @@
 This module includes an argparse Action class, RemoveUniqueConst, for removing values from
 a collection of unique constants.
 """
+
 from .unique_const import UniqueConst
+
 
 class RemoveUniqueConst(UniqueConst):
     """Represents an argparse action for removing unique constant values.
@@ -12,7 +14,7 @@ class RemoveUniqueConst(UniqueConst):
     when the option this class is bound to is selected.
     """
 
-    def _modify_set(self, option_string: str):
+    def _modify_set(self, option_string: str | None):
         """Remove a constant value from a set
 
         Args:
