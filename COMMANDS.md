@@ -16,7 +16,7 @@ nonarrate [folder of .rpy files OR errors.txt] [options]
 - The `errors.txt` file
 
 ```bash
-# Examples project structure
+# Example project structure
 
 MyRenpyProject/
 ├── game/
@@ -35,26 +35,30 @@ MyRenpyProject/
 - If `errors.txt` file is provided, **all options you provide will be ignored!**
 - **Typical workflow:**
   1. Use *nonarrate*
-  2. Run game and get an error message.
-  3. Close game and point nonarrate to generated `errors.txt` file.
+  2. Run game and get error message(s).
+  3. Close game and use nonarrate on generated `errors.txt` file.
   4. Run game again.
   - If more errors appear, Repeat 2-4
-  **OR**
+  > **OR**
   - **Debug** the issue yourself by taking advantage
-  of the features nonarrate provides. Investigate the `.rpy` files!
+  of the features nonarrate provides, which includes:
+    - Ignoring files
+    - Ignoring folders
+    - Deactivating default narrator filters
+    - Using regex for granular control *(on supported narrator filters)*
 
 **Examples:**
 
 This removes narration starting from *mycoolgame's* `game/` folder.
 
 ```bash
-python nonarrate C:\mycoolgame\game
+nonarrate C:\mycoolgame\game
 ```
 
 This fixes the errors caused by the tool. *Point it to the generated `errors.txt`.*
 
 ```bash
-python nonarrate C:\mycoolgame\errors.txt
+nonarrate C:\mycoolgame\errors.txt
 ```
 
 - - -
@@ -81,22 +85,24 @@ In reality, the next sequence is *also* a pause statement.
 
 Backup *.rpy* files to a specified location.
 
-Backup the project's *.rpy* files to a specified location before removing narration.
+Backup the project's *.rpy* files to a specified location *before* removing narration.
 
 ***-e, --regex***
 
 Enable regular expressions when specifying filter values.
 
 For filters that allow for user input, all values are treated as a regular expression.
-See [REGEX Example](#regex-examples) for more info.
+See [REGEX Example](#regex-examples) for more info
 
-### File Filters
+___
+
+### File Searching
 
 ***--invalid-dirs*** `<directory-name...>`
 
 ```bash
-# While looking through 'mycoolgame\game' ignore directories: gui/, gamepad_control_schemes/, and cache/
-nonarrate mycoolgame\game --invalid-dirs gui gamepad_control_schemes "cache"
+# While looking through 'mycoolgame\game' ignore directories: gui/, gamepad_control_schemes/, and cache helper/
+nonarrate mycoolgame\game --invalid-dirs gui gamepad_control_schemes "cache helper"
 ```
 
 Ignore specified folders when looking for *.rpy* files.
@@ -115,6 +121,8 @@ Ignore specified *.rpy* files when looking for *.rpy* files.
 
 nonarrate will ignore the specified files when searching for *.rpy* files.
 
+___
+
 ### Narrator Filters
 
 #### Character/Speaker
@@ -124,7 +132,7 @@ nonarrate will ignore the specified files when searching for *.rpy* files.
 | basic-char-obj               | n = Character(“Narrator”, …)                               | [Default narrators](#default-narrators) saved to character object.                                 |
 | no-custom-char-objs,<br>ncco | d = Character(“Developer”, …)                              | Custom speaker saved to character object |
 | basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
-| none-char-obj | narr = Character("")<br> narr = Character(None) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter)| Narrators using an empty character object. In short, nothing in the `name` parameter. |
+| none-char-obj | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥)| Narrators using an empty character object. In short, nothing in the `name` parameter. |
 | no-custom-chars,<br>ncc      | “Lily's Inner Self” “It would be a good idea to distract them first” | Custom Speaker wrapped in quotes |
 
 ***—basic-char-obj***
@@ -164,9 +172,15 @@ alongside their dialogue from being removed. These types of narrators are
 
 Keep empty Character objects.
 
-Empty character objects, written as `Character(), Character(None), Character("")`, or simply **NOT** using the [`name` parameter](https://www.renpy.org/doc/html/dialogue.html#Character),
-are often either used as a blank speaker or are later assigned an
-actual speaker name *(especially used when renaming the main character later in
+Empty character objects, written as any of the following:
+
+- `Character()`,
+- `Character(None)`
+- `Character("")`
+- Or simply **NOT** using the [`name` parameter](<https://www.renpy.org/doc/html/dialogue.html#Character>), `Character(color="#FFFF00")`
+
+These character objects are often either used as a blank speaker or are assigned
+an actual speaker name later *(often used when renaming a character later in
 the game.)*.
 
 ***—no-custom-chars***, ***—ncc*** `<speaker name>...`
@@ -225,13 +239,20 @@ Removes dialogue wrapped entirely in a custom text tag
 Developers can create their own [custom text tags](https://www.renpy.org/doc/html/custom_text_tags.html), adding
 custom style properties to them like `{color}` or `{font}`. Use this option to remove dialogue completely surrounded by a custom text tag.
 
+This option also automatically removes the `=` variants of a custom text tag.
+
+```bash
+# Removes {fzs} and {fzs=<any-value-here>}
+nonarrate mycoolgame\game --no-custom-tags fzs
+```
+
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.  See [REGEX Examples](#regex-examples) for examples.
 
 - - -
 
 ## Default Narrators
 
-This is a list of common narrator names.
+This is a list of common narrator names. *(includes capital case too)*
 
 - thought
 - thoughts
