@@ -4,7 +4,7 @@ import pathlib
 import os
 import enum
 
-from lib.custom_types import FileInfo, RenpyError
+from lib.custom_types import RenpyError
 from lib.file.deleter import Deleter
 from lib.file.reader import Reader
 from lib.file.writer import Writer

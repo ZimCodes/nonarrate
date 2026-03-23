@@ -31,7 +31,7 @@ MyRenpyProject/
 
 - If a `folder` is provided, *nonarrate* will operate on `.rpy` files located in subdirectories too.
 - If `errors.txt` file is provided, *nonarrate* will *attempt* to fix the errors mentioned in the file.
-  - **Nonarrate will not fix all errors!**
+  - **Nonarrate will not fix all errors!** See *[ERROR_TYPE.md](./ERROR_TYPES.md)* for list of fixes.
 - If `errors.txt` file is provided, **all options you provide will be ignored!**
 - **Typical workflow:**
   1. Use *nonarrate*
@@ -41,7 +41,7 @@ MyRenpyProject/
   - If more errors appear, Repeat 2-4
   **OR**
   - **Debug** the issue yourself by taking advantage
-  of the features nonarrate has available. Investigate the `.rpy` files!
+  of the features nonarrate provides. Investigate the `.rpy` files!
 
 **Examples:**
 

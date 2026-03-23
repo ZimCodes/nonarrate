@@ -4,11 +4,11 @@ A tool for removing narration and thoughts from Ren'Py visual novel games.
 
 ## Idea
 
-A story should unfold *organically*. The characters' **actions**,
-the **environment**, and active **scenarios** should carry the
-narrative, without the need of inner voices or overt explanations of what can
+A story should unfold *organically*. Let the characters' **actions**,
+the **environment**, and active **scenarios** carry the
+narrative, without the need of inner voices or overt explanations for what can
 already be inferred and *seen*. Players are *encouraged* to
-draw their own interpretations of the events unfolding in the story.
+draw their own interpretations of the events unfolding.
 
 ## Types of Narration
 
@@ -29,7 +29,7 @@ There are 2 sectors to identify narration in Ren'Py:
 
 ## Installation
 
-There are multiple ways to install.
+There are multiple ways to install/upgrade.
 
 ### From GitHub
 
@@ -42,6 +42,12 @@ There are multiple ways to install.
 ```bash
 > git clone https://github.com/Edexaal/nonarrate.git && cd nonarrate
 > python -m pip install .
+```
+
+**To Uninstall**:
+
+```bash
+> python -m pip uninstall nonarrate
 ```
 
 ## Usage
