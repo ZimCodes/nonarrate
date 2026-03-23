@@ -1,19 +1,18 @@
 # No Narrate - Ren'Py Mod
 
-Removes narration and thoughts from Ren'Py visual novel games.
-
-This is a Ren'Py tool for removing the narrator from visual novel games. It will also remove what characters are
-thinking about.
+A tool for removing narration and thoughts from Ren'Py visual novel games.
 
 ## Idea
 
-A story should unfold organically. The characters' actions, environment, and scenarios should carry the
-narrative, without the need of an inner voice or overt explanation. Players are encouraged to draw their own
-interpretations of the events unfolding in the story thus far.
+A story should unfold *organically*. The characters' **actions**,
+the **environment**, and active **scenarios** should carry the
+narrative, without the need of inner voices or overt explanations of what can
+already be inferred and *seen*. Players are *encouraged* to
+draw their own interpretations of the events unfolding in the story.
 
 ## Types of Narration
 
-There are 2 places to identify narration in Ren'Py:
+There are 2 sectors to identify narration in Ren'Py:
 
 - *Character/Speaker*
 - *Dialogue*

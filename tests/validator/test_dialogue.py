@@ -137,7 +137,7 @@ class TestDialogue(unittest.TestCase):
     def test_italic(self):
         self.start(ItalicStrategy(), [33, 34, 35, 36, 42, 43, 44, 45])
 
-    def test_custom_tag(self):
+    def test_custom_tags(self):
         self.start(
             CustomTextTagStrategy("fzs|pyw"),
             [56, 57, 59, 60, 61, 62, 63, 64, 65, 66, 67, 70, 71, 73, 74, 75, 76, 77, 78, 79, 80],

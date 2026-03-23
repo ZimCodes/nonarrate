@@ -47,7 +47,7 @@ class CLIParser:
             "-p",
             "--pauses",
             action="store_true",
-            help="Show narrated scenes stripped of narration by pausing.",
+            help="Show removed narrated scenes by pausing.",
         )
         self.__add_arg(
             "-v",
@@ -89,36 +89,36 @@ class CLIParser:
         self.__add_arg(
             "--invalid-files",
             action=AppendUnique,
-            default={"gui.rpy", "options.rpy", "screens.rpy", "images.rpy", "gallery.rpy"},
+            default={"gui", "options", "screens", "images", "gallery"},
             metavar="IGNORE_FILES",
-            help="Ignore specified [files] when looking for .rpy files. Must include .rpy suffix!",
+            help="Ignore specified [files] when looking for .rpy files.",
         )
         no_filters: dict[str, str] = {
-            FilterTag.NO_BASIC_NARR.value: "Do not remove dialogues that don't have a speaker",
-            FilterTag.NO_BASIC_CHAR_OBJ.value: "Do not remove default narrators saved to a Character object",
-            FilterTag.NO_ITALIC_NARR.value: "Do not remove dialogues that are fully italic",
-            FilterTag.NO_PARENTHESIS_NARR.value: "Do not remove dialogue fully wrapped in a parenthesis",
-            FilterTag.NO_BASIC_CHAR.value: "Do not remove default narrators not in a Character object",
-            FilterTag.NO_NONE_CHAR_OBJ.value: "Do not remove empty Character objects.",
+            FilterTag.BASIC_NARR.value: "Do not remove dialogues that don't have a speaker",
+            FilterTag.BASIC_CHAR_OBJ.value: "Do not remove default narrators saved to a Character object",
+            FilterTag.ITALIC_NARR.value: "Do not remove dialogues that are fully italic",
+            FilterTag.PARENTHESIS_NARR.value: "Do not remove dialogue fully wrapped in a parenthesis",
+            FilterTag.BASIC_CHAR.value: "Keep default narrators not in a Character object",
+            FilterTag.NONE_CHAR_OBJ.value: "Do not remove empty Character objects.",
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(
-            FilterTag.CUSTOM_TEXT_TAG.value,
-            "--ct",
+            FilterTag.NO_CUSTOM_TEXT_TAGS.value,
+            "--nct",
             metavar="TAG_NAME",
             nargs="*",
             help="Removes dialogue wrapped entirely in a custom text tag. Ex:{t}..{/t}",
         )
         self.__add_filter_arg(
-            FilterTag.CUSTOM_CHAR.value,
-            "--cc",
+            FilterTag.NO_CUSTOM_CHARS.value,
+            "--ncc",
             metavar="SPEAKER_NAME",
             nargs="*",
             help="Removes speaker(s) surrounded by quotes.",
         )
         self.__add_filter_arg(
-            FilterTag.CUSTOM_CHAR_OBJ.value,
-            "--cco",
+            FilterTag.NO_CUSTOM_CHAR_OBJS.value,
+            "--ncco",
             metavar="SPEAKER_OBJECT_NAME",
             nargs="*",
             help="Removes speaker(s) saved to a Character object",

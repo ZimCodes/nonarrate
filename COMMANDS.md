@@ -16,6 +16,8 @@ nonarrate [folder of .rpy files OR errors.txt] [options]
 - The `errors.txt` file
 
 ```bash
+# Examples project structure
+
 MyRenpyProject/
 ├── game/
 ├── renpy/
@@ -27,19 +29,29 @@ MyRenpyProject/
 
 **Notes:**
 
-- If a `folder` is provided, *nonarrate* will operate on `.rpy` files located in subdirectories.
-- If `errors.txt` file is provided, *nonarrate* will attempt to fix the errors mentioned in the file.
+- If a `folder` is provided, *nonarrate* will operate on `.rpy` files located in subdirectories too.
+- If `errors.txt` file is provided, *nonarrate* will *attempt* to fix the errors mentioned in the file.
+  - **Nonarrate will not fix all errors!**
 - If `errors.txt` file is provided, **all options you provide will be ignored!**
+- **Typical workflow:**
+  1. Use *nonarrate*
+  2. Run game and get an error message.
+  3. Close game and point nonarrate to generated `errors.txt` file.
+  4. Run game again.
+  - If more errors appear, Repeat 2-4
+  **OR**
+  - **Debug** the issue yourself by taking advantage
+  of the features nonarrate has available. Investigate the `.rpy` files!
 
 **Examples:**
 
-This removes narration from *mycoolgame* `game/` folder.
+This removes narration starting from *mycoolgame's* `game/` folder.
 
 ```bash
 python nonarrate C:\mycoolgame\game
 ```
 
-This fixes the errors caused by the tool.
+This fixes the errors caused by the tool. *Point it to the generated `errors.txt`.*
 
 ```bash
 python nonarrate C:\mycoolgame\errors.txt
@@ -53,16 +65,16 @@ python nonarrate C:\mycoolgame\errors.txt
 
 ***-p, —pauses***
 
-Show narrated scenes stripped of narration by pausing.
+Show removed narrated scenes by pausing.
 
 *nonarrate* will replace narration with a
  [￼`pause`￼ statement](https://www.renpy.org/doc/html/quickstart.html#pause-statement).
 This allows you to see narrated scenes without their dialogue
 *(so you can see just the image/CG/animation/etc.)*.
-To disable this feature, use this option.
+To enable this feature, use this option.
 
-**Side Note:** Since narrated dialogues are replaced by pause statements, there
-are some instances when clicking to move forward *feels* like it does nothing.
+**Side Note:** Since narrated dialogues are replaced by [￼`pause`￼ statements](https://www.renpy.org/doc/html/quickstart.html#pause-statement), there
+are some instances where clicking to move forward *feels* like it does nothing.
 In reality, the next sequence is *also* a pause statement.
 
 ***-b, --backup*** `<backup-path-directory>`
@@ -80,7 +92,7 @@ See [REGEX Example](#regex-examples) for more info.
 
 ### File Filters
 
-***--invalid-dirs***
+***--invalid-dirs*** `<directory-name...>`
 
 ```bash
 # While looking through 'mycoolgame\game' ignore directories: gui/, gamepad_control_schemes/, and cache/
@@ -90,16 +102,16 @@ nonarrate mycoolgame\game --invalid-dirs gui gamepad_control_schemes "cache"
 Ignore specified folders when looking for *.rpy* files.
 
 nonarrate will search subdirectories starting from the folder you point it to for
-*.rpy* files. Use this option to prevent certain directories from being entered.
+*.rpy* files. Use this option to prevent certain directories from being searched.
 
-***--invalid-files***
+***--invalid-files*** `<filename...>`
 
 ```bash
 # While looking through 'mycoolgame\game' ignore files named: options.rpy, image.rpy, keymap.rpy
-nonarrate mycoolgame\game --invalid-files options.rpy image.rpy keymap.rpy
+nonarrate mycoolgame\game --invalid-files options image keymap
 ```
 
-Ignore specified files when looking for *.rpy* files.
+Ignore specified *.rpy* files when looking for *.rpy* files.
 
 nonarrate will ignore the specified files when searching for *.rpy* files.
 
@@ -109,29 +121,28 @@ nonarrate will ignore the specified files when searching for *.rpy* files.
 
 | Commands                         | Script Example                                             | Description                                                         |
 |----------------------------------|------------------------------------------------------------|---------------------------------------------------------------------|
-| no-basic-char-obj               | n = Character(“Narrator”, …)                               | [Default narrators](#default-narrators) saved to character object.                                 |
-| custom-char-obj,<br>cco | d = Character(“Developer”, …)                              | Custom speaker saved to character object |
-| no-basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
-| no-none-char-obj | narr = Character("") / narr = Character(None) / narr = Character() | Narrators using an empty character object. |
-| custom-char,<br>cc      | “My Mind” “It would be a good idea to distract them first” | Custom Speaker wrapped in quotes |
+| basic-char-obj               | n = Character(“Narrator”, …)                               | [Default narrators](#default-narrators) saved to character object.                                 |
+| no-custom-char-objs,<br>ncco | d = Character(“Developer”, …)                              | Custom speaker saved to character object |
+| basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
+| none-char-obj | narr = Character("")<br> narr = Character(None) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter)| Narrators using an empty character object. In short, nothing in the `name` parameter. |
+| no-custom-chars,<br>ncc      | “Lily's Inner Self” “It would be a good idea to distract them first” | Custom Speaker wrapped in quotes |
 
-***—no-basic-char-obj***
+***—basic-char-obj***
 
 ```bash
-nonarrate mycoolgame\game --no-basic-char-obj 
+nonarrate mycoolgame\game --basic-char-obj 
 ```
 
 Do **not** remove [default narrators](#default-narrators) saved to a `Character` object.
 
-In Ren’Py, it’s recommended to define speakers in a [
-`Character()`](https://www.renpy.org/doc/html/dialogue.html#defining-character-objects) object. By default, *nonarrate*
-will remove all [default narrators](#default-narrators) saved to a character object. Use this option to disable this filter.
+By default, *nonarrate*
+will remove *all* [default narrators](#default-narrators) saved to a character object. Use this option to disable this filter.
 
-***—custom-char-obj***, ***—cco*** `<speaker name>...`
+***—no-custom-char-objs***, ***—ncco*** `<speaker name>...`
 
 ```bash
 # Removes speakers: Wilson, Marisa, & Kyli Naya
-nonarrate mycoolgame\game --custom-char-obj Wilson Marisa "Kyli Naya"
+nonarrate mycoolgame\game --no-custom-char-objs Wilson Marisa "Kyli Naya"
 ```
 
 Removes speaker(s) saved to a `Character` object.
@@ -141,33 +152,33 @@ narrator can introduce itself as *Emily*, *Dev*, *The Chosen One*, or anything e
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.  See [REGEX Examples](#regex-examples) for examples.
 
-***—no-basic-char***
+***—basic-char***
 
 Do not remove [default narrators](#default-narrators) introduced in quotes.
 
-Prevents all [default narrators](#default-narrators) explicitly written
+Prevents *all* [default narrators](#default-narrators) explicitly written in quotes
 alongside their dialogue from being removed. These types of narrators are
 **NOT** saved to a `Character` object.
 
-***--no-none-char-obj***
+***--none-char-obj***
 
-Do not remove narrator objects with empty Character objects.
+Do not remove narrators with empty Character objects.
 
-Empty character objects, written as `Character(), Character(None), or Character("")`,
-are often saved and either used as blank speakers or are later assigned an
-actual speaker name *(especially used when naming the main character later in
-the game.)*. This option prevents these character objects from being removed.
+Empty character objects, written as `Character(), Character(None), Character("")`, or simply **NOT** using the [`name` parameter](https://www.renpy.org/doc/html/dialogue.html#Character),
+are often either used as a blank speaker or are later assigned an
+actual speaker name *(especially used when renaming the main character later in
+the game.)*.
 
-***—custom-char***, ***—cc*** `<speaker name>...`
+***—no-custom-chars***, ***—ncc*** `<speaker name>...`
 
 ```bash
 # Removes speakers: Minie, Brock Lyn, & Carmi
-nonarrate mycoolgame\game --custom-char Minie "Brock Lyn" Carmi
+nonarrate mycoolgame\game --no-custom-chars Minie "Brock Lyn" Carmi
 ```
 
 Removes a speaker introduced in quotes.
 
-Removes a speaker explicitly written alongside their dialogue and **NOT** saved to a `Character` object.
+Removes a speaker explicitly written in quotes alongside their dialogue and **NOT** saved to a `Character` object.
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.  See [REGEX Examples](#regex-examples) for examples.
 
@@ -177,36 +188,36 @@ Removes a speaker explicitly written alongside their dialogue and **NOT** saved 
 
 | Commands             | Script Example                                 | Description                                                                                                  |
 |----------------------|------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| —no-basic-narr       | “I’m the narrator of this game”                | Dialogues without a speaker                                                                                  |
-| —no-italic-narr      | mc “{i}Maybe there’s food left over.{/i}       | Italics. Thinking dialogue.                                                                                  |
-| —no-parenthesis-narr | mc “(It’s got to be here somewhere.)”          | `()`. Thinking/Narrator dialogue                                                                             |
-| —custom-tag, —ct     | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"| [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
+| —basic-narr       | “I’m the narrator of this game”                | Dialogues without a speaker                                                                                  |
+| —italic-narr      | mc “{i}Maybe there’s food left over.{/i}       | Italics. Thinking dialogue.                                                                                  |
+| —parenthesis-narr | mc “(It’s got to be here somewhere.)”          | `()`. Thinking/Narrator dialogue                                                                             |
+| —no-custom-tags, —nct     | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"| [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
 
-***—no-basic-narr***
+***—basic-narr***
 
-Do **not** remove dialogues that do not have a speaker
+Keep dialogues that do not have a speaker
 
 Dialogues without a speaker are a clear indication of narration. Use this option if you want to keep this form
 of narration.
 
-***—no-italic-narr***
+***—italic-narr***
 
 Do **not** remove dialogues that are fully italic
 
 Developers tend to use italics to indicate what a person is thinking about. Use this option to allow this feature.
 
-***—no-parenthesis-narr***
+***—parenthesis-narr***
 
 Do **not** remove dialogue wrapped entirely in a parenthesis
 
 Parentheses are used to indicate thoughts. It’s often used for narration.
 Use this option to allow this feature.
 
-***—custom-tag***, ***—ct*** `<tag name>...`
+***—no-custom-tags***, ***—nct*** `<tag name>...`
 
 ```bash
 # Removes dialogues fully wrapped in either a {fzs}, {b}, or {color} tag
-nonarrate mycoolgame\game --custom-tag fzs b color
+nonarrate mycoolgame\game --no-custom-tags fzs b color
 ```
 
 Removes dialogue wrapped entirely in a custom text tag
@@ -234,12 +245,12 @@ This is a list of common narrator names.
 
 ```bash
 # Remove speakers: Wilson, Greyes, and Grayes character objects
-nonarrate --custom-char-obj Wilson "Gr[ea]yes"
+nonarrate --no-custom-char-objs Wilson "Gr[ea]yes"
 
 # Removes speakers: Temo, Temoes, Teemoes, & Teemo
-nonarrate --custom-char "Te{1,2}mo(es)?"
+nonarrate --no-custom-chars "Te{1,2}mo(es)?"
 
 # Removes speakers: [mcname]
 # Use '\\' to escape special characters.
-nonarrate --custom-char-obj '\\[mcname\\]'
+nonarrate --no-custom-char-objs '\\[mcname\\]'
 ```

@@ -10,7 +10,7 @@ class TestReader(unittest.TestCase):
         self._reader = RenpyReader()
 
     def test_invalid_files(self):
-        args = fixture.get_args(self._parser, [fixture.DUMMY_PATH, "--invalid-files", "ex_reader.rpy", "hello.rpy"])
+        args = fixture.get_args(self._parser, [fixture.DUMMY_PATH, "--invalid-files", "ex_reader", "hello"])
         files = self._reader.walk_files(args.folder_or_file, invalid_files=args.invalid_files)
         self.assertEqual(len(files), 0, "ex_reader.py and hello.rpy should not be seen by reader")
 

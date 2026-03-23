@@ -26,6 +26,6 @@ class RenpyReader(Reader):
             if invalid_folders and any([x in dirpath for x in invalid_folders]):
                 continue
             for file_name in file_names:
-                if file_name.endswith(rpy_file_ext) and (not invalid_files or file_name not in invalid_files):
+                if file_name.endswith(rpy_file_ext) and (not invalid_files or file_name[:-4] not in invalid_files):
                     renpy_files.append(os.path.join(dirpath, file_name))
         return renpy_files

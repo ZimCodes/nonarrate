@@ -45,6 +45,7 @@ class TestCharacter(unittest.TestCase):
                     'define bik_g = Character("Big Guy", what_color="#FFFF00", what_italic = True)',
                     'default sind = Character("", what_color="#FFFF00", what_italic = True)',
                     'default nigel = Character("Nigel", "", what_italic = True)',
+                    'define zy = Character(ctc="ctc_animation", ctc_position="fixed", window_top_padding = -60)',
                 ],
             )
         ]
@@ -110,6 +111,7 @@ class TestCharacter(unittest.TestCase):
             56: 'pop "And so the story would move forward."',
             57: 'sind "And so the story would move forward."',
             58: 'nigel "And so the story would move forward."',
+            59: 'zy "And so the story would move forward."',
         }
 
     def setUp(self) -> None:
@@ -152,7 +154,7 @@ class TestCharacter(unittest.TestCase):
         self.start_object(BasicObjectStrategy(), [34, 40, 41, 43, 44, 47])
 
     def test_object_none_char_item(self):
-        self.start_object(ObjectNoneItemStrategy(), [45, 46, 50, 55, 56, 57])
+        self.start_object(ObjectNoneItemStrategy(), [45, 46, 50, 55, 56, 57, 59])
 
     def test_chaining(self):
         self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [34, 38, 39, 40, 41, 43, 44, 47, 49])
