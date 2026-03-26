@@ -1,4 +1,3 @@
-import os
 from concurrent.futures import ThreadPoolExecutor
 import pathlib
 
@@ -23,7 +22,7 @@ class FileExecutor:
         max_workers: Maximum threads to perform an operation or series of operations.
     """
 
-    max_workers = min(32, (os.cpu_count() or 1) + 4)
+    max_workers = 0
 
     @classmethod
     def file_lines(cls, reader: RenpyReader, arg_namespace) -> list[FileInfo]:

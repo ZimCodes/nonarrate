@@ -6,6 +6,7 @@ extracting command line arguments from the command line interface.
 
 import argparse
 import pathlib
+import os
 from typing import Any
 
 from lib.arg.actions import *
@@ -19,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "1.0.0"
+        self.__version_num = "1.1.0"
         self.__setup()
 
     def __setup(self):
@@ -34,7 +35,7 @@ class CLIParser:
         )
 
     def __init_parser_groups(self):
-        self.__filter_group = self.__parser.add_argument_group("Filters", "Types of narration to remove. (choose 1+)")
+        self.__filter_group = self.__parser.add_argument_group("Filters", "Types of narration to remove.")
         self.__search_group = self.__parser.add_argument_group("File Search", "Limits the search for .rpy files.")
 
     def __configure_opts(self):
@@ -59,6 +60,7 @@ class CLIParser:
         self.__add_arg(
             "-b",
             "--backup",
+            metavar="BACKUP_DIR_PATH",
             type=pathlib.Path,
             help="Backup .rpy files to a specified location.",
         )
@@ -67,6 +69,14 @@ class CLIParser:
             "--regex",
             action="store_true",
             help="Enable regular expressions when specifying filter values.",
+        )
+        self.__add_arg(
+            "-j",
+            "--jobs",
+            metavar="NUMBER_OF_WORKERS",
+            type=int,
+            default=min(32, (os.cpu_count() or 1) * 4),
+            help="Maximum number of workers to use for I/O tasks.",
         )
         self.__add_search_arg(
             "--invalid-dirs",
@@ -123,6 +133,11 @@ class CLIParser:
             metavar="SPEAKER_OBJECT_NAMES",
             nargs="*",
             help="Removes speaker(s) saved to a Character object",
+        )
+        self.__add_filter_arg(
+            FilterTag.NO_EXPRESSION_CUES.value,
+            action="store_true",
+            help="Removes expression cues. Ex: *smiles*, *raises eyebrows*.",
         )
 
     def __add_no_filters(self, optnames: dict[str, str]):

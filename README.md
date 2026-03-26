@@ -54,6 +54,10 @@ There are multiple ways to install/upgrade.
 
 To use *nonarrate* check out [COMMANDS.md](./COMMANDS.md)!
 
+## Project Structure
+
+![Class diagram of project](./classDiagram.png)
+
 ## License
 
 **nonarrate** is subject under the [Unlicense](./UNLICENSE) license.

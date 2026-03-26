@@ -1,4 +1,5 @@
 import shutil
+import pathlib
 from lib.arg.cli_parser import CLIParser
 import tests.fixture as fixture
 import unittest
@@ -8,6 +9,7 @@ from lib.file import Writer
 class TestWriter(unittest.TestCase):
     def setUp(self) -> None:
         self._parser = CLIParser()
+        self.backup_folder = None
 
     def tearDown(self) -> None:
         if self.backup_folder and self.backup_folder.exists():
@@ -20,14 +22,14 @@ class TestWriter(unittest.TestCase):
         return total
 
     def test_backup(self):
-        backup_loc = f"{fixture.DUMMY_PATH}/_BACKUP"
-        arg_namespace = fixture.get_args(self._parser, [fixture.DUMMY_PATH, "--backup", backup_loc])
+        backup_loc = pathlib.Path(f"{fixture.DUMMY_PATH}/_BACKUP")
+        files_to_backup = [f"{fixture.DUMMY_PATH}/ex_reader.rpy"]
         writer = Writer()
-        correct_total = self.count_files(arg_namespace.folder_or_file)
-        writer.backup_dir(arg_namespace)
-        self.assertTrue(arg_namespace.backup.exists(), f"Backup folder doesn't exist at {backup_loc}")
-        self.backup_folder = arg_namespace.backup
-        backup_total = self.count_files(arg_namespace.backup)
+        correct_total = len(files_to_backup)
+        writer.backup_dir(files_to_backup, backup_loc)
+        self.assertTrue(backup_loc.exists(), f"Backup folder doesn't exist at {backup_loc.absolute()}")
+        self.backup_folder = backup_loc
+        backup_total = self.count_files(backup_loc)
         self.assertEqual(
             backup_total,
             correct_total,

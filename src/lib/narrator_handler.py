@@ -15,6 +15,10 @@ class NarratorHandler:
 
     PAUSE_STATEMENT: str = "pause"
 
+    def __init__(self) -> None:
+        self._total_lines = 0
+        self._total_cleaned_lines = 0
+
     @staticmethod
     def get_indent_num(line: str) -> int:
         """Gets the current amount of indentation."""
@@ -25,6 +29,13 @@ class NarratorHandler:
 
     def __is_comment(self, strip_line: str) -> bool:
         return strip_line.startswith("#")
+
+    def __reset_line_stats(self):
+        self._total_cleaned_lines = 0
+        self._total_lines = 0
+
+    def line_stats(self) -> tuple[int, int]:
+        return self._total_cleaned_lines, self._total_lines
 
     def remove(self, file_infos: list[FileInfo], args) -> list[FileInfo]:
         """Removes narration & thoughts from file content.
@@ -37,8 +48,10 @@ class NarratorHandler:
         Returns:
             a list of file information and their modified content without the presence of a narrator or thought.
         """
+        self.__reset_line_stats()
         label_check = {"is_choice_menu": False, "is_image_label": False}
         for file_info in file_infos:
+            self._total_lines += len(file_info.lines)
             cleaned_lines = []
             image_label_indent = 0
             prev_line_info = {"is_narr": False, "line": ""}
@@ -138,6 +151,7 @@ class NarratorHandler:
                 else:
                     cleaned_lines.append(line)
             file_info.lines = cleaned_lines
+            self._total_cleaned_lines += len(cleaned_lines)
         return file_infos
 
     def __pause_filter(self, file_infos: list[FileInfo]) -> list[FileInfo]:

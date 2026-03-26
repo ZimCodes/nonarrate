@@ -94,6 +94,13 @@ Enable regular expressions when specifying filter values.
 For filters that allow for user input, all values are treated as a regular expression.
 See [REGEX Example](#regex-examples) for more info
 
+***-j, --jobs***
+
+Maximum workers to use for I/O tasks.
+
+Specify the maximum number of threads to handle all I/O operations.
+`1 job = 1 thread`. **Default:** `min(32, CPU_COUNT * 4)`
+
 ___
 
 ### File Searching
@@ -127,13 +134,15 @@ ___
 
 #### Character/Speaker
 
+These filters deal with the **speaker** portion of a dialogue box.
+
 | Commands                         | Script Example                                             | Description                                                         |
 |----------------------------------|------------------------------------------------------------|---------------------------------------------------------------------|
-| basic-char-obj               | n = Character(“Narrator”, …)                               | [Default narrators](#default-narrators) saved to character object.                                 |
-| no-custom-char-objs,<br>ncco | d = Character(“Developer”, …)                              | Custom speaker saved to character object |
-| basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
-| none-char-obj | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥)| Narrators using an empty character object. In short, nothing in the `name` parameter. |
-| no-custom-chars,<br>ncc      | “Lily's Inner Self” “It would be a good idea to distract them first” | Custom Speaker wrapped in quotes |
+| --basic-char-obj               | n = Character(“Narrator”, …)                               | [Default narrators](#default-narrators) saved to character object.                                 |
+| --no-custom-char-objs,<br>--ncco | d = Character(“Developer”, …)                              | Custom speaker saved to character object |
+| --basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
+| --none-char-obj | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥)| Narrators using an empty character object. In short, nothing in the `name` parameter. |
+| --no-custom-chars,<br>--ncc      | “Lily's Inner Self” “It would be a good idea to distract them first” | Custom Speaker wrapped in quotes |
 
 ***—basic-char-obj***
 
@@ -200,23 +209,26 @@ Removes a speaker explicitly written in quotes alongside their dialogue and **NO
 
 #### Dialogue
 
+These filters deal with the **dialogue** portion of dialogue box.
+
 | Commands             | Script Example                                 | Description                                                                                                  |
 |----------------------|------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| —basic-narr       | “I’m the narrator of this game”                | Dialogues without a speaker                                                                                  |
-| —italic-narr      | mc “{i}Maybe there’s food left over.{/i}       | Italics. Thinking dialogue.                                                                                  |
-| —parenthesis-narr | mc “(It’s got to be here somewhere.)”          | `()`. Thinking/Narrator dialogue                                                                             |
-| —no-custom-tags, —nct     | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"| [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
+| --basic-narr       | “I’m the narrator of this game”                | Dialogues without a speaker                                                                                  |
+| --italic-narr      | mc “{i}Maybe there’s food left over.{/i}       | Italics. Thinking dialogue.                                                                                  |
+| --parenthesis-narr | mc “(It’s got to be here somewhere.)”          | `()`. Thinking/Narrator dialogue                                                                             |
+| --no-custom-tags, --nct     | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"| [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
+| --no-cues | mc "\**blushes softly*\*" | Expression cues. \**smiles*\* |
 
 ***—basic-narr***
 
-Keep dialogues that do not have a speaker
+Keep dialogues that do not have a speaker.
 
 Dialogues without a speaker are a clear indication of narration. Use this option if you want to keep this form
 of narration.
 
 ***—italic-narr***
 
-Keep dialogues that are fully italic
+Keep dialogues that are fully italic.
 
 Developers tend to use italics to indicate what a person is thinking about. Use this option to allow this feature.
 
@@ -247,6 +259,21 @@ nonarrate mycoolgame\game --no-custom-tags fzs
 ```
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.  See [REGEX Examples](#regex-examples) for examples.
+
+***--no-cues***
+
+Removes expression cues.
+
+Removes dialogue that *only* includes an expression cue.
+Expression cues are signals indicating emotions and reactions. However,
+this can be achieved *visually*.
+
+Expression cue examples:
+
+- \*smiles\*
+- \*crosses arms\*
+- \*shakes head in disbelief\*
+- \*laughs maniacally\*
 
 - - -
 

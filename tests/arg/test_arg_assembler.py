@@ -6,7 +6,7 @@ from lib.validator.null_strategy import NullStrategy
 from tests import fixture
 from lib.custom_types import FilterTag
 from lib.validator.speaker import ObjectNoneItemStrategy, ObjectStrategy, CharacterStrategy, BasicObjectStrategy
-from lib.validator.dialogue import CustomTextTagStrategy, ParenthesisStrategy
+from lib.validator.dialogue import CustomTextTagStrategy, ParenthesisStrategy, ExpressionCueStrategy
 
 
 class TestArgAssembler(unittest.TestCase):
@@ -102,3 +102,16 @@ class TestArgAssembler(unittest.TestCase):
             "py[Ww]",
         ]
         self.start_escape(args, 5)
+
+    def test_cue_chain(self):
+        args = [
+            "game/",
+            FilterTag.BASIC_CHAR.value,
+            FilterTag.ITALIC_NARR.value,
+            FilterTag.PARENTHESIS_NARR.value,
+            FilterTag.BASIC_CHAR_OBJ.value,
+            FilterTag.BASIC_NARR.value,
+            FilterTag.NONE_CHAR_OBJ.value,
+            FilterTag.NO_EXPRESSION_CUES.value,
+        ]
+        self.start(args, [NullStrategy, ExpressionCueStrategy])

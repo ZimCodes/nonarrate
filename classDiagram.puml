@@ -1,4 +1,5 @@
 @startuml
+hide empty members
 'Validator
 abstract class IValidatorChain {
 	#nextValidator: IValidatorChain
@@ -38,6 +39,8 @@ class ParenthesisStrategy
 class CustomTextTagStrategy
 'Ex: "Marco jumps over the fence, scrapping his arm in the process"
 class BasicStrategy
+'Ex: mc "*smiles*"
+class ExpressionCueStrategy
 
 'File Descriptors
 class Reader {
@@ -70,6 +73,8 @@ class  NarratorHandler <<Singleton>>{
   +getIdentNum(line:str):int
   -isComment(line:str):bool
   -isImageLabel(line:str):bool
+  -resetLineStats()
+  -lineStats(): Tuple<int,int>
 	-correctIndent(fileInfos:List<FileInfo>): List<FileInfo>
   -pauseFilter(fileInfos:List<FileInfo>): List<FileInfo>
 }
@@ -130,6 +135,7 @@ enum FilterTag {
   NO_CUSTOM_CHAR_OBJS
   NO_CUSTOM_TEXT_TAGS
   NO_CUSTOM_CHARS
+  NO_EXPRESSION_CUES
 }
 
 'Validator Relations
@@ -140,11 +146,13 @@ IValidatorChainSolo <|-- ParenthesisStrategy
 IValidatorChainSolo <|-- ItalicStrategy
 IValidatorChain <|-- ObjectStrategy
 IValidatorChainSolo <|-- CharacterStrategy
+IValidatorChainSolo <|-- ExpressionCueStrategy
 IValidatorChainSolo <|-- NullStrategy
 CharacterStrategy <|-- BasicCharacterStrategy
 ObjectStrategy <|-- BasicObjectStrategy
 ObjectStrategy <|-- ObjectNoneItemStrategy
 Reader <|-- RenpyReader
+UniqueConst <|-- RemoveUniqueConst
 
 'Argument Relations
 ArgChecker ..> CLIParser : uses
