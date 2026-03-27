@@ -11,7 +11,7 @@ def run():
     arg_namespace = parser.parse_args()
     reader = RenpyReader()
     file_executor = FileExecutor()
-    file_executor.max_workers = arg_namespace.jobs
+    FileExecutor.max_workers = arg_namespace.jobs
     if arg_namespace.folder_or_file.is_file() and arg_namespace.folder_or_file.name == "errors.txt":
         Log.complete("Parsing")
         file_executor.fix_errors(arg_namespace.folder_or_file, reader)

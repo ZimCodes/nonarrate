@@ -47,7 +47,7 @@ python -m pip install .
 **To Uninstall**:
 
 ```bash
-> python -m pip uninstall nonarrate
+python -m pip uninstall nonarrate
 ```
 
 ## Usage
