@@ -8,6 +8,10 @@ from .. import fixture
 
 
 class TestExecutor(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        FileExecutor.max_workers = 4
+
     def test_reader(self):
         parser = CLIParser()
         reader = RenpyReader()

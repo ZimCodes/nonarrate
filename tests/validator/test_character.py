@@ -39,6 +39,9 @@ class TestCharacter(unittest.TestCase):
                     'define l = Character   ("Linda")',
                     'define po = Character   ("")',
                     'define pop = Character( "" , what_color="FFFF00")',
+                    'define pop2 = Character( " " , what_color="FFFF00")',
+                    'define pop3 = Character( \' \' , what_color="FFFF00")',
+                    'define pop4 = Character( \'\' , what_color="FFFF00")',
                     'define b_ = Character("Balum", what_italic=True)',
                     'define bi_ = Character("Bilf",what_color="#FFFF00", what_italic=True)',
                     'define bik_ = Character("Bikwaski", what_color="#FFFF00", what_italic= True)',
@@ -46,6 +49,14 @@ class TestCharacter(unittest.TestCase):
                     'default sind = Character("", what_color="#FFFF00", what_italic = True)',
                     'default nigel = Character("Nigel", "", what_italic = True)',
                     'define zy = Character(ctc="ctc_animation", ctc_position="fixed", window_top_padding = -60)',
+                    'define none2 = Character(name=None)',
+                    'define none3 = Character(None,ctc="ctc_animation", ctc_position="fixed", window_top_padding = -60)',
+                    'define none4 = Character(name=None, ctc="ctc_animation", ctc_position="fixed", window_top_padding = -60)',
+                    'default translate = Character(_())',
+                    'default translate2 = Character(_(""))',
+                    'default translate3 = Character(_(\'\'))',
+                    'default translate4 = Character( _(\'\'))',
+                    'default translate5 = Character( _( \' \' ))',
                 ],
             )
         ]
@@ -112,6 +123,17 @@ class TestCharacter(unittest.TestCase):
             57: 'sind "And so the story would move forward."',
             58: 'nigel "And so the story would move forward."',
             59: 'zy "And so the story would move forward."',
+            60: 'none2 "And so the story would move forward."',
+            61: 'none3 "And so the story would move forward."',
+            62: 'none4 "And so the story would move forward."',
+            63: 'pop2 "And so the story would move forward."',
+            64: 'pop3 "And so the story would move forward."',
+            65: 'pop4 "And so the story would move forward."',
+            66: 'translate "And so the story would move forward."',
+            67: 'translate2 "And so the story would move forward."',
+            68: 'translate3 "And so the story would move forward."',
+            69: 'translate4 "And so the story would move forward."',
+            70: 'translate5 "And so the story would move forward."',
         }
 
     def setUp(self) -> None:
@@ -154,7 +176,7 @@ class TestCharacter(unittest.TestCase):
         self.start_object(BasicObjectStrategy(), [34, 40, 41, 43, 44, 47])
 
     def test_object_none_char_item(self):
-        self.start_object(ObjectNoneItemStrategy(), [45, 46, 50, 55, 56, 57, 59])
+        self.start_object(ObjectNoneItemStrategy(), [45, 46, 50, 55, 56, 57, 59,60,61,62,63,64,65,66,67,68,69,70])
 
     def test_chaining(self):
         self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [34, 38, 39, 40, 41, 43, 44, 47, 49])
