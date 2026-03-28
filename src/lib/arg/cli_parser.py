@@ -35,8 +35,9 @@ class CLIParser:
         )
 
     def __init_parser_groups(self):
-        self.__filter_group = self.__parser.add_argument_group("Filters", "Types of narration to remove.")
         self.__search_group = self.__parser.add_argument_group("File Search", "Limits the search for .rpy files.")
+        self.__filter_group = self.__parser.add_argument_group("Filters", "Types of narration to remove.")
+        
 
     def __configure_opts(self):
         self.__add_arg(
