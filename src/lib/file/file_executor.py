@@ -22,7 +22,7 @@ class FileExecutor:
         max_workers: Maximum threads to perform an operation or series of operations.
     """
 
-    max_workers = 0
+    max_workers = 4
 
     @classmethod
     def file_lines(cls, reader: RenpyReader, arg_namespace) -> list[FileInfo]:

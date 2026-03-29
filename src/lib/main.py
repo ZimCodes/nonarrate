@@ -35,8 +35,8 @@ def run():
     total_cleaned_lines, total_lines = narrator_handler.line_stats()
     Log.log(f"""Line Stats:
         Removed: {total_lines - total_cleaned_lines} lines
-        Removed %: {(total_lines - total_cleaned_lines) / total_lines * 100}%
-        Remaining %: {(total_cleaned_lines / total_lines) * 100}%""")
+        Removed (%): {(total_lines - total_cleaned_lines) / total_lines * 100} %
+        Remaining (%): {(total_cleaned_lines / total_lines) * 100} %""")
 
 
 if __name__ == "__main__":

@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "1.1.1"
+        self.__version_num = "2.0.0"
         self.__setup()
 
     def __setup(self):
@@ -112,6 +112,7 @@ class CLIParser:
             FilterTag.PARENTHESIS_NARR.value: "Keep dialogue fully wrapped in a parenthesis",
             FilterTag.BASIC_CHAR.value: "Keep [default narrators] not saved to a Character object",
             FilterTag.NONE_CHAR_OBJ.value: "Keep empty Character objects.",
+            FilterTag.EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, *raises eyebrows*."
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(
@@ -134,11 +135,6 @@ class CLIParser:
             metavar="SPEAKER_OBJECT_NAMES",
             nargs="*",
             help="Removes speaker(s) saved to a Character object",
-        )
-        self.__add_filter_arg(
-            FilterTag.NO_EXPRESSION_CUES.value,
-            action="store_true",
-            help="Removes expression cues. Ex: *smiles*, *raises eyebrows*.",
         )
 
     def __add_no_filters(self, optnames: dict[str, str]):

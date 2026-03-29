@@ -7,7 +7,7 @@ from lib.validator.dialogue import (
     ExpressionCueStrategy,
 )
 from lib.validator.ivalidator_chain import IValidatorChain
-from ..fixture import get_dialogue_list
+from tests.fixture import get_dialogue_list
 
 
 class TestDialogue(unittest.TestCase):

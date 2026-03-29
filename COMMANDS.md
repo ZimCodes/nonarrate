@@ -211,13 +211,13 @@ Removes a speaker explicitly written in quotes alongside their dialogue and **NO
 
 These filters deal with the **dialogue** portion of dialogue box.
 
-| Commands             | Script Example                                 | Description                                                                                                  |
-|----------------------|------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| --basic-narr       | “I’m the narrator of this game”                | Dialogues without a speaker                                                                                  |
-| --italic-narr      | mc “{i}Maybe there’s food left over.{/i}       | Italics. Thinking dialogue.                                                                                  |
-| --parenthesis-narr | mc “(It’s got to be here somewhere.)”          | `()`. Thinking/Narrator dialogue                                                                             |
-| --no-custom-tags, --nct     | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"| [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
-| --no-cues | mc "\**blushes softly*\*" | Expression cues. \**smiles*\* |
+| Commands                | Script Example                                                                | Description                                                                                                  |
+|-------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| --basic-narr            | “I’m the narrator of this game”                                               | Dialogues without a speaker                                                                                  |
+| --italic-narr           | mc “{i}Maybe there’s food left over.{/i}                                      | Italics. Thinking dialogue.                                                                                  |
+| --parenthesis-narr      | mc “(It’s got to be here somewhere.)”                                         | `()`. Thinking/Narrator dialogue                                                                             |
+| --no-custom-tags, --nct | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}" | [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
+| --cues                  | mc "\**blushes softly*\*"                                                     | Expression cues. \**smiles*\*                                                                                |
 
 ***—basic-narr***
 
@@ -260,11 +260,11 @@ nonarrate mycoolgame\game --no-custom-tags fzs
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.  See [REGEX Examples](#regex-examples) for examples.
 
-***--no-cues***
+***--cues***
 
-Removes expression cues.
+Keeps expression cues.
 
-Removes dialogue that *only* includes an expression cue.
+Keeps dialogue that *only* includes an expression cue.
 Expression cues are signals indicating emotions and reactions. However,
 this can be achieved *visually*.
 

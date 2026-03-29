@@ -16,9 +16,11 @@ class TestArgAssembler(unittest.TestCase):
     def eval_validator_chain(self, arg_namespace, correct_type_list):
         ArgAssembler.assemble(arg_namespace)
         current_validator = arg_namespace.validator
+        validators = set()
         while current_validator:
-            self.assertIn(type(current_validator), correct_type_list)
+            validators.add(type(current_validator))
             current_validator = current_validator.next_validator
+        self.assertCountEqual(validators,correct_type_list,"Validators does not match correct list.")
 
     def start(self, args, correct_type_list):
         arg_namespace = fixture.get_args(self._parser, args)
@@ -41,7 +43,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.ITALIC_NARR.value,
             FilterTag.BASIC_NARR.value,
         ]
-        self.start(args, {NullStrategy, ObjectNoneItemStrategy, ParenthesisStrategy, BasicObjectStrategy})
+        self.start(args, {  NullStrategy, ObjectNoneItemStrategy, ParenthesisStrategy, BasicObjectStrategy,ExpressionCueStrategy  })
 
     def test_nargs(self):
         args = [
@@ -51,6 +53,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.PARENTHESIS_NARR.value,
             FilterTag.BASIC_CHAR_OBJ.value,
             FilterTag.BASIC_NARR.value,
+            FilterTag.EXPRESSION_CUES.value,
             FilterTag.NO_CUSTOM_CHARS.value,
             "ten",
             "narrator",
@@ -75,6 +78,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.BASIC_CHAR_OBJ.value,
             FilterTag.BASIC_NARR.value,
             FilterTag.NONE_CHAR_OBJ.value,
+            FilterTag.EXPRESSION_CUES.value,
             "--regex",
             FilterTag.NO_CUSTOM_CHARS.value,
             "ten{3}",
@@ -94,6 +98,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.BASIC_CHAR_OBJ.value,
             FilterTag.BASIC_NARR.value,
             FilterTag.NONE_CHAR_OBJ.value,
+            FilterTag.EXPRESSION_CUES.value,
             FilterTag.NO_CUSTOM_CHARS.value,
             "ten{3}",
             "seco.+",
@@ -102,16 +107,3 @@ class TestArgAssembler(unittest.TestCase):
             "py[Ww]",
         ]
         self.start_escape(args, 5)
-
-    def test_cue_chain(self):
-        args = [
-            "game/",
-            FilterTag.BASIC_CHAR.value,
-            FilterTag.ITALIC_NARR.value,
-            FilterTag.PARENTHESIS_NARR.value,
-            FilterTag.BASIC_CHAR_OBJ.value,
-            FilterTag.BASIC_NARR.value,
-            FilterTag.NONE_CHAR_OBJ.value,
-            FilterTag.NO_EXPRESSION_CUES.value,
-        ]
-        self.start(args, [NullStrategy, ExpressionCueStrategy])

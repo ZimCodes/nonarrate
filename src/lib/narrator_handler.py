@@ -28,7 +28,7 @@ class NarratorHandler:
         return strip_line.startswith("image ") and strip_line.endswith(":")
 
     def __is_comment(self, strip_line: str) -> bool:
-        return strip_line.startswith("#")
+        return strip_line.startswith("\uFEFF#") or strip_line.startswith("#")
 
     def __reset_line_stats(self):
         self._total_cleaned_lines = 0
@@ -55,9 +55,21 @@ class NarratorHandler:
             cleaned_lines = []
             image_label_indent = 0
             prev_line_info = {"is_narr": False, "line": ""}
+            is_multi_line = False
             for line in file_info.lines:
                 strip_line = line.strip()
                 if self.__is_comment(strip_line):
+                    continue
+                endswith_quote = strip_line.endswith('"')
+                # If narrator is multiline. Ex:
+                # narr ".....................
+                # ....................."
+                if is_multi_line:
+                    if endswith_quote:
+                        is_multi_line = False
+                        if args.pauses:
+                            # Replaces narration with pauses
+                            cleaned_lines.append(f"{' ' * self.get_indent_num(line)}{NarratorHandler.PAUSE_STATEMENT}\n")
                     continue
                 is_narrator = args.validator.is_valid(strip_line)
 
@@ -98,8 +110,12 @@ class NarratorHandler:
                 else:
                     cleaned_lines.append(line)
 
+                if is_narrator and not is_multi_line and not endswith_quote:
+                    is_multi_line = True
+                    continue
                 prev_line_info["is_narr"] = is_narrator
                 prev_line_info["line"] = line
+
             file_info.lines = cleaned_lines
         if args.pauses:
             file_infos = self.__pause_filter(file_infos)

@@ -29,7 +29,7 @@ class ArgAssembler:
         FilterTag.NO_CUSTOM_TEXT_TAGS.value: CustomTextTagStrategy,
         FilterTag.NO_CUSTOM_CHARS.value: CharacterStrategy,
         FilterTag.NO_CUSTOM_CHAR_OBJS.value: ObjectStrategy,
-        FilterTag.NO_EXPRESSION_CUES.value: ExpressionCueStrategy,
+        FilterTag.EXPRESSION_CUES.value: ExpressionCueStrategy,
     }
 
     @classmethod
@@ -68,14 +68,12 @@ class ArgAssembler:
         current_validator = cls.__narg_filter(
             current_validator, cls.__escape(args, args.no_custom_char_objs), FilterTag.NO_CUSTOM_CHAR_OBJS.value
         )
-        if args.no_cues:
-            current_validator.next_validator = ExpressionCueStrategy()
 
     @staticmethod
     def __escape(args, arg_filter_val: list[str] | None) -> str | list[str] | None:
         """Convert filter value into a literal expression if '--regex' is enabled."""
         if not arg_filter_val:
-            return
+            return arg_filter_val
         if not args.regex:
             for i in range(len(arg_filter_val)):
                 arg_filter_val[i] = re.escape(arg_filter_val[i])

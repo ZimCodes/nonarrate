@@ -1,5 +1,5 @@
 import unittest
-from ..fixture import get_dialogue_list
+from  tests.fixture import get_dialogue_list
 from lib.validator.speaker import (
     ObjectNoneItemStrategy,
     BasicCharacterStrategy,

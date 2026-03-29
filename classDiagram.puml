@@ -132,10 +132,10 @@ enum FilterTag {
   BASIC_NARR
   BASIC_CHAR_OBJ
   NONE_CHAR_OBJ
+  EXPRESSION_CUES
   NO_CUSTOM_CHAR_OBJS
   NO_CUSTOM_TEXT_TAGS
   NO_CUSTOM_CHARS
-  NO_EXPRESSION_CUES
 }
 
 'Validator Relations
@@ -152,7 +152,6 @@ CharacterStrategy <|-- BasicCharacterStrategy
 ObjectStrategy <|-- BasicObjectStrategy
 ObjectStrategy <|-- ObjectNoneItemStrategy
 Reader <|-- RenpyReader
-UniqueConst <|-- RemoveUniqueConst
 
 'Argument Relations
 ArgChecker ..> CLIParser : uses
