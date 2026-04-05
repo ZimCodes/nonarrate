@@ -15,4 +15,4 @@ class CustomTextTagStrategy(IValidatorChainSolo):
 
     def __init__(self, tag_name: str, next_validator: "IValidatorChainSolo | None" = None) -> None:
         super().__init__(next_validator)
-        self._validate_pat = re.compile(rf'[^=]+([\'"]){{(?:{tag_name})(?:=[^}}]+)?}}.+(?:{{/?(?:{tag_name})}})?(?:\s*|\.\s*)?\1?')
+        self._validate_pat = re.compile(rf'[^=]+([\'"]){{(?:{tag_name})(?:=[^}}]+)?}}.+(?:{{/?(?:{tag_name})}})?[.?!]?\s*\1?')
