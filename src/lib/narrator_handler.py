@@ -50,6 +50,8 @@ class NarratorHandler:
         """
         self.__reset_line_stats()
         label_check = {"is_choice_menu": False, "is_image_label": False}
+        double_quote = '"'
+        single_quote = "'"
         for file_info in file_infos:
             self._total_lines += len(file_info.lines)
             cleaned_lines = []
@@ -60,7 +62,7 @@ class NarratorHandler:
                 strip_line = line.strip()
                 if self.__is_comment(strip_line):
                     continue
-                endswith_quote = strip_line.endswith('"')
+                endswith_quote = strip_line.endswith(double_quote) or strip_line.endswith(single_quote)
                 # If narrator is multiline. Ex:
                 # narr ".....................
                 # ....................."
