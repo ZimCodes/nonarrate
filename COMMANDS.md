@@ -271,8 +271,10 @@ this can be achieved *visually*.
 Expression cue examples:
 
 - \*smiles\*
+- \~yawns\~
 - \*crosses arms\*
 - \*shakes head in disbelief\*
+- \~burps loudly\~
 - \*laughs maniacally\*
 
 - - -

@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "2.1.1"
+        self.__version_num = "2.1.2"
         self.__setup()
 
     def __setup(self):
@@ -37,7 +37,6 @@ class CLIParser:
     def __init_parser_groups(self):
         self.__search_group = self.__parser.add_argument_group("File Search", "Limits the search for .rpy files.")
         self.__filter_group = self.__parser.add_argument_group("Filters", "Types of narration to remove.")
-        
 
     def __configure_opts(self):
         self.__add_arg(
@@ -112,7 +111,7 @@ class CLIParser:
             FilterTag.PARENTHESIS_NARR.value: "Keep dialogue fully wrapped in a parenthesis",
             FilterTag.BASIC_CHAR.value: "Keep [default narrators] not saved to a Character object",
             FilterTag.NONE_CHAR_OBJ.value: "Keep empty Character objects.",
-            FilterTag.EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, *raises eyebrows*."
+            FilterTag.EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, ~raises eyebrows~.",
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(
