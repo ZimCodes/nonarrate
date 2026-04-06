@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "2.1.2"
+        self.__version_num = "2.1.3"
         self.__setup()
 
     def __setup(self):

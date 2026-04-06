@@ -1,5 +1,5 @@
 import unittest
-from  tests.fixture import get_dialogue_list
+from tests.fixture import get_dialogue_list
 from lib.validator.speaker import (
     ObjectNoneItemStrategy,
     BasicCharacterStrategy,
@@ -37,11 +37,13 @@ class TestCharacter(unittest.TestCase):
                     'default ip = Character ("Ipol Thought")',
                     'define uma = Character  ("Umeha", kind=base)',
                     'define l = Character   ("Linda")',
+                    "define empty = Character()",
+                    "define empty2 = Character(    )",
                     'define po = Character   ("")',
                     'define pop = Character( "" , what_color="FFFF00")',
                     'define pop2 = Character( " " , what_color="FFFF00")',
-                    'define pop3 = Character( \' \' , what_color="FFFF00")',
-                    'define pop4 = Character( \'\' , what_color="FFFF00")',
+                    "define pop3 = Character( ' ' , what_color=\"FFFF00\")",
+                    "define pop4 = Character( '' , what_color=\"FFFF00\")",
                     'define b_ = Character("Balum", what_italic=True)',
                     'define bi_ = Character("Bilf",what_color="#FFFF00", what_italic=True)',
                     'define bik_ = Character("Bikwaski", what_color="#FFFF00", what_italic= True)',
@@ -49,14 +51,14 @@ class TestCharacter(unittest.TestCase):
                     'default sind = Character("", what_color="#FFFF00", what_italic = True)',
                     'default nigel = Character("Nigel", "", what_italic = True)',
                     'define zy = Character(ctc="ctc_animation", ctc_position="fixed", window_top_padding = -60)',
-                    'define none2 = Character(name=None)',
+                    "define none2 = Character(name=None)",
                     'define none3 = Character(None,ctc="ctc_animation", ctc_position="fixed", window_top_padding = -60)',
                     'define none4 = Character(name=None, ctc="ctc_animation", ctc_position="fixed", window_top_padding = -60)',
-                    'default translate = Character(_())',
+                    "default translate = Character(_())",
                     'default translate2 = Character(_(""))',
-                    'default translate3 = Character(_(\'\'))',
-                    'default translate4 = Character( _(\'\'))',
-                    'default translate5 = Character( _( \' \' ))',
+                    "default translate3 = Character(_(''))",
+                    "default translate4 = Character( _(''))",
+                    "default translate5 = Character( _( ' ' ))",
                 ],
             )
         ]
@@ -135,6 +137,8 @@ class TestCharacter(unittest.TestCase):
             69: 'translate3 "And so the story would move forward."',
             70: 'translate4 "And so the story would move forward."',
             71: 'translate5 "And so the story would move forward."',
+            72: 'empty "And so the story would move forward."',
+            73: 'empty2 "And so the story would move forward."',
         }
 
     def setUp(self) -> None:
@@ -176,10 +180,12 @@ class TestCharacter(unittest.TestCase):
         self.start_object(ObjectStrategy("base"), [39, 40, 50])
 
     def test_basic_object_char(self):
-        self.start_object(BasicObjectStrategy(), [35,41, 42, 44, 45,48])
+        self.start_object(BasicObjectStrategy(), [35, 41, 42, 44, 45, 48])
 
     def test_object_none_char_item(self):
-        self.start_object(ObjectNoneItemStrategy(), [46, 47, 51, 56, 57, 58, 60,61,62,63,64,65,66,67,68,69,70,71])
+        self.start_object(
+            ObjectNoneItemStrategy(), [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73]
+        )
 
     def test_chaining(self):
         self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [35, 39, 40, 41, 42, 44, 45, 48, 50])
