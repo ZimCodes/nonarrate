@@ -29,4 +29,3 @@ class Writer:
         backup_dir_path.mkdir(parents=True, exist_ok=True)
         for file_path in file_paths:
             shutil.copy(file_path, backup_dir_path)
-        Log.complete("Backup")

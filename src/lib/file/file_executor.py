@@ -44,11 +44,10 @@ class FileExecutor:
     def fix_errors(cls, error_txt: pathlib.Path, reader: Reader):
         Log.wait(f"Parsing errors from {error_txt}")
         errors = ErrorFixer.get_errors(error_txt, reader)
-        Log.complete("Error parsing")
         with ThreadPoolExecutor(cls.max_workers) as ex:
             Log.wait("Fixing errors")
             ex.map(cls.__fix_func, errors.values())
-        Log.log("DONE! Enjoy!")
+        Log.log("----------> DONE! Enjoy!")
 
     @classmethod
     def __fix_func(cls, errors: list[RenpyError]):

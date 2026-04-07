@@ -74,13 +74,13 @@ class  NarratorHandler <<Singleton>>{
   {static}+PAUSE_STATEMENTS:tuple<str>
   {static}+DOUBLE_QUOTE: str
   {static}+SINGLE_QUOTE: str
-	+remove(fileInfos:List<FileInfo>,args:Namespace): List<Dictionary<str,List<str>>>
+  +remove(fileInfos:List<FileInfo>,args:Namespace): List<Dictionary<str,List<str>>>
   +getIdentNum(line:str):int
   -isComment(line:str):bool
   -isImageLabel(line:str):bool
   -resetLineStats()
   -lineStats(): Tuple<int,int>
-	-correctIndent(fileInfos:List<FileInfo>): List<FileInfo>
+  -correctIndent(fileInfos:List<FileInfo>): List<FileInfo>
   -pauseFilter(fileInfos:List<FileInfo>): List<FileInfo>
 }
 class  ErrorFixer <<Singleton>>{

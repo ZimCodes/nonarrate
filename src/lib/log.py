@@ -12,7 +12,3 @@ class Log:
     @classmethod
     def wait(cls, text: str):
         cls.log(f"{text}...")
-
-    @classmethod
-    def complete(cls, text: str):
-        cls.log(f"{text} complete!")
