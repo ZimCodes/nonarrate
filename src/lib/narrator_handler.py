@@ -1,5 +1,6 @@
 from .custom_types import FileInfo
 import typing
+import re
 
 
 @typing.final
@@ -16,6 +17,7 @@ class NarratorHandler:
     PAUSE_STATEMENTS: tuple[str, str] = ("pause", "$ renpy.pause")
     DOUBLE_QUOTE: str = '"'
     SINGLE_QUOTE: str = "'"
+    __alt_pat: re.Pattern = re.compile(r".*\b(?:image|layeredimage|show|scene|transform)\b[^:]+:")
 
     def __init__(self) -> None:
         self._total_lines = 0
@@ -31,6 +33,9 @@ class NarratorHandler:
 
     def __is_comment(self, strip_line: str) -> bool:
         return strip_line.startswith("\ufeff#") or strip_line.startswith("#")
+
+    def __is_atl_block(self, strip_line: str) -> bool:
+        return True if self.__alt_pat.match(strip_line) else False
 
     def __reset_line_stats(self):
         self._total_cleaned_lines = 0
@@ -58,6 +63,7 @@ class NarratorHandler:
             image_label_indent = 0
             prev_line_info = {"is_narr": False, "line": "", "multiline": list()}
             is_multi_line = False
+            alt_info = {"indent": 0, "is": False}
             for line in file_info.lines:
                 strip_line = line.strip()
                 if self.__is_comment(strip_line):
@@ -65,6 +71,22 @@ class NarratorHandler:
                 endswith_quote = strip_line.endswith(NarratorHandler.DOUBLE_QUOTE) or strip_line.endswith(
                     NarratorHandler.SINGLE_QUOTE
                 )
+                # REF:https://www.renpy.org/doc/html/transforms.html#atl-animation-and-transformation-language
+                # Example:
+                # init -2 layeredimage augustina:
+                #   "image_smile.png"
+                if alt_info["is"]:
+                    if self.get_indent_num(line) > alt_info["indent"]:
+                        cleaned_lines.append(line)
+                        continue
+                    else:
+                        alt_info["is"] = False
+                elif self.__is_atl_block(strip_line):
+                    alt_info["is"] = True
+                    alt_info["indent"] = self.get_indent_num(line)
+                    cleaned_lines.append(line)
+                    continue
+
                 # If narrator is multiline. Ex:
                 # narr ".....................
                 # ....................."
@@ -85,9 +107,9 @@ class NarratorHandler:
                     label_check["is_image_label"] = True
                     image_label_indent = self.get_indent_num(line)
                 elif (
-                    label_check["is_image_label"]
-                    and self.get_indent_num(line) <= image_label_indent
-                    and not self.__is_image_label(strip_line)
+                        label_check["is_image_label"]
+                        and self.get_indent_num(line) <= image_label_indent
+                        and not self.__is_image_label(strip_line)
                 ):
                     label_check["is_image_label"] = False
 
@@ -95,13 +117,13 @@ class NarratorHandler:
                     if label_check["is_choice_menu"] or not is_narrator:
                         cleaned_lines.append(line)
                     elif (
-                        args.pauses
-                        and is_narrator
-                        and not prev_line_info["line"].strip().startswith(NarratorHandler.PAUSE_STATEMENTS)
-                        and len(cleaned_lines)
-                        and not cleaned_lines[len(cleaned_lines) - 1]
-                        .strip()
-                        .startswith(NarratorHandler.PAUSE_STATEMENTS)
+                            args.pauses
+                            and is_narrator
+                            and not prev_line_info["line"].strip().startswith(NarratorHandler.PAUSE_STATEMENTS)
+                            and len(cleaned_lines)
+                            and not cleaned_lines[len(cleaned_lines) - 1]
+                            .strip()
+                            .startswith(NarratorHandler.PAUSE_STATEMENTS)
                     ):
                         # Replaces narration with pauses
                         cleaned_lines.append(
@@ -163,14 +185,14 @@ class NarratorHandler:
                 elif len(prev_indent_info):
                     line_indent_num = self.get_indent_num(line)
                     if (
-                        (prev_indent_info["indent"] < line_indent_num)
-                        # labels do not need to follow strict indentation
-                        # Valid example:
-                        # label my_cool_label:
-                        # scene 103
-                        # mc "esvebrewsgr"
-                        or prev_indent_info["indent"] == line_indent_num
-                        and prev_indent_info["line"].lstrip().startswith("label ")
+                            (prev_indent_info["indent"] < line_indent_num)
+                            # labels do not need to follow strict indentation
+                            # Valid example:
+                            # label my_cool_label:
+                            # scene 103
+                            # mc "esvebrewsgr"
+                            or prev_indent_info["indent"] == line_indent_num
+                            and prev_indent_info["line"].lstrip().startswith("label ")
                     ):
                         cleaned_lines.append(prev_indent_info["line"])
                         cleaned_lines.append(line)
