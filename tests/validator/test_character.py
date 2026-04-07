@@ -139,6 +139,15 @@ class TestCharacter(unittest.TestCase):
             71: 'translate5 "And so the story would move forward."',
             72: 'empty "And so the story would move forward."',
             73: 'empty2 "And so the story would move forward."',
+            # with clause
+            74: '"Narrator" "Today I heard something new and unmemorable." with vpunch',
+            75: '"maya" "Today I heard something new and unmemorable." with vpunch',
+            76: "'Caliek' 'Today I heard something new and unmemorable.' with vpunch",
+            77: 'marco "And so the story would move forward." with vpunch',
+            78: 'carsi "And so the story would move forward." with vpunch',
+            79: 'none "And so the story would move forward." with vpunch',
+            80: 'b_ "And so the story would move forward." with vpunch',
+            81: 'l "And so the story would move forward." with vpunch',
         }
 
     def setUp(self) -> None:
@@ -165,30 +174,31 @@ class TestCharacter(unittest.TestCase):
     def test_basic_char(self):
         self.start(
             BasicCharacterStrategy(),
-            [3, 7, 8, 9, 10, 11, 12, 13, 14, 22, 23, 24, 25, 26, 27, 33],
+            [3, 7, 8, 9, 10, 11, 12, 13, 14, 22, 23, 24, 25, 26, 27, 33, 74],
         )
 
     def test_custom_char(self):
-        self.start(CharacterStrategy("maya"), [21, 22, 23, 24, 25, 26, 27, 31, 32, 33])
+        self.start(CharacterStrategy("maya"), [21, 22, 23, 24, 25, 26, 27, 31, 32, 33, 75])
         # Single quotes and multi line test
-        self.start(CharacterStrategy("Caliek"), [34])
+        self.start(CharacterStrategy("Caliek"), [34, 76])
 
     def test_object_char(self):
-        self.start_object(ObjectStrategy("Marco"), [35])
+        self.start_object(ObjectStrategy("Marco"), [35, 77])
 
     def test_object_char_item(self):
-        self.start_object(ObjectStrategy("base"), [39, 40, 50])
+        self.start_object(ObjectStrategy("base"), [39, 40, 50, 78])
 
     def test_basic_object_char(self):
-        self.start_object(BasicObjectStrategy(), [35, 41, 42, 44, 45, 48])
+        self.start_object(BasicObjectStrategy(), [35, 41, 42, 44, 45, 48, 77])
 
     def test_object_none_char_item(self):
         self.start_object(
-            ObjectNoneItemStrategy(), [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73]
+            ObjectNoneItemStrategy(),
+            [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 79]
         )
 
     def test_chaining(self):
-        self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [35, 39, 40, 41, 42, 44, 45, 48, 50])
+        self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78])
 
     def test_spaces(self):
         """Test spaces between character object and calling parenthesis.
@@ -196,8 +206,8 @@ class TestCharacter(unittest.TestCase):
         Example:
             default n = Character     ('Nadia')
         """
-        self.start_object(ObjectStrategy(["Linda", "Umeha"]), [49, 50])
+        self.start_object(ObjectStrategy(["Linda", "Umeha"]), [49, 50, 81])
 
     def test_italic_object(self):
         """Test if Character object has 'what_italic=True' parameter."""
-        self.start_object(ItalicObjectStrategy(), [52, 53, 54, 55, 58, 59])
+        self.start_object(ItalicObjectStrategy(), [52, 53, 54, 55, 58, 59, 80])

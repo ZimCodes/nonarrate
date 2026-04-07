@@ -219,6 +219,28 @@ class TestDialogue(unittest.TestCase):
             195: "myvar = '~Smiles very softly~'",
             196: '"Hey! That was not berry nices!',
             197: '"Hey! That was not berry nices!:',
+            # with clause
+            199: '"Hey! That was not berry nices!" with vpunch',
+            200: 'mc "{i}Hey! That was not berry nices!" with vpunch',
+            201: 'mc "{i}Hey! That was not berry nices!{/i}" with vpunch',
+            202: '"Narrator" "{i}Hey! That was not berry nices!" with vpunch',
+            203: '"Narrator" "{i}Hey! That was not berry nices!{/i}" with vpunch',
+            204: 'mc "(Hey! That was not berry nices!" with vpunch',
+            205: 'mc "(Hey! That was not berry nices!)" with vpunch',
+            206: '"Narrator" "(Hey! That was not berry nices!" with vpunch',
+            207: '"Narrator" "(Hey! That was not berry nices!)" with vpunch',
+            208: 'mc "{fzs}Hey! That was not berry nices!" with vpunch',
+            209: 'mc "{fzs}(Hey! That was not berry nices!{/fzs}" with vpunch',
+            210: '"Narrator" "{fzs}Hey! That was not berry nices!" with vpunch',
+            211: '"Narrator" "{fzs}(Hey! That was not berry nices!{/fzs}" with vpunch',
+            212: 'mc "{fzs=100}Hey! That was not berry nices!" with vpunch',
+            213: 'mc "{fzs=100}(Hey! That was not berry nices!{/fzs}" with vpunch',
+            214: '"Narrator" "{fzs=100}Hey! That was not berry nices!" with vpunch',
+            215: '"Narrator" "{fzs=100}(Hey! That was not berry nices!{/fzs}" with vpunch',
+            216: 'mc "*Hey! That was not berry nices!*" with vpunch',
+            217: 'mc "~Hey! That was not berry nices!~" with vpunch',
+            218: '"Narrator" "*Hey! That was not berry nices!*" with vpunch',
+            219: '"Narrator" "~Hey! That was not berry nices!~" with vpunch',
         }
 
     def validate_lines(self):
@@ -236,22 +258,24 @@ class TestDialogue(unittest.TestCase):
         self.validate_lines()
 
     def test_basic(self):
-        self.start(BasicStrategy(), [0, 4,5,6, 38, 73, 132,164,196])
+        self.start(BasicStrategy(), [0, 4, 5, 6, 38, 73, 132, 164, 196, 199])
 
     def test_parenthesis(self):
-        self.start(ParenthesisStrategy(), [12,13,14,15,16,17,18, 24,25,26,27,28,29,30])
+        self.start(ParenthesisStrategy(), [12, 13, 14, 15, 16, 17, 18, 24, 25, 26, 27, 28, 29, 30, 204, 205, 206, 207])
 
     def test_italic(self):
-        self.start(ItalicStrategy(), [44,45,46,47,48,49,50,51,57,58,59,60,61,62,63,64])
+        self.start(ItalicStrategy(),
+                   [44, 45, 46, 47, 48, 49, 50, 51, 57, 58, 59, 60, 61, 62, 63, 64, 200, 201, 202, 203])
 
     def test_custom_tags(self):
         self.start(
             CustomTextTagStrategy("fzs|pyw"),
-            [76,77,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,98,99,101,102,103,104,105,106,107,108,109,110,111,112,113],
+            [76, 77, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 98, 99, 101, 102, 103, 104,
+             105, 106, 107, 108, 109, 110, 111, 112, 113, 208, 209, 210, 211, 212, 213, 214, 215],
         )
 
     def test_cues_asterisk(self):
-        self.start(ExpressionCueAsteriskStrategy(), [138,139,140,141,143,150,151,152,153,155])
+        self.start(ExpressionCueAsteriskStrategy(), [138, 139, 140, 141, 143, 150, 151, 152, 153, 155, 216, 218])
 
     def test_cues_tilda(self):
-        self.start(ExpressionCueTildaStrategy(),[170,171,172,173,175,182,183,184,185,187])
+        self.start(ExpressionCueTildaStrategy(), [170, 171, 172, 173, 175, 182, 183, 184, 185, 187, 217, 219])
