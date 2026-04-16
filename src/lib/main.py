@@ -7,7 +7,6 @@ from lib.validator.speaker import ObjectStrategy
 
 def run():
     parser = CLIParser()
-    Log.wait("Parsing user input")
     arg_namespace = parser.parse_args()
     reader = RenpyReader()
     file_executor = FileExecutor()
