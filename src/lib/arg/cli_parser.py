@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "2.2.0"
+        self.__version_num = "2.2.1"
         self.__setup()
 
     def __setup(self):
@@ -108,7 +108,8 @@ class CLIParser:
                      "camera",
                      "credits",
                      "splashscreen",
-                     "transitions"},
+                     "transitions",
+                     "transforms"},
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files.",
         )
