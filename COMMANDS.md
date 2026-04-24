@@ -36,9 +36,9 @@ MyRenpyProject/
 - **Typical workflow:**
   1. Use *nonarrate*
   2. Run game and get error message(s).
-  3. Close game and use nonarrate on generated `errors.txt` file.
-  4. Run game again.
-  - If more errors appear, Repeat 2-4
+  3. Keep game running and use nonarrate on generated `errors.txt` file.
+  4. Click **Reload**.
+  - If more errors appear, Repeat steps 3 and 4
   > **OR**
   - **Debug** the issue yourself by taking advantage
   of the features nonarrate provides, which includes:

@@ -112,7 +112,7 @@ class CLIParser:
                      "splashscreen",
                      "transitions",
                      "transforms",
-                     "achievement"
+                     "achievement",
                      "achievements"
                      },
             metavar="IGNORE_FILES",
