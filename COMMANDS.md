@@ -117,6 +117,8 @@ Ignore specified folders when looking for *.rpy* files.
 nonarrate will search subdirectories starting from the folder you point it to for
 *.rpy* files. Use this option to prevent certain directories from being searched.
 
+Nonarrate will ignore certain folders by default. See [IGNORED_FILES.md](./IGNORED_FILES.md) for list.
+
 ***--invalid-files*** `<filename...>`
 
 ```bash
@@ -128,6 +130,8 @@ Ignore specified *.rpy* files when looking for *.rpy* files.
 
 nonarrate will ignore the specified files when searching for *.rpy* files. Can
 be used with `--invalid-globs`.
+
+Nonarrate will ignore certain files by default. See [IGNORED_FILES.md](./IGNORED_FILES.md) for list
 
 ***NOTE: Do *not* include `.rpy`. nonarrate will automatically assume this file type!**
 

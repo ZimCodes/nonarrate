@@ -150,8 +150,10 @@ class NarratorHandler:
                     prev_line_info["multiline"].clear()
                     prev_line_info["multiline"].append(line)
                     continue
-                prev_line_info["is_narr"] = is_narrator
-                prev_line_info["line"] = line
+                    
+                if strip_line != "":
+                    prev_line_info["is_narr"] = is_narrator
+                    prev_line_info["line"] = line
 
             file_info.lines = cleaned_lines
         if args.pauses:
