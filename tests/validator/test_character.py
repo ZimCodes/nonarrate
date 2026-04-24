@@ -7,6 +7,7 @@ from lib.validator.speaker import (
     ObjectStrategy,
     BasicObjectStrategy,
     ItalicObjectStrategy,
+    ObjectVarStrategy
 )
 from lib.validator.ivalidator_chain import IValidatorChain
 from lib.custom_types import FileInfo
@@ -191,7 +192,7 @@ class TestCharacter(unittest.TestCase):
         self.start_object(ObjectStrategy("base"), [39, 40, 50, 78])
 
     def test_basic_object_char(self):
-        self.start_object(BasicObjectStrategy(), [35, 41, 42, 44, 45, 48, 77,82])
+        self.start_object(BasicObjectStrategy(), [35, 41, 42, 44, 45, 48, 77, 82])
 
     def test_object_none_char_item(self):
         self.start_object(
@@ -200,7 +201,7 @@ class TestCharacter(unittest.TestCase):
         )
 
     def test_chaining(self):
-        self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78,82])
+        self.start_object(BasicObjectStrategy(ObjectStrategy("base")), [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78, 82])
 
     def test_spaces(self):
         """Test spaces between character object and calling parenthesis.
@@ -212,4 +213,7 @@ class TestCharacter(unittest.TestCase):
 
     def test_italic_object(self):
         """Test if Character object has 'what_italic=True' parameter."""
-        self.start_object(ItalicObjectStrategy(), [52, 53, 54, 55, 58, 59, 80,82])
+        self.start_object(ItalicObjectStrategy(), [52, 53, 54, 55, 58, 59, 80, 82])
+
+    def test_object_var(self):
+        self.start_object(ObjectVarStrategy("pop"), [57])

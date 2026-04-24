@@ -161,13 +161,14 @@ ___
 
 These filters deal with the **speaker** portion of a dialogue box.
 
-| Commands                         | Script Example                                             | Description                                                         |
-|----------------------------------|------------------------------------------------------------|---------------------------------------------------------------------|
-| --basic-char-obj               | n = Character(“Narrator”, …)                               | [Default narrators](#default-narrators) saved to character object.                                 |
-| --no-custom-char-objs,<br>--ncco | d = Character(“Developer”, …)                              | Custom speaker saved to character object |
-| --basic-char                      | “Narrator” “It was a sunny day.”                           | [Default narrators](#default-narrators) wrapped in quotes. |
-| --none-char-obj | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥)| Narrators using an empty character object. In short, nothing in the `name` parameter. |
-| --no-custom-chars,<br>--ncc      | “Lily's Inner Self” “It would be a good idea to distract them first” | Custom Speaker wrapped in quotes |
+| Commands                              | Script Example                                                                                                                          | Description                                                                                           |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| --basic-char-obj                      | n = Character(“Narrator”, …)                                                                                                            | [Default narrators](#default-narrators) saved to character object.                                    |
+| --no-custom-char-objs,<br>--ncco      | d = Character(“Developer”, …)                                                                                                           | Custom speaker saved to character object by their _in-game_ name. In this example, its `"Developer"`. |
+| --basic-char                          | “Narrator” “It was a sunny day.”                                                                                                        | [Default narrators](#default-narrators) wrapped in quotes.                                            |
+| --none-char-obj                       | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥) | Narrators using an empty character object. In short, nothing in the `name` parameter.                 |
+| --no-custom-chars,<br>--ncc           | “Lily's Inner Self” “It would be a good idea to distract them first”                                                                    | Custom Speaker wrapped in quotes                                                                      |
+| --no-custom-char-var-objs,<br>--nccvo | se = Character("Sue", …)                                                                                                                | Custom speaker saved to character object by their _variable_ name. In this example, its `se`.         |
 
 ***—basic-char-obj***
 
@@ -187,10 +188,26 @@ will remove *all* [default narrators](#default-narrators) saved to a character o
 nonarrate mycoolgame\game --no-custom-char-objs Wilson Marisa "Kyli Naya"
 ```
 
-Removes speaker(s) saved to a `Character` object.
+Removes speaker(s) saved to a `Character` object by their in-game name.
 
-Sometimes, a narrator takes on the form of a character in game. Instead of being explicitly named *Narrator*, the
-narrator can introduce itself as *Emily*, *Dev*, *The Chosen One*, or anything else…
+Sometimes, a narrator takes on the form of a character in game. Instead of being explicitly named *Narrator*, in-game,
+the narrator can introduce itself as *Emily*, *Dev*, *The Chosen One*, or anything else… in-game.
+
+**Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.  See [REGEX Examples](#regex-examples) for examples.
+
+***—no-custom-char-var-objs***, ***—nccvo*** `<speaker name>...`
+
+```bash
+# Removes speakers whose variable names in an `.rpy` file are: nt, bik, naomi
+nonarrate mycoolgame\game --no-custom-char-var-objs nt bik naomi
+```
+
+Removes speaker(s) saved to a `Character` object by their _variable_ name.
+
+Sometimes it is easier to remove a narrator based on the variable's name the Character object is saved to.
+
+To find the variable name, you must look into the `.rpy` files. A variable is defined as follows:
+`define <variable-name> = Character` or `default <variable-name> = Character`.
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.  See [REGEX Examples](#regex-examples) for examples.
 

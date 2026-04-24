@@ -6,7 +6,7 @@ from lib.validator.null_strategy import NullStrategy
 from tests import fixture
 from lib.custom_types import FilterTag
 from lib.validator.speaker import ObjectNoneItemStrategy, ObjectStrategy, CharacterStrategy, BasicObjectStrategy, \
-    ItalicObjectStrategy
+    ItalicObjectStrategy, ObjectVarStrategy
 from lib.validator.dialogue import CustomTextTagStrategy, ParenthesisStrategy, ExpressionCueAsteriskStrategy, \
     ExpressionCueTildaStrategy, ItalicStrategy
 
@@ -67,9 +67,12 @@ class TestArgAssembler(unittest.TestCase):
             "narr",
             "ben",
             "karla",
+            FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value,
+            "naomi",
+            "se",
         ]
         self.start(
-            args, {NullStrategy, ObjectNoneItemStrategy, CustomTextTagStrategy, CharacterStrategy, ObjectStrategy}
+            args, {NullStrategy, ObjectNoneItemStrategy, CustomTextTagStrategy, CharacterStrategy, ObjectStrategy,ObjectVarStrategy}
         )
 
     def test_regex_chain(self):

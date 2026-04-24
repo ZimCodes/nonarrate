@@ -13,6 +13,7 @@ class FilterTag(Enum):
     NO_CUSTOM_TEXT_TAGS = "--no-custom-tags"
     NO_CUSTOM_CHARS = "--no-custom-chars"
     NO_CUSTOM_CHAR_OBJS = "--no-custom-char-objs"
+    NO_CUSTOM_CHAR_VAR_OBJS = "--no-custom-char-var-objs"
 
 
 @dataclass

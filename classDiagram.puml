@@ -31,6 +31,7 @@ class ObjectNoneItemStrategy
 'Ex: define narr = Character("Mi", what_italic=True)
 class ItalicObjectStrategy
 class NullStrategy
+class ObjectVarStrategy
 
 class ItalicStrategy
 class ParenthesisStrategy
@@ -154,6 +155,7 @@ CharacterStrategy <|-- BasicCharacterStrategy
 ObjectStrategy <|-- BasicObjectStrategy
 ObjectStrategy <|-- ObjectNoneItemStrategy
 ObjectStrategy <|-- ItalicObjectStrategy
+ObjectStrategy <|-- ObjectVarStrategy
 Reader <|-- RenpyReader
 
 'Argument Relations

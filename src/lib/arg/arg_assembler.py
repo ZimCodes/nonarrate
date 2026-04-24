@@ -11,7 +11,7 @@ from lib.validator.speaker import (
     BasicCharacterStrategy,
     CharacterStrategy,
     BasicObjectStrategy,
-    ItalicObjectStrategy,
+    ItalicObjectStrategy, ObjectVarStrategy,
 )
 from lib.custom_types import FilterTag
 
@@ -30,7 +30,8 @@ class ArgAssembler:
         FilterTag.NO_CUSTOM_TEXT_TAGS.value: CustomTextTagStrategy,
         FilterTag.NO_CUSTOM_CHARS.value: CharacterStrategy,
         FilterTag.NO_CUSTOM_CHAR_OBJS.value: ObjectStrategy,
-        FilterTag.EXPRESSION_CUES.value: [ExpressionCueAsteriskStrategy, ExpressionCueTildaStrategy]
+        FilterTag.EXPRESSION_CUES.value: [ExpressionCueAsteriskStrategy, ExpressionCueTildaStrategy],
+        FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value: ObjectVarStrategy
     }
 
     @classmethod
@@ -70,6 +71,9 @@ class ArgAssembler:
         )
         current_validator = cls.__narg_filter(
             current_validator, cls.__escape(args, args.no_custom_char_objs), FilterTag.NO_CUSTOM_CHAR_OBJS.value
+        )
+        current_validator = cls.__narg_filter(
+            current_validator, cls.__escape(args, args.no_custom_char_var_objs), FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value
         )
 
     @staticmethod

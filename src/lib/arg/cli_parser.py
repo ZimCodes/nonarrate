@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "2.2.2"
+        self.__version_num = "2.3.0"
         self.__setup()
 
     def __setup(self):
@@ -153,7 +153,14 @@ class CLIParser:
             "--ncco",
             metavar="SPEAKER_OBJECT_NAMES",
             nargs="*",
-            help="Removes speaker(s) saved to a Character object",
+            help="Removes speaker(s) saved to a Character object by their 'in-game' name.",
+        )
+        self.__add_filter_arg(
+            FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value,
+            "--nccvo",
+            metavar="SPEAKER_OBJECT_VARIABLE_NAMES",
+            nargs="*",
+            help="Removes speaker(s) saved to a Character object by their 'variable' name."
         )
 
     def __add_no_filters(self, optnames: dict[str, str]):
