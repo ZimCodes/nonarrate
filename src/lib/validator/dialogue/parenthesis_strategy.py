@@ -14,4 +14,4 @@ class ParenthesisStrategy(IValidatorChainSolo):
 
     def __init__(self, next_validator: "IValidatorChainSolo | None" = None) -> None:
         super().__init__(next_validator)
-        self._validate_pat = re.compile(r'^[^=]+([\'"])(?:{\w+(?:=[^}]+)?})*\([^()]+\)?(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)\s*(?:\1|\1\s*with .+)?$')
+        self._validate_pat = re.compile(r'^[^=]+([\'"])(?:{\w+(?:=[^}]+)?})*\\?\([^()]+(?:\\?\))?(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)\s*(?:\1|\1\s*with .+)?$')

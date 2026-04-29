@@ -266,8 +266,9 @@ class TestDialogue(unittest.TestCase):
             239: 'mc "{tag}{i}Smiles very softly"',
             240: 'mc "{tag}(Smiles very softly)"',
             241: 'mc "{tag}(Smiles very softly"',
-            # Extras
-            242: 'mc "(Whenever you are ready! Okay?"'
+            # Parentheses
+            242: 'mc "(Whenever you are ready! Okay?"',
+            243: 'mc "\\(This is going to be difficult to explain.\\)"',
         }
 
     def validate_lines(self):
@@ -290,7 +291,7 @@ class TestDialogue(unittest.TestCase):
     def test_parenthesis(self):
         self.start(ParenthesisStrategy(),
                    [12, 13, 14, 15, 16, 17, 18, 24, 25, 26, 27, 28, 29, 30, 206, 207, 208, 209, 211, 213, 215, 217, 230,
-                    231, 235, 240, 241, 242])
+                    231, 235, 240, 241, 242,243])
 
     def test_italic(self):
         self.start(ItalicStrategy(),
