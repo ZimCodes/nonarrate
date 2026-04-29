@@ -1,4 +1,4 @@
-from .custom_types import FileInfo
+from .custom_types import FileInfo, MultiLineType
 import typing
 import re
 
@@ -39,6 +39,12 @@ class NarratorHandler:
     def __is_closing(self,strip_line: str) -> bool:
         return True if self.__closing_pat.search(strip_line) else False
 
+    def __endswith_triple_quote(self,strip_line: str) -> bool:
+        return strip_line.endswith("'''") or strip_line.endswith('"""')
+
+    def __is_triple_quote(self,strip_line: str) -> bool:
+        return strip_line == '"""' or strip_line == "'''"
+
     def __reset_line_stats(self):
         self._total_cleaned_lines = 0
         self._total_lines = 0
@@ -51,7 +57,7 @@ class NarratorHandler:
 
         Along with the removal operation, cleanup operations are executed afterwards.
 
-        Args:
+        args:
             file_infos: a list of file information including their content and location.
 
         Returns:
@@ -64,10 +70,13 @@ class NarratorHandler:
             cleaned_lines = []
             image_label_indent = 0
             prev_line_info = {"is_narr": False, "line": "", "multiline": list()}
-            is_multi_line = False
+            multi_line_type = MultiLineType.NONE
             alt_info = {"indent": 0, "is": False}
             for line in file_info.lines:
                 strip_line = line.strip()
+                is_triple_quote = self.__is_triple_quote(strip_line)
+                is_triple_quote_end = True if is_triple_quote else self.__endswith_triple_quote(strip_line)
+                is_menu = strip_line.startswith("menu:")
                 if self.__is_comment(strip_line):
                     continue
                 # REF:https://www.renpy.org/doc/html/transforms.html#atl-animation-and-transformation-language
@@ -89,16 +98,26 @@ class NarratorHandler:
                 # If narrator is multiline. Ex:
                 # narr ".....................
                 # ....................."
-                if is_multi_line:
-                    if self.__is_closing(strip_line):
-                        is_multi_line = False
-                        if args.pauses:
-                            # Replaces narration with pauses
-                            cleaned_lines.append(
-                                f"{' ' * self.get_indent_num(line)}{NarratorHandler.PAUSE_STATEMENTS[0]}\n"
-                            )
-                    prev_line_info["multiline"].append(line)
+                if multi_line_type is not MultiLineType.NONE:
+                    if multi_line_type is MultiLineType.VALID_TRIPLE_QUOTE:
+                        if is_triple_quote_end:
+                            multi_line_type = MultiLineType.NONE
+                        cleaned_lines.append(line)
+                    else:
+                        if ((multi_line_type is MultiLineType.ONE_QUOTE and self.__is_closing(strip_line))
+                                or (multi_line_type is MultiLineType.TRIPLE_QUOTE and is_triple_quote_end)):
+                            multi_line_type = MultiLineType.NONE
+                            if args.pauses:
+                                # Replaces narration with pauses
+                                cleaned_lines.append(
+                                    f"{' ' * self.get_indent_num(line)}{NarratorHandler.PAUSE_STATEMENTS[0]}\n"
+                                )
+                        prev_line_info["multiline"].append(line)
                     continue
+
+                if not is_menu and strip_line != "":
+                    prev_line_info["multiline"].clear()
+
                 is_narrator = args.validator.is_valid(strip_line)
 
                 # An 'image <label_name>:' is in use.
@@ -114,7 +133,8 @@ class NarratorHandler:
 
                 if not label_check["is_image_label"]:
                     if label_check["is_choice_menu"] or not is_narrator:
-                        cleaned_lines.append(line)
+                        if not is_triple_quote:
+                            cleaned_lines.append(line)
                     elif (
                             args.pauses
                             and is_narrator
@@ -130,7 +150,7 @@ class NarratorHandler:
                         )
 
                     # Keeps the narrator during choice menu appearance
-                    if strip_line.startswith("menu:"):
+                    if is_menu:
                         label_check["is_choice_menu"] = True
                         if prev_line_info["is_narr"]:
                             length = len(cleaned_lines)
@@ -145,12 +165,21 @@ class NarratorHandler:
                 else:
                     cleaned_lines.append(line)
 
-                if is_narrator and not is_multi_line and not self.__is_closing(strip_line):
-                    is_multi_line = True
-                    prev_line_info["multiline"].clear()
-                    prev_line_info["multiline"].append(line)
-                    continue
-                    
+                if multi_line_type is MultiLineType.NONE:
+                    if is_narrator and not self.__is_closing(strip_line):
+                        multi_line_type = MultiLineType.ONE_QUOTE
+                    elif is_triple_quote or (is_narrator and is_triple_quote_end):
+                        multi_line_type = MultiLineType.TRIPLE_QUOTE
+                    elif not is_narrator and is_triple_quote_end:
+                        # linda """
+                        multi_line_type = MultiLineType.VALID_TRIPLE_QUOTE
+
+                    if multi_line_type is not MultiLineType.NONE:
+                        prev_line_info["multiline"].clear()
+                        if multi_line_type is not MultiLineType.VALID_TRIPLE_QUOTE:
+                            prev_line_info["multiline"].append(line)
+                        continue
+
                 if strip_line != "":
                     prev_line_info["is_narr"] = is_narrator
                     prev_line_info["line"] = line

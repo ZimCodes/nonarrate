@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, auto
 from dataclasses import dataclass
 
 
@@ -15,6 +15,11 @@ class FilterTag(Enum):
     NO_CUSTOM_CHAR_OBJS = "--no-custom-char-objs"
     NO_CUSTOM_CHAR_VAR_OBJS = "--no-custom-char-var-objs"
 
+class MultiLineType(Enum):
+    NONE = 0
+    ONE_QUOTE = auto()
+    TRIPLE_QUOTE = auto()
+    VALID_TRIPLE_QUOTE = auto()
 
 @dataclass
 class FileInfo:
