@@ -10,6 +10,7 @@ class FilterTag(Enum):
     BASIC_CHAR = "--basic-char"
     NONE_CHAR_OBJ = "--none-char-obj"
     EXPRESSION_CUES = "--cues"
+    ONLY_PERIODS = "--periods"
     NO_CUSTOM_TEXT_TAGS = "--no-custom-tags"
     NO_CUSTOM_CHARS = "--no-custom-chars"
     NO_CUSTOM_CHAR_OBJS = "--no-custom-char-objs"

@@ -5,7 +5,8 @@ from lib.validator.dialogue import (
     CustomTextTagStrategy,
     BasicStrategy,
     ExpressionCueTildaStrategy,
-    ExpressionCueAsteriskStrategy
+    ExpressionCueAsteriskStrategy,
+    OnlyPeriodsStrategy
 )
 from lib.validator.ivalidator_chain import IValidatorChain
 from tests.fixture import get_dialogue_list
@@ -269,6 +270,11 @@ class TestDialogue(unittest.TestCase):
             # Parentheses
             242: 'mc "(Whenever you are ready! Okay?"',
             243: 'mc "\\(This is going to be difficult to explain.\\)"',
+            # Only Periods
+            244: 'mc "................."',
+            245: 'mc "................." with vpunch',
+            246: 'mc "{tag}...............{/tag}"',
+            247: 'mc "{tag}...............{/tag}" with vpunch',
         }
 
     def validate_lines(self):
@@ -291,7 +297,7 @@ class TestDialogue(unittest.TestCase):
     def test_parenthesis(self):
         self.start(ParenthesisStrategy(),
                    [12, 13, 14, 15, 16, 17, 18, 24, 25, 26, 27, 28, 29, 30, 206, 207, 208, 209, 211, 213, 215, 217, 230,
-                    231, 235, 240, 241, 242,243])
+                    231, 235, 240, 241, 242, 243])
 
     def test_italic(self):
         self.start(ItalicStrategy(),
@@ -312,3 +318,6 @@ class TestDialogue(unittest.TestCase):
     def test_cues_tilda(self):
         self.start(ExpressionCueTildaStrategy(),
                    [173, 174, 175, 176, 178, 185, 186, 187, 188, 190, 219, 221, 226, 227, 233, 237])
+
+    def test_only_periods(self):
+        self.start(OnlyPeriodsStrategy(), [244, 245, 246, 247])

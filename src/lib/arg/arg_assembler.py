@@ -2,7 +2,7 @@ import re
 from argparse import Namespace
 from typing import final
 from lib.validator.dialogue import ParenthesisStrategy, ItalicStrategy, BasicStrategy, CustomTextTagStrategy, \
-    ExpressionCueTildaStrategy, ExpressionCueAsteriskStrategy
+    ExpressionCueTildaStrategy, ExpressionCueAsteriskStrategy, OnlyPeriodsStrategy
 
 from lib.validator.null_strategy import NullStrategy
 from lib.validator.speaker import (
@@ -31,7 +31,8 @@ class ArgAssembler:
         FilterTag.NO_CUSTOM_CHARS.value: CharacterStrategy,
         FilterTag.NO_CUSTOM_CHAR_OBJS.value: ObjectStrategy,
         FilterTag.EXPRESSION_CUES.value: [ExpressionCueAsteriskStrategy, ExpressionCueTildaStrategy],
-        FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value: ObjectVarStrategy
+        FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value: ObjectVarStrategy,
+        FilterTag.ONLY_PERIODS.value: OnlyPeriodsStrategy,
     }
 
     @classmethod

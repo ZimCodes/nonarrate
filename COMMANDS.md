@@ -260,6 +260,7 @@ These filters deal with the **dialogue** portion of dialogue box.
 | --parenthesis-narr      | mc “(It’s got to be here somewhere.)” <br>mc "{tag}(Opens the car door){/tag}"       | `()`. Thinking/Narrator dialogue                                                                             |
 | --no-custom-tags, --nct | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"        | [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
 | --cues                  | mc "\**blushes softly*\*" <br>mc "{tag}\~*jumps*\~{/tag}"                            | Expression cues. \**smiles*\*, \~yawns\~, \*\**taps foot*\*\*                                                |
+| --periods               | mc "......" <br>mc "{tag}..........{/tag}"                                           | Periods only dialogue                                                                                        |
 
 ***—basic-narr***
 
@@ -320,6 +321,12 @@ Expression cue examples:
 - \*laughs maniacally\*
 - \*\*rubs shoulder\*\*
 - \*\*eats slowly\*\*
+
+**--periods**
+
+Keeps period only dialogue.
+
+By default, dialogue consisting of only periods are removed. To keep them, use this option.
 
 - - -
 

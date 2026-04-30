@@ -8,7 +8,7 @@ from lib.custom_types import FilterTag
 from lib.validator.speaker import ObjectNoneItemStrategy, ObjectStrategy, CharacterStrategy, BasicObjectStrategy, \
     ItalicObjectStrategy, ObjectVarStrategy
 from lib.validator.dialogue import CustomTextTagStrategy, ParenthesisStrategy, ExpressionCueAsteriskStrategy, \
-    ExpressionCueTildaStrategy, ItalicStrategy
+    ExpressionCueTildaStrategy, ItalicStrategy, OnlyPeriodsStrategy
 
 
 class TestArgAssembler(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.BASIC_NARR.value,
         ]
         self.start(args, {NullStrategy, ObjectNoneItemStrategy, ParenthesisStrategy, BasicObjectStrategy,
-                          ExpressionCueAsteriskStrategy,ExpressionCueTildaStrategy})
+                          ExpressionCueAsteriskStrategy,ExpressionCueTildaStrategy, OnlyPeriodsStrategy})
 
     def test_nargs(self):
         args = [
@@ -57,6 +57,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.BASIC_CHAR_OBJ.value,
             FilterTag.BASIC_NARR.value,
             FilterTag.EXPRESSION_CUES.value,
+            FilterTag.ONLY_PERIODS.value,
             FilterTag.NO_CUSTOM_CHARS.value,
             "ten",
             "narrator",
@@ -86,6 +87,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.BASIC_NARR.value,
             FilterTag.NONE_CHAR_OBJ.value,
             FilterTag.EXPRESSION_CUES.value,
+            FilterTag.ONLY_PERIODS.value,
             "--regex",
             FilterTag.NO_CUSTOM_CHARS.value,
             "ten{3}",
@@ -106,6 +108,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.BASIC_NARR.value,
             FilterTag.NONE_CHAR_OBJ.value,
             FilterTag.EXPRESSION_CUES.value,
+            FilterTag.ONLY_PERIODS.value,
             FilterTag.NO_CUSTOM_CHARS.value,
             "ten{3}",
             "seco.+",
@@ -124,6 +127,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.BASIC_CHAR_OBJ.value,
             FilterTag.BASIC_NARR.value,
             FilterTag.NONE_CHAR_OBJ.value,
+            FilterTag.ONLY_PERIODS.value,
         ]
         self.start(
             args, {NullStrategy, ItalicStrategy,ItalicObjectStrategy,ExpressionCueTildaStrategy,ExpressionCueAsteriskStrategy}

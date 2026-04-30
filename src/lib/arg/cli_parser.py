@@ -140,6 +140,7 @@ class CLIParser:
             FilterTag.BASIC_CHAR.value: "Keep [default narrators] not saved to a Character object",
             FilterTag.NONE_CHAR_OBJ.value: "Keep empty Character objects.",
             FilterTag.EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, ~raises eyebrows~.",
+            FilterTag.ONLY_PERIODS.value: "Keeps dialogue containing only periods. Ex: '......'",
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(

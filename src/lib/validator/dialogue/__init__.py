@@ -4,6 +4,7 @@ from .italic_strategy import ItalicStrategy
 from .parenthesis_strategy import ParenthesisStrategy
 from .expression_cue_tilda_strategy import ExpressionCueTildaStrategy
 from .expression_cue_asterisk_strategy import ExpressionCueAsteriskStrategy
+from .only_periods_strategy import OnlyPeriodsStrategy
 
 __all__ = [
     "BasicStrategy",
@@ -11,5 +12,6 @@ __all__ = [
     "ItalicStrategy",
     "ParenthesisStrategy",
     "ExpressionCueTildaStrategy",
-    "ExpressionCueAsteriskStrategy"
+    "ExpressionCueAsteriskStrategy",
+    "OnlyPeriodsStrategy"
 ]
