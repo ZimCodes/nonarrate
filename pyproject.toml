@@ -10,7 +10,7 @@ authors = [
   {name = "Edexal"}
 ]
 maintainers = [
-  {name = "Edexal"}
+  {name = "ZimCodes"}
 ]
 description = "Remove narration and thoughts from Ren'Py games."
 readme = "README.md"
