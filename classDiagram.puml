@@ -55,9 +55,6 @@ class Reader {
 	+readLines(fileURL: Union[str,Path]): FileInfo
   +walkFiles(rootDir:str): List<str>
 }
-class RenpyReader {
-  +walkFiles(rootDir:str,invalid_folders: Union[Set<str>,None], invalid_files:Union[Set<str>,None], invalid_globs: Union[Set<str>, None]): List<str>
-}
 class Writer {
 	+writeLines(fileInfo:FileInfo)
   +backupDir(filePaths:List<str>,backupDirPath:Path)
@@ -66,9 +63,24 @@ class Deleter {
 	+delete(fileURL: str)
 }
 
+'File Filters
+class FileFilter {
+  #invalid_folders: Set<str>
+  #invalid_files: Set<str>
+  +is_invalid_folder(dirPath:str): bool
+  +is_valid_file(fileName:str): bool
+}
+class RenpyFilter {
+  #invalid_globs: Set<str>
+  -fileExt:str
+  +is_valid_file(fileName:str): bool
+  -hasPassedLiteral(fileName:str): bool
+  -hasPassedGlob(fileName:str): bool
+}
+
 'ThreadExecutors
 class  FileExecutor <<Singleton>>{
-	{static}+fileLines(reader:RenpyReader,arg:Namespace): List<FileInfo>
+	{static}+fileLines(reader:Reader,arg:Namespace): List<FileInfo>
   {static}+writeFiles(writer:Writer,fileInfos:List<FileInfo>)
   {static}+fix_errors(error_txt:Path,reader:Reader)
   {static}-fixFunc(errors: List<RenpyError>)
@@ -164,7 +176,6 @@ ObjectStrategy <|-- BasicObjectStrategy
 ObjectStrategy <|-- ObjectNoneItemStrategy
 ObjectStrategy <|-- ItalicObjectStrategy
 ObjectStrategy <|-- ObjectVarStrategy
-Reader <|-- RenpyReader
 
 'Argument Relations
 ArgChecker ..> CLIParser : uses

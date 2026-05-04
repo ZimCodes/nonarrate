@@ -8,7 +8,6 @@ from ..error_fixer import ErrorFixer
 from .deleter import Deleter
 
 from .reader import Reader
-from .renpy_reader import RenpyReader
 from .writer import Writer
 from lib.custom_types import FileInfo, RenpyError
 from typing import final
@@ -25,8 +24,8 @@ class FileExecutor:
     max_workers = 4
 
     @classmethod
-    def file_lines(cls, reader: RenpyReader, arg_namespace) -> list[FileInfo]:
-        files = reader.walk_files(arg_namespace.folder_or_file, arg_namespace.invalid_dirs, arg_namespace.invalid_files,arg_namespace.invalid_globs)
+    def file_lines(cls, reader: Reader, arg_namespace) -> list[FileInfo]:
+        files = reader.walk_files(arg_namespace.folder_or_file, arg_namespace.file_filter)
         if arg_namespace.backup:
             Writer.backup_dir(files, arg_namespace.backup)
         file_infos = None

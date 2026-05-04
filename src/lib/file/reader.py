@@ -1,5 +1,7 @@
 import os
 import pathlib
+
+from lib.file.filter.file_filter import FileFilter
 from ..custom_types import FileInfo
 
 
@@ -20,19 +22,23 @@ class Reader:
             lines = f.readlines()
         return FileInfo(str(file_url), lines)
 
-    def walk_files(self, root_dir: str) -> list[str]:
+    def walk_files(self, root_dir: str, file_filter: FileFilter) -> list[str]:
         """Retrieve all file paths recursively.
 
         While walking through directories, retrieve all paths to each file.
 
         Args:
             root_dir: The starting directory to walk through.
+            file_filter: class for filtering files and folders
 
         Returns:
             A list of paths to a file.
         """
         files = []
         for dirpath, _, file_names in os.walk(root_dir):
+            if file_filter.is_invalid_folder(dirpath):
+                continue
             for file_name in file_names:
-                files.append(os.path.join(dirpath, file_name))
+                if file_filter.is_valid_file(file_name):
+                    files.append(os.path.join(dirpath, file_name))
         return files

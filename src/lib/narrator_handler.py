@@ -15,7 +15,7 @@ class NarratorHandler:
     """
 
     PAUSE_STATEMENTS: tuple[str, str] = ("pause", "$ renpy.pause")
-    __alt_pat: re.Pattern = re.compile(r".*\b(?:image|layeredimage|show|scene|transform)\b[^:]+:")
+    __atl_pat: re.Pattern = re.compile(r".*\b(?:image|layeredimage|show|scene|transform)\b[^:]+:")
     __closing_pat: re.Pattern = re.compile(r"(?:[\"']|[\"']\s*with .+)$")
 
     def __init__(self) -> None:
@@ -34,15 +34,15 @@ class NarratorHandler:
         return strip_line.startswith("\ufeff#") or strip_line.startswith("#")
 
     def __is_atl_block(self, strip_line: str) -> bool:
-        return True if self.__alt_pat.match(strip_line) else False
+        return True if self.__atl_pat.match(strip_line) else False
 
-    def __is_closing(self,strip_line: str) -> bool:
+    def __is_closing(self, strip_line: str) -> bool:
         return True if self.__closing_pat.search(strip_line) else False
 
-    def __endswith_triple_quote(self,strip_line: str) -> bool:
+    def __endswith_triple_quote(self, strip_line: str) -> bool:
         return strip_line.endswith("'''") or strip_line.endswith('"""')
 
-    def __is_triple_quote(self,strip_line: str) -> bool:
+    def __is_triple_quote(self, strip_line: str) -> bool:
         return strip_line == '"""' or strip_line == "'''"
 
     def __reset_line_stats(self):
@@ -71,7 +71,7 @@ class NarratorHandler:
             image_label_indent = 0
             prev_line_info = {"is_narr": False, "line": "", "multiline": list()}
             multi_line_type = MultiLineType.NONE
-            alt_info = {"indent": 0, "is": False}
+            atl_info = {"indent": 0, "is": False}
             for line in file_info.lines:
                 strip_line = line.strip()
                 is_triple_quote = self.__is_triple_quote(strip_line)
@@ -83,15 +83,15 @@ class NarratorHandler:
                 # Example:
                 # init -2 layeredimage augustina:
                 #   "image_smile.png"
-                if alt_info["is"]:
-                    if self.get_indent_num(line) > alt_info["indent"]:
+                if atl_info["is"]:
+                    if self.get_indent_num(line) > atl_info["indent"]:
                         cleaned_lines.append(line)
                         continue
                     else:
-                        alt_info["is"] = False
+                        atl_info["is"] = False
                 elif self.__is_atl_block(strip_line):
-                    alt_info["is"] = True
-                    alt_info["indent"] = self.get_indent_num(line)
+                    atl_info["is"] = True
+                    atl_info["indent"] = self.get_indent_num(line)
                     cleaned_lines.append(line)
                     continue
 
@@ -104,8 +104,9 @@ class NarratorHandler:
                             multi_line_type = MultiLineType.NONE
                         cleaned_lines.append(line)
                     else:
-                        if ((multi_line_type is MultiLineType.ONE_QUOTE and self.__is_closing(strip_line))
-                                or (multi_line_type is MultiLineType.TRIPLE_QUOTE and is_triple_quote_end)):
+                        if (multi_line_type is MultiLineType.ONE_QUOTE and self.__is_closing(strip_line)) or (
+                            multi_line_type is MultiLineType.TRIPLE_QUOTE and is_triple_quote_end
+                        ):
                             multi_line_type = MultiLineType.NONE
                             if args.pauses:
                                 # Replaces narration with pauses
@@ -125,9 +126,9 @@ class NarratorHandler:
                     label_check["is_image_label"] = True
                     image_label_indent = self.get_indent_num(line)
                 elif (
-                        label_check["is_image_label"]
-                        and self.get_indent_num(line) <= image_label_indent
-                        and not self.__is_image_label(strip_line)
+                    label_check["is_image_label"]
+                    and self.get_indent_num(line) <= image_label_indent
+                    and not self.__is_image_label(strip_line)
                 ):
                     label_check["is_image_label"] = False
 
@@ -136,13 +137,13 @@ class NarratorHandler:
                         if not is_triple_quote:
                             cleaned_lines.append(line)
                     elif (
-                            args.pauses
-                            and is_narrator
-                            and not prev_line_info["line"].strip().startswith(NarratorHandler.PAUSE_STATEMENTS)
-                            and len(cleaned_lines)
-                            and not cleaned_lines[len(cleaned_lines) - 1]
-                            .strip()
-                            .startswith(NarratorHandler.PAUSE_STATEMENTS)
+                        args.pauses
+                        and is_narrator
+                        and not prev_line_info["line"].strip().startswith(NarratorHandler.PAUSE_STATEMENTS)
+                        and len(cleaned_lines)
+                        and not cleaned_lines[len(cleaned_lines) - 1]
+                        .strip()
+                        .startswith(NarratorHandler.PAUSE_STATEMENTS)
                     ):
                         # Replaces narration with pauses
                         cleaned_lines.append(
@@ -215,14 +216,14 @@ class NarratorHandler:
                 elif len(prev_indent_info):
                     line_indent_num = self.get_indent_num(line)
                     if (
-                            (prev_indent_info["indent"] < line_indent_num)
-                            # labels do not need to follow strict indentation
-                            # Valid example:
-                            # label my_cool_label:
-                            # scene 103
-                            # mc "esvebrewsgr"
-                            or prev_indent_info["indent"] == line_indent_num
-                            and prev_indent_info["line"].lstrip().startswith("label ")
+                        (prev_indent_info["indent"] < line_indent_num)
+                        # labels do not need to follow strict indentation
+                        # Valid example:
+                        # label my_cool_label:
+                        # scene 103
+                        # mc "esvebrewsgr"
+                        or prev_indent_info["indent"] == line_indent_num
+                        and prev_indent_info["line"].lstrip().startswith("label ")
                     ):
                         cleaned_lines.append(prev_indent_info["line"])
                         cleaned_lines.append(line)

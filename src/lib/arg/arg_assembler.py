@@ -1,8 +1,15 @@
 import re
 from argparse import Namespace
 from typing import final
-from lib.validator.dialogue import ParenthesisStrategy, ItalicStrategy, BasicStrategy, CustomTextTagStrategy, \
-    ExpressionCueTildaStrategy, ExpressionCueAsteriskStrategy, OnlyPeriodsStrategy
+from lib.validator.dialogue import (
+    ParenthesisStrategy,
+    ItalicStrategy,
+    BasicStrategy,
+    CustomTextTagStrategy,
+    ExpressionCueTildaStrategy,
+    ExpressionCueAsteriskStrategy,
+    OnlyPeriodsStrategy,
+)
 
 from lib.validator.null_strategy import NullStrategy
 from lib.validator.speaker import (
@@ -11,8 +18,11 @@ from lib.validator.speaker import (
     BasicCharacterStrategy,
     CharacterStrategy,
     BasicObjectStrategy,
-    ItalicObjectStrategy, ObjectVarStrategy, CharacterNoneStrategy,
+    ItalicObjectStrategy,
+    ObjectVarStrategy,
+    CharacterNoneStrategy,
 )
+from lib.file.filter import RenpyFilter
 from lib.custom_types import FilterTag
 
 
@@ -43,10 +53,11 @@ class ArgAssembler:
         Args:
             args: Namespace class containing parsed arguments.
         """
-        cls.__convert_filters(args)
+        cls.__line_filters(args)
+        cls.__file_filters(args)
 
     @classmethod
-    def __convert_filters(cls, args: Namespace):
+    def __line_filters(cls, args: Namespace):
         """Convert parsed argument for filters in validators.
 
         At the end, the results are placed in the arg.validator attribute.
@@ -105,3 +116,14 @@ class ArgAssembler:
                 if i < arg_filter_len - 1:
                     validator = validator.next_validator
         return validator.next_validator
+
+    @staticmethod
+    def __file_filters(args):
+        """Convert parsed file filters into a FileFilter object.
+
+        This has the side effect of placing the results in args.file_filter.
+
+        Args:
+            args: Namespace class containing parsed arguments.
+        """
+        args.file_filter = RenpyFilter(args.invalid_dirs, args.invalid_files, args.invalid_globs)

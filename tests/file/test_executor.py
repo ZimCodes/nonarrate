@@ -1,17 +1,19 @@
 import unittest
 import os
 
+from lib.arg.arg_assembler import ArgAssembler
 from lib.arg.cli_parser import CLIParser
 from lib.custom_types import FileInfo
-from lib.file import FileExecutor, RenpyReader, Writer
+from lib.file import FileExecutor, Reader, Writer
 from .. import fixture
 
 
 class TestExecutor(unittest.TestCase):
     def test_reader(self):
         parser = CLIParser()
-        reader = RenpyReader()
+        reader = Reader()
         args = fixture.get_args(parser, fixture.DUMMY_PATH)
+        ArgAssembler.assemble(args)
         file_infos = FileExecutor.file_lines(reader, args)
         self.assertEqual(len(file_infos), 2, "Total renpy files detected!")
 

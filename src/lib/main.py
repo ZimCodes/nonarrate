@@ -1,5 +1,5 @@
 from lib.arg import CLIParser, ArgChecker, ArgAssembler
-from lib.file import Writer, FileExecutor, RenpyReader
+from lib.file import Writer, FileExecutor, Reader
 from lib.log import Log
 from lib.narrator_handler import NarratorHandler
 from lib.validator.speaker import ObjectStrategy
@@ -8,7 +8,7 @@ from lib.validator.speaker import ObjectStrategy
 def run():
     parser = CLIParser()
     arg_namespace = parser.parse_args()
-    reader = RenpyReader()
+    reader = Reader()
     file_executor = FileExecutor()
     FileExecutor.max_workers = arg_namespace.jobs
     if arg_namespace.folder_or_file.is_file() and arg_namespace.folder_or_file.name == "errors.txt":
