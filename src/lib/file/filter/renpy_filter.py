@@ -29,7 +29,7 @@ class RenpyFilter(FileFilter):
         Returns:
             a boolean determining if a file is valid.
         """
-        return self._invalid_files is None or file_name[:-4] not in self._invalid_files
+        return self._invalid_files is None or file_name[:-4].lower() not in self._invalid_files
 
     def __has_passed_glob(self, file_name: str) -> bool:
         """Validate a file by using file globs.

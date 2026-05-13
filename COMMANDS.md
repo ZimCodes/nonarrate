@@ -128,8 +128,8 @@ nonarrate mycoolgame\game --invalid-files options image keymap
 
 Ignore specified *.rpy* files when looking for *.rpy* files.
 
-nonarrate will ignore the specified files when searching for *.rpy* files. Can
-be used with `--invalid-globs`.
+nonarrate will ignore the specified files when searching for *.rpy* files. **File names are case-insensitive!**
+This means `--inf credit` will match `Credit`. Can be used with `--invalid-globs`.
 
 Nonarrate will ignore certain files by default. See [IGNORED_FILES.md](./IGNORED_FILES.md) for list
 

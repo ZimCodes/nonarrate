@@ -116,7 +116,6 @@ class CLIParser:
                      "gallery",
                      "camera",
                      "credits",
-                     "Credits",
                      "splashscreen",
                      "transitions",
                      "transforms",
@@ -125,6 +124,7 @@ class CLIParser:
                      "audio",
                      "animations",
                      "scenes",
+                     "disclaimer"
                      },
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files.",
