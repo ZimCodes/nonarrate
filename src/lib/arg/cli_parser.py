@@ -128,7 +128,7 @@ class CLIParser:
                      "disclaimer"
                      },
             metavar="IGNORE_FILES",
-            help="Ignore specified [files] when looking for .rpy files.",
+            help="Ignore specified [files] when looking for .rpy files. Case-insensitive",
         )
         self.__add_search_arg(
             "--invalid-globs",
