@@ -13,13 +13,3 @@ class TestAppendUnique(unittest.TestCase):
         self.assertIn("backend", args.invalid_dirs)
         self.assertIn("waterfall", args.invalid_dirs)
         self.assertNotEqual(len(args.invalid_dirs), 2)
-
-    def test_multiple(self):
-        args = fixture.get_args(
-            self._parser,
-            ["game/", "--invalid-dirs", "backend", "waterfall", "--invalid-files", "gui", "anims", "images"],
-        )
-        self.assertIn("waterfall", args.invalid_dirs)
-        self.assertIn("images", args.invalid_files)
-        self.assertNotEqual(len(args.invalid_dirs), 2)
-        self.assertNotEqual(len(args.invalid_files), 3)

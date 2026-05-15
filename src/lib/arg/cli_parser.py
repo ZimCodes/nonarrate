@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "2.10.1"
+        self.__version_num = "2.10.2"
         self.__setup()
 
     def __setup(self):
@@ -111,7 +111,7 @@ class CLIParser:
         self.__add_search_arg(
             "--invalid-files",
             "--inf",
-            action=AppendUnique,
+            action=AppendUniqueLower,
             default={"gui",
                      "options",
                      "screens",
