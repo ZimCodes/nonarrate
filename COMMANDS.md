@@ -170,9 +170,9 @@ These filters deal with the **speaker** portion of a dialogue box.
 
 | Commands                              | Script Example                                                                                                                          | Description                                                                                           |
 |---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| --basic-char-obj                      | n = Character(“Narrator”, …)                                                                                                            | [Default narrators](#default-narrators) saved to character object.                                    |
+| --basic-char-obj                      | n = Character(“Narrator”, …)                                                                                                            | [Default narrators](DEFAULT_NARRATORS.md) saved to character object.                                  |
 | --no-custom-char-objs,<br>--ncco      | d = Character(“Developer”, …)                                                                                                           | Custom speaker saved to character object by their _in-game_ name. In this example, its `"Developer"`. |
-| --basic-char                          | “Narrator” “It was a sunny day.”                                                                                                        | [Default narrators](#default-narrators) wrapped in quotes.                                            |
+| --basic-char                          | “Narrator” “It was a sunny day.”                                                                                                        | [Default narrators](DEFAULT_NARRATORS.md) wrapped in quotes.                                          |
 | --none-char                           | "" "It was a bright and stormy night."                                                                                                  | Using empty quotes in-place of speaker.                                                               |
 | --none-char-obj                       | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥) | Narrators using an empty character object. In short, nothing in the `name` parameter.                 |
 | --no-custom-chars,<br>--ncc           | “Lily's Inner Self” “It would be a good idea to distract them first”                                                                    | Custom Speaker wrapped in quotes                                                                      |
@@ -184,10 +184,10 @@ These filters deal with the **speaker** portion of a dialogue box.
 nonarrate mycoolgame\game --basic-char-obj 
 ```
 
-Keep [default narrators](#default-narrators) saved to a `Character` object.
+Keep [default narrators](DEFAULT_NARRATORS.md) saved to a `Character` object.
 
 By default, *nonarrate*
-will remove *all* [default narrators](#default-narrators) saved to a character object. Use this option to disable this filter.
+will remove *all* [default narrators](DEFAULT_NARRATORS.md) saved to a character object. Use this option to disable this filter.
 
 ***—no-custom-char-objs***, ***—ncco*** `<speaker name>...`
 
@@ -221,9 +221,9 @@ To find the variable name, you must look into the `.rpy` files. A variable is de
 
 ***—basic-char***
 
-Keep [default narrators](#default-narrators) introduced in quotes.
+Keep [default narrators](DEFAULT_NARRATORS.md) introduced in quotes.
 
-Prevents *all* [default narrators](#default-narrators) explicitly written in quotes
+Prevents *all* [default narrators](DEFAULT_NARRATORS.md) explicitly written in quotes
 alongside their dialogue from being removed. These types of narrators are
 **NOT** saved to a `Character` object.
 
@@ -343,18 +343,6 @@ Keeps dialogue with only punctuation marks.
 By default, dialogue consisting of only punctuations are removed. To keep them, use this option.
 
 - - -
-
-## Default Narrators
-
-This is a list of common narrator names. *(includes capital case too)*
-
-- thought
-- thoughts
-- thinking
-- mind
-- narrator
-- inner voice
-- inner monologue
 
 ## REGEX Examples
 

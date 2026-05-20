@@ -50,6 +50,15 @@ class ExpressionCueTildaStrategy
 'Ex: mc "......."'
 class OnlyPunctuationStrategy
 
+'Triple quote validators
+class TQExpressionCueStrategy
+class TQExpressionCueAsteriskStrategy
+class TQExpressionCueTildaStrategy
+class TQItalicStrategy
+class TQOnlyPunctuationStrategy
+class TQParenthesisStrategy
+class TQTextTagStrategy
+
 'File Descriptors
 class Reader {
   +readLines(fileURL: Union[str,Path]): FileInfo
@@ -192,10 +201,13 @@ class ArgChecker {
 }
 class ArgAssembler {
   {static}-validators: Dictionary<str,Type>
+  {static}-tqValidators: List<Type>
   {static}+assemble(args:Namespace)
   {static}-convertFilters(args:Namespace)
   {static}-escape(args:Namespace, arg_filter_val: Union<List<str>,None>>): Union<str,List<str>,None>
   {static}-nargFilter(validator:Union<IValidatorChain,None>,arg_filter: Union<str,List<str>,None>,filterName:str): IValidatorChain
+  {static}-tripleQuoteFilter(args:Namespace)
+  {static}-tripleQuoteNArgs(validator:Union<IValidatorChain,None>, argFilter: Union<str,List<str>,None>,filterType: Type)
 }
 
 enum FilterTag {
@@ -247,6 +259,13 @@ IValidatorChainSolo <|-- CharacterNoneStrategy
 IValidatorChainSolo <|-- ExpressionCueStrategy
 IValidatorChainSolo <|-- NullStrategy
 IValidatorChainSolo <|-- OnlyPunctuationStrategy
+IValidatorChainSolo <|-- TQExpressionCueStrategy
+IValidatorChainSolo <|-- TQItalicStrategy
+IValidatorChainSolo <|-- TQOnlyPunctuationStrategy
+IValidatorChainSolo <|-- TQParenthesisStrategy
+IValidatorChainSolo <|-- TQTextTagStrategy
+TQExpressionCueStrategy <|-- TQExpressionCueAsteriskStrategy
+TQExpressionCueStrategy <|-- TQExpressionCueTildaStrategy
 ExpressionCueStrategy <|-- ExpressionCueAsteriskStrategy
 ExpressionCueStrategy <|-- ExpressionCueTildaStrategy
 CharacterStrategy <|-- BasicCharacterStrategy

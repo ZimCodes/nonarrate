@@ -103,6 +103,7 @@ class CLIParser:
                 "sounds",
                 "sound",
                 "movie",
+                "movies",
                 "python-packages",
                 "shaders",
                 "screens"

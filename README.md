@@ -7,9 +7,8 @@
 
 A story should unfold *organically*. Let the characters' **actions**,
 the **environment**, and active **scenarios** carry the
-narrative, without the need of inner voices or overt explanations for what can
-already be inferred and *seen*. Players are *encouraged* to
-draw their own interpretations of the events unfolding.
+narrative. Players are *encouraged* to draw their own interpretations 
+of the events unfolding.
 
 ## Types of Narration
 

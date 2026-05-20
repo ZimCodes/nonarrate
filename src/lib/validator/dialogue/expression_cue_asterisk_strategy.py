@@ -14,5 +14,4 @@ class ExpressionCueAsteriskStrategy(ExpressionCueStrategy):
     """
 
     def __init__(self, next_validator: "IValidatorChain | None" = None) -> None:
-        super().__init__(next_validator)
-        self._validate_pat = re.compile(r"[^=]+([\"'])(?:{\w+(?:=[^}]+)?})*(\*{1,2})[^*]+\2(?:(?:{/\w+})*[.?!]?|[.?!]?(?:{/\w+})*)\s*\1(?:\s*with .+)?")
+        super().__init__(r"\*",next_validator)

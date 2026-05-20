@@ -11,7 +11,7 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 | functions |  music  |      audio      | gallery |
 |  sounds   | videos  |      sound      |  font   |
 |   movie   |  video  | python-packages | Gallery |
-|  shaders  | screens |                 |         |
+|  shaders  | screens |     movies      |         |
 
 ## Invalid Files
 **NOTE:** case-insensitive. Meaning `Credits`, `credits`, `cReDiTS` will be ignored.

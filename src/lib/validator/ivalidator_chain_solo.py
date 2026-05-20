@@ -1,5 +1,7 @@
 from abc import ABC
 import re
+from typing import override
+
 from .ivalidator_chain import IValidatorChain
 
 
@@ -10,6 +12,7 @@ class IValidatorChainSolo(IValidatorChain, ABC):
         super().__init__(next_validator)
         self._validate_pat: "re.Pattern | None" = None
 
+    @override
     def is_valid(self, line: str) -> bool:
         if self._validate_pat and self._validate_pat.match(line):
             return True

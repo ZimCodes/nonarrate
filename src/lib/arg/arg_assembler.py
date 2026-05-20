@@ -10,6 +10,7 @@ from lib.validator.dialogue import (
     ExpressionCueAsteriskStrategy,
     OnlyPunctuationStrategy,
 )
+from lib.validator.ivalidator_chain import IValidatorChain
 
 from lib.validator.null_strategy import NullStrategy
 from lib.validator.speaker import (
@@ -24,6 +25,7 @@ from lib.validator.speaker import (
 )
 from lib.file.filter import RenpyFilter
 from lib.custom_types import FilterTag
+from lib.validator.triple_quote import *
 
 
 @final
@@ -45,6 +47,8 @@ class ArgAssembler:
         FilterTag.ONLY_PUNCTUATIONS.value: OnlyPunctuationStrategy,
         FilterTag.NONE_CHAR.value: CharacterNoneStrategy,
     }
+    __tq_validators: list[type] = [TQExpressionCueTildaStrategy, TQItalicStrategy, TQParenthesisStrategy,
+                                   TQExpressionCueAsteriskStrategy, TQOnlyPunctuationStrategy]
 
     @classmethod
     def assemble(cls, args: Namespace):
@@ -54,6 +58,7 @@ class ArgAssembler:
             args: Namespace class containing parsed arguments.
         """
         cls.__line_filters(args)
+        cls.__triple_quote_filters(args)
         cls.__file_filters(args)
 
     @classmethod
@@ -113,6 +118,35 @@ class ArgAssembler:
             arg_filter_len = len(arg_filter)
             for i in range(arg_filter_len):
                 validator.next_validator = cls.__validators[filter_name](arg_filter[i])
+                if i < arg_filter_len - 1:
+                    validator = validator.next_validator
+        return validator.next_validator
+
+    @classmethod
+    def __triple_quote_filters(cls, args: Namespace):
+        current_validator: IValidatorChain | None = None
+        for validator in cls.__tq_validators:
+            if not current_validator:
+                args.triple_quote_validator = validator()
+                current_validator = args.triple_quote_validator
+            else:
+                current_validator.next_validator = validator()
+                current_validator = current_validator.next_validator
+        current_validator = cls.__triple_quote_nargs(current_validator, cls.__escape(args, args.no_custom_tags),
+                                                     TQTextTagStrategy)
+
+    @staticmethod
+    def __triple_quote_nargs(validator, arg_filter: str | list[str] | None, filter_type: type):
+        if not arg_filter:
+            return validator
+        if type(arg_filter) is str:
+            # Regex is On
+            validator.next_validator = filter_type(arg_filter)
+        else:
+            # Regex is Off
+            arg_filter_len = len(arg_filter)
+            for i in range(arg_filter_len):
+                validator.next_validator = filter_type(arg_filter[i])
                 if i < arg_filter_len - 1:
                     validator = validator.next_validator
         return validator.next_validator

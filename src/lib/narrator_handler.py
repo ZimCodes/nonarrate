@@ -88,7 +88,9 @@ class NarratorHandler:
                     if prev_info.multi_type is MultiLineType.VALID_TRIPLE_QUOTE:
                         if line_info.is_triple_quote_end or line_info.has_triple_quote:
                             prev_info.multi_type = MultiLineType.NONE
-                        cleaned_lines.append(line)
+                        is_narrator = args.triple_quote_validator.is_valid(line_info.strip_line)
+                        if not is_narrator:
+                            cleaned_lines.append(line)
                     else:
                         if (
                                 prev_info.multi_type is MultiLineType.ONE_QUOTE and cls.__is_closing(
@@ -214,7 +216,7 @@ class NarratorHandler:
         return file_infos
 
     @classmethod
-    def __pause_filter(cls,file_infos: list[FileInfo]) -> list[FileInfo]:
+    def __pause_filter(cls, file_infos: list[FileInfo]) -> list[FileInfo]:
         """Removes subsequent pause statements.
 
         Args:
