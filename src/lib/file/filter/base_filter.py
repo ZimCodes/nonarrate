@@ -1,17 +1,21 @@
-class FileFilter:
-    """Tools for ignoring files and folders.
+from abc import abstractmethod, ABC
+
+
+class BaseFilter(ABC):
+    """Base filter providing tools for validating files and folders.
 
     Validates whether a file should be operated on.
     """
 
     def __init__(
-        self,
-        invalid_folders: set[str] | None = None,
-        invalid_files: set[str] | None = None,
+            self,
+            folder_filter_set: set[str] | None = None,
+            file_filter_set: set[str] | None = None,
     ):
-        self._invalid_folders = invalid_folders
-        self._invalid_files = invalid_files
+        self._folder_filter_set = folder_filter_set
+        self._file_filter_set = file_filter_set
 
+    @abstractmethod
     def is_invalid_folder(self, dirpath: str) -> bool:
         """Checks if folder is invalid.
 
@@ -21,8 +25,9 @@ class FileFilter:
         Returns:
             A boolean determining if a folder is valid or not.
         """
-        return self._invalid_folders is not None and any([x in dirpath for x in self._invalid_folders])
+        pass
 
+    @abstractmethod
     def is_valid_file(self, file_name: str) -> bool:
         """Checks if file can be operated on.
 
@@ -32,4 +37,4 @@ class FileFilter:
         Returns:
             A boolean determining if a file is valid or not.
         """
-        return self._invalid_files is None or file_name not in self._invalid_files
+        pass

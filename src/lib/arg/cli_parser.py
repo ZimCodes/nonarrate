@@ -80,6 +80,13 @@ class CLIParser:
             help="Maximum number of workers to use for I/O tasks.",
         )
         self.__add_search_arg(
+            "--valid-dirs",
+            "--vd",
+            action=AppendUnique,
+            metavar="FOCUS_FOLDERS",
+            help="Look for .rpy files in these specified subfolders."
+        )
+        self.__add_search_arg(
             "--invalid-dirs",
             "--ind",
             action=AppendUnique,
@@ -109,7 +116,14 @@ class CLIParser:
                 "screens"
             },
             metavar="IGNORE_FOLDERS",
-            help="Ignore specified [folders] when looking for .rpy files",
+            help="Ignore specified subfolders when looking for .rpy files",
+        )
+        self.__add_search_arg(
+            "--valid-files",
+            "--vf",
+            action=AppendUniqueLower,
+            metavar="FOCUS_FILES",
+            help="Tell nonarrate to use these specified .rpy files."
         )
         self.__add_search_arg(
             "--invalid-files",
@@ -132,10 +146,22 @@ class CLIParser:
                      "scenes",
                      "disclaimer",
                      "background",
+                     "backgrounds",
+                     "hsceneselect",
+                     "chapterselect",
+                     "extras",
                      "keymap",
+                     "music",
                      },
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files. Case-insensitive",
+        )
+        self.__add_search_arg(
+            "--valid-globs",
+            "--vg",
+            action=AppendUnique,
+            metavar="VALID_FILE_GLOBS",
+            help="Use specified [files] using glob syntax."
         )
         self.__add_search_arg(
             "--invalid-globs",

@@ -112,6 +112,19 @@ ___
 
 ### File Searching
 
+***--valid-dirs, --vd*** `<directory-name...>`
+
+```bash
+# While looking through 'mycoolgame\game' ONLY use directories: gui/, gamepad_control_schemes/, and cache helper/
+nonarrate mycoolgame\game --valid-dirs gui gamepad_control_schemes "cache helper"
+```
+
+Look for .rpy files in these specified subfolders.
+
+Nonarrate will *only* use .rpy files found in the subfolders you specify when using this option.
+
+***NOTE:** `--valid-*` options take precedence over `--invalid-*` ones.
+
 ***--invalid-dirs, --ind*** `<directory-name...>`
 
 ```bash
@@ -119,12 +132,27 @@ ___
 nonarrate mycoolgame\game --invalid-dirs gui gamepad_control_schemes "cache helper"
 ```
 
-Ignore specified folders when looking for *.rpy* files.
+Ignore specified subfolders when looking for *.rpy* files.
 
 nonarrate will search subdirectories starting from the folder you point it to for
 *.rpy* files. Use this option to prevent certain directories from being searched.
 
 Nonarrate will ignore certain folders by default. See [IGNORED_FILES.md](./IGNORED_FILES.md) for list.
+
+***--valid-files, --vf*** `<filename...>`
+
+```bash
+# While looking through 'mycoolgame\game' use only the files named: options.rpy, image.rpy, keymap.rpy
+nonarrate mycoolgame\game --valid-files options image keymap
+```
+
+Use .rpy files with these specified names.
+
+nonarrate will ignore all files *except* the file names you specified when search for *.rpy* files.
+**File names are case-insensitive!**. Can be used with `--valid-globs`.
+
+***NOTE:** `--valid-*` options take precedence over `--invalid-*` ones.
+***NOTE: Do *not* include `.rpy`. nonarrate will automatically assume this file type!**
 
 ***--invalid-files, --inf*** `<filename...>`
 
@@ -140,6 +168,24 @@ This means `--inf credit` will match `Credit`. Can be used with `--invalid-globs
 
 Nonarrate will ignore certain files by default. See [IGNORED_FILES.md](./IGNORED_FILES.md) for list
 
+***NOTE: Do *not* include `.rpy`. nonarrate will automatically assume this file type!**
+
+***--valid-globs, --vg*** `<file-glob...>`
+
+```bash
+# Use files matching: [0-9][0-9][a-zA-Z]*
+# This pattern will match files such as 01animation.rpy, 93decor_tl.rpy, and 25TEST.rpy
+nonarrate mycoolgame\game --valid-globs '[0-9][0-9][a-zA-Z]*'
+```
+
+Use *.rpy* files matching globs. 
+
+nonarrate will *only* use files matching any of the file globs. Can be used with `--valid-files`.
+
+See [Python's fnmatch library](https://docs.python.org/3/library/fnmatch.html#module-fnmatch)
+for list of available globs. **Globs**: `*`, `?`, `[...]`
+
+***NOTE:** `--valid-*` options take precedence over `--invalid-*` ones.
 ***NOTE: Do *not* include `.rpy`. nonarrate will automatically assume this file type!**
 
 ***--invalid-globs, --ing*** `<file-glob...>`

@@ -74,18 +74,28 @@ class Deleter {
 }
 
 'File Filters
-class FileFilter {
-  #invalid_folders: Set<str>
-  #invalid_files: Set<str>
-  +is_invalid_folder(dirPath:str): bool
-  +is_valid_file(fileName:str): bool
+abstract class BaseFilter {
+   #folderFilterSet: Set<str>
+   #fileFilterSet: Set<str>
+   {abstract}+isInvalidFolder(dirPath: str): bool
+   {abstract}+isValidFile(fileName:str): bool
 }
-class RenpyFilter {
-  #invalid_globs: Set<str>
-  -fileExt:str
-  +is_valid_file(fileName:str): bool
-  -hasPassedLiteral(fileName:str): bool
-  -hasPassedGlob(fileName:str): bool
+abstract class RenpyFilter {
+  {static}#fileExt: str
+  #globFilterSet: Set<str>
+  {abstract}#hasPassedFileGlob(fileName:str): bool
+  {abstract}#hasPassedFileLiteral(fileName:str): bool
+  +isValidFile(fileName:str): bool
+}
+class InvalidRenpyFilter {
+  #hasPassedFileGlob(fileName:str): bool
+  #hasPassedFileLiteral(fileName:str): bool
+  +isInvalidFolder(dirPath: str):bool
+}
+class ValidRenpyFilter {
+   #hasPassedFileGlob(fileName:str): bool
+   #hasPassedFileLiteral(fileName:str): bool
+   +isInvalidFolder(dirPath: str):bool
 }
 
 'ThreadExecutors
@@ -232,8 +242,10 @@ enum MultiLineType {
   VALID_TRIPLE_QUOTE
 }
 
-'Invalid Filters Relations
-FileFilter <|-- RenpyFilter
+'File Filters Relations
+BaseFilter <|-- RenpyFilter
+RenpyFilter <|-- InvalidRenpyFilter
+RenpyFilter <|-- ValidRenpyFilter
 
 'Info Relations
 PrevInfo <|-- PrevIndentInfo

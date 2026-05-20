@@ -1,4 +1,5 @@
 from .renpy_filter import RenpyFilter
-from .file_filter import FileFilter
+from .invalid_renpy_filter import InvalidRenpyFilter
+from .valid_renpy_filter import ValidRenpyFilter
 
-__all__ = ["RenpyFilter", "FileFilter"]
+__all__ = ["RenpyFilter","InvalidRenpyFilter","ValidRenpyFilter"]

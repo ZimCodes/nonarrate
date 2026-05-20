@@ -23,7 +23,7 @@ from lib.validator.speaker import (
     ObjectVarStrategy,
     CharacterNoneStrategy,
 )
-from lib.file.filter import RenpyFilter
+from lib.file.filter import InvalidRenpyFilter,ValidRenpyFilter
 from lib.custom_types import FilterTag
 from lib.validator.triple_quote import *
 
@@ -160,4 +160,7 @@ class ArgAssembler:
         Args:
             args: Namespace class containing parsed arguments.
         """
-        args.file_filter = RenpyFilter(args.invalid_dirs, args.invalid_files, args.invalid_globs)
+        if args.valid_dirs or args.valid_files:
+            args.file_filter = ValidRenpyFilter(args.valid_dirs,args.valid_files,args.valid_globs)
+        else:
+            args.file_filter =  InvalidRenpyFilter(args.invalid_dirs, args.invalid_files, args.invalid_globs)

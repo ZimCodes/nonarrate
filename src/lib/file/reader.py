@@ -1,7 +1,7 @@
 import os
 import pathlib
 
-from lib.file.filter.file_filter import FileFilter
+from lib.file.filter.renpy_filter import RenpyFilter
 from ..custom_types import FileInfo
 
 
@@ -22,7 +22,7 @@ class Reader:
             lines = f.readlines()
         return FileInfo(str(file_url), lines)
 
-    def walk_files(self, root_dir: str, file_filter: FileFilter) -> list[str]:
+    def walk_files(self, root_dir: str, file_filter: RenpyFilter) -> list[str]:
         """Retrieve all file paths recursively.
 
         While walking through directories, retrieve all paths to each file.
