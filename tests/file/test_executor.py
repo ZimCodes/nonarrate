@@ -18,7 +18,7 @@ class TestExecutor(unittest.TestCase):
         args = fixture.get_args(self.parser, self.path)
         ArgAssembler.assemble(args)
         file_infos = FileExecutor.file_lines(reader, args)
-        self.assertEqual(len(file_infos), 2, "Total renpy files detected!")
+        self.assertEqual(len(file_infos), 3, "Total renpy files detected!")
 
     def test_writer(self):
         writer = Writer()

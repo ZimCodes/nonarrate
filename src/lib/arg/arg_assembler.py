@@ -155,7 +155,7 @@ class ArgAssembler:
         Args:
             args: Namespace class containing parsed arguments.
         """
-        if args.valid_dirs or args.valid_files:
+        if args.valid_dirs or args.valid_files or args.valid_globs:
             args.file_filter = ValidRenpyFilter(args.valid_dirs, args.valid_files, args.valid_globs)
         else:
             args.file_filter = InvalidRenpyFilter(args.invalid_dirs, args.invalid_files, args.invalid_globs)

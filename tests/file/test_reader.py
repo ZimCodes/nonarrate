@@ -19,12 +19,12 @@ class TestReader(unittest.TestCase):
     def test_all_files_valid(self):
         args = self._prepare_args([self._path])
         files = self._reader.walk_files(args.folder_or_file, args.file_filter)
-        self.assertEqual(len(files), 2, "all .rpy files should not be seen by reader")
+        self.assertEqual(len(files), 3, "all .rpy files should be seen by reader")
 
     def test_invalid_files(self):
-        args = self._prepare_args([self._path, "--invalid-files", "ex_reader", "hello"])
+        args = self._prepare_args([self._path, "--invalid-files", "oracle","ex_reader", "hello"])
         files = self._reader.walk_files(args.folder_or_file, args.file_filter)
-        self.assertEqual(len(files), 0, "ex_reader.py and hello.rpy should not be seen by reader")
+        self.assertEqual(len(files), 0, "ex_reader.py, oracle.rpy and hello.rpy should not be seen by reader")
 
     def test_invalid_dirs(self):
         args = self._prepare_args([self._path, "--invalid-dirs", "child_dir"])
@@ -34,4 +34,19 @@ class TestReader(unittest.TestCase):
     def test_invalid_file_globs(self):
         args = self._prepare_args([self._path, "--invalid-globs", "[hz]*"])
         files = self._reader.walk_files(args.folder_or_file, args.file_filter)
-        self.assertEqual(len(files), 1, "Glob should not match any .rpy files!")
+        self.assertEqual(len(files), 2, "Glob should not match any .rpy files starting with h or z!")
+
+    def test_valid_files(self):
+        args = self._prepare_args([self._path, "--valid-files", "ex_reader"])
+        files = self._reader.walk_files(args.folder_or_file, args.file_filter)
+        self.assertEqual(len(files), 1, "ex_reader.rpy should be the only valid file")
+
+    def test_valid_dirs(self):
+        args = self._prepare_args([self._path, "--valid-dirs", "child_dir"])
+        files = self._reader.walk_files(args.folder_or_file, args.file_filter)
+        self.assertEqual(len(files), 2, "child_dir is the only valid folder to look for rpy files.")
+
+    def test_valid_file_globs(self):
+        args = self._prepare_args([self._path, "--valid-globs", "o*"])
+        files = self._reader.walk_files(args.folder_or_file, args.file_filter)
+        self.assertEqual(len(files), 1, "Glob should match any .rpy files starting with o!")

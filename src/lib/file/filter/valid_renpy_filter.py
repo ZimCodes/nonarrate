@@ -1,4 +1,5 @@
 import fnmatch
+import os.path
 from typing import override
 from .renpy_filter import RenpyFilter
 
@@ -21,4 +22,5 @@ class ValidRenpyFilter(RenpyFilter):
 
     @override
     def is_invalid_folder(self, dirpath: str) -> bool:
-        return self._folder_filter_set is not None and any([x not in dirpath for x in self._folder_filter_set])
+        dir_base_name = os.path.basename(dirpath)
+        return self._folder_filter_set is not None and any(( x != dir_base_name for x in self._folder_filter_set ))
