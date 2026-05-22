@@ -25,10 +25,6 @@ class NarratorHandler:
         """Gets the current amount of indentation."""
         return len(line) - len(line.lstrip())
 
-    @staticmethod
-    def __is_comment(strip_line: str) -> bool:
-        return strip_line.startswith("\ufeff#") or strip_line.startswith("#")
-
     @classmethod
     def __is_closing(cls, strip_line: str) -> bool:
         return True if cls.__closing_pat.search(strip_line) else False
@@ -63,7 +59,7 @@ class NarratorHandler:
             prev_info = PrevMultiInfo()
             for line in file_info.lines:
                 line_info.setup(line)
-                if cls.__is_comment(line_info.strip_line):
+                if line_info.is_comment:
                     continue
                 # REF:https://www.renpy.org/doc/html/transforms.html#atl-animation-and-transformation-language
                 # Example:
