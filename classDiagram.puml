@@ -93,12 +93,19 @@ class AtlInfo {
   {static}+isBlock(stripLine:str): bool
 }
 class LineInfo {
+  {static}-SINGLE_QUOTE:str
+  {static}-DOUBLE_QUOTE: str
+  {static}-SINGLE_TRIPLE_QUOTE: str
+  {static}-DOUBLE_TRIPLE_QUOTE: str
+  {static}-HASH: str
   #stripLine: str
+  #isComment: bool
   #isTripleQuote: bool
   #isTripleQuoteEnd: bool
   #hasTripleQuote: bool
   #isMenu: bool
   +setup(line:str)
+  {static}-isAComment(stripLine:str): bool
   {static}-startswitchTripleQuote(stripLine:str): bool
   {static}-hasTripleQuote(stripLine:str): bool
   {static}-endswithTripleQuote(stripLine:str): bool
@@ -147,7 +154,6 @@ class  NarratorHandler <<Singleton>>{
   {static}-totalCleanedLines: int
   {static}+remove(fileInfos:List<FileInfo>,args:Namespace): List<Dictionary<str,List<str>>>
   {static}+getIdentNum(line:str):int
-  {static}-isComment(line:str):bool
   {static}-isClosing(line:str):bool
   {static}-resetLineStats()
   {static}+lineStats(): Tuple<int,int>
