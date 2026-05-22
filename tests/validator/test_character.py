@@ -57,6 +57,10 @@ class TestCharacter(unittest.TestCase):
                     'define miami = Character("Miami\'s Inner Monologue")',
                     'define miami2 = Character("Miami\'s Inner voice")',
                     'define miami3 = Character("Miami\'s inner Monologue")',
+                    'default dynamic = DynamicCharacter("My Mind")',
+                    'default dynamic2 = DynamicCharacter("Marco")',
+                    'default dynamic3 = DynamicCharacter("")',
+                    'default dynamic4 = DynamicCharacter(_())',
                 ],
             )
         ]
@@ -160,6 +164,11 @@ class TestCharacter(unittest.TestCase):
             90: '"Miami\'s inner monologue" "Jason headed slowly to the car."',
             91: '"Miami\'s Inner monologue" "Jason headed slowly to the car."',
             92: '"Miami\'s Inner Voice" "Jason headed slowly to the car."',
+            # DynamicCharacter object
+            93: 'dynamic "It was dusty and tattered, with strange symbols and markings."',
+            94: 'dynamic2 "It was dusty and tattered, with strange symbols and markings."',
+            95: 'dynamic3 "It was dusty and tattered, with strange symbols and markings."',
+            96: 'dynamic4 "It was dusty and tattered, with strange symbols and markings."',
         }
 
     def setUp(self) -> None:
@@ -201,7 +210,7 @@ class TestCharacter(unittest.TestCase):
     def test_object_char(self):
         rule = SpeakerRules.OBJECT.value("Marco")
         obj = validate_obj(rule)
-        self.start_object(obj, [35, 77])
+        self.start_object(obj, [35, 77, 94])
 
     def test_object_char_item(self):
         rule = SpeakerRules.OBJECT.value("base")
@@ -210,19 +219,19 @@ class TestCharacter(unittest.TestCase):
 
     def test_basic_object_char(self):
         obj = validate_obj(SpeakerRules.OBJECT_BASIC.value)
-        self.start_object(obj, [35, 41, 42, 44, 45, 48, 77, 82, 86, 87, 88])
+        self.start_object(obj, [35, 41, 42, 44, 45, 48, 77, 82, 86, 87, 88,93])
 
     def test_object_none_char_item(self):
         obj = validate_obj(SpeakerRules.OBJECT_NONE.value)
         self.start_object(
             obj,
-            [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 79]
+            [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 79,95,96]
         )
 
     def test_chaining(self):
         obj = validate_obj(SpeakerRules.OBJECT_BASIC.value, validate_obj(SpeakerRules.OBJECT.value("base")))
         self.start_object(obj,
-                          [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78, 82, 86, 87, 88])
+                          [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78, 82, 86, 87, 88,93])
 
     def test_spaces(self):
         """Test spaces between character object and calling parenthesis.

@@ -33,19 +33,7 @@ MyRenpyProject/
 - If `errors.txt` file is provided, *nonarrate* will *attempt* to fix the errors mentioned in the file.
   - **Nonarrate will not fix all errors!** See *[ERROR_TYPE.md](./ERROR_TYPES.md)* for list of fixes.
 - If `errors.txt` file is provided, **all options you provide will be ignored!**
-- **Typical workflow:**
-  1. Use *nonarrate*
-  2. Run game and get error message(s).
-  3. Keep game running and use nonarrate on generated `errors.txt` file.
-  4. Click **Reload**.
-  - If more errors appear, Repeat steps 3 and 4
-  > **OR**
-  - **Debug** the issue yourself by taking advantage
-  of the features nonarrate provides, which includes:
-    - Ignoring files
-    - Ignoring folders
-    - Deactivating default narrator filters
-    - Using regex for granular control *(on supported narrator filters)*
+- If you need help using nonarrate, see [INSTRUCTIONS](./INSTRUCTIONS.md).
 
 **Examples:**
 
@@ -214,6 +202,8 @@ ___
 
 These filters deal with the **speaker** portion of a dialogue box.
 
+***NOTE:** [`DynamicCharacter()`](https://www.renpy.org/wiki/renpy/doc/reference/functions/DynamicCharacter) is an outdated usage of `Character()` and is also supported by nonarrate!
+
 | Commands                              | Script Example                                                                                                                          | Description                                                                                           |
 |---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
 | --basic-char-obj                      | n = Character(“Narrator”, …)                                                                                                            | [Default narrators](DEFAULT_NARRATORS.md) saved to character object.                                  |
@@ -313,14 +303,14 @@ Removes a speaker explicitly written in quotes alongside their dialogue and **NO
 
 These filters deal with the **dialogue** portion of dialogue box.
 
-| Commands                | Script Example                                                                       | Description                                                                                                  |
+| Commands                | Script Examples                                                                      | Description                                                                                                  |
 |-------------------------|--------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | --basic-narr            | “I’m the narrator of this game”                                                      | Dialogues without a speaker                                                                                  |
 | --italic-narr           | mc “{i}Maybe there’s food left over.{/i}" <br>mc "{tag}{i}Lesson learned!{/i}{/tag}" | Italics. Thinking dialogue.                                                                                  |
 | --parenthesis-narr      | mc “(It’s got to be here somewhere.)” <br>mc "{tag}(Opens the car door){/tag}"       | `()`. Thinking/Narrator dialogue                                                                             |
 | --no-custom-tags, --nct | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"        | [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
 | --cues                  | mc "\**blushes softly*\*" <br>mc "{tag}\~*jumps*\~{/tag}"                            | Expression cues. \**smiles*\*, \~yawns\~, \*\**taps foot*\*\*                                                |
-| --punctuations          | mc "......" <br>mc "{tag}..........{/tag}" <br>mc "!!!"                              | Dialogues with only punctuation marks                                                                        |
+| --punctuations          | mc "......" <br>mc "{tag}....{/tag}" <br>mc "!!!" <br>mc "????"                      | Dialogues with only punctuation marks                                                                        |
 
 ***—basic-narr***
 

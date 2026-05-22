@@ -38,6 +38,8 @@ class DialogueRules(Enum):
     TEXT_TAG = TextTagRule
 
 
+# NOTE: DynamicCharacter() is an outdated variant of Character()
+# REF: https://www.renpy.org/wiki/renpy/doc/reference/functions/DynamicCharacter
 class SpeakerRules(Enum):
     CHARACTER = CharRule
     # "My Thoughts" "Hey there!"
@@ -48,14 +50,14 @@ class SpeakerRules(Enum):
     # Character("My Thoughts")
     OBJECT_BASIC = [BasicObjectRule()]
     OBJECT_ITALIC = [Rule(r"what_italic\s*=\s*True"), Rule(r"what_prefix\s*=\s*([\"'])\{i}\1"),
-                     Rule(r"Character\(\s*(['\"])\s*\{i\}[^\"']+\{/?i\}\s*\1")]
+                     Rule(r"(?:Dynamic)?Character\(\s*(['\"])\s*\{i\}[^\"']+\{/?i\}\s*\1")]
     # Character(None)
-    OBJECT_NONE = [Rule(r"Character\s*\(\s*(?:name\s*=\s*)?None.*\)"), Rule(r"Character\s*\(\s*\)"),
-                   Rule(r"Character\s*\(\s*[\"']\s*[\"']\s*.*\)"),
-                   Rule(r"Character\s*\((?!\s*[\"']{2}|\s*name\s?=|\s*None)(?:\s*[\w_]+\s*=\s*.+)+\)"),
+    OBJECT_NONE = [Rule(r"(?:Dynamic)?Character\s*\(\s*(?:name\s*=\s*)?None.*\)"), Rule(r"(?:Dynamic)?Character\s*\(\s*\)"),
+                   Rule(r"(?:Dynamic)?Character\s*\(\s*[\"']\s*[\"']\s*.*\)"),
+                   Rule(r"(?:Dynamic)?Character\s*\((?!\s*[\"']{2}|\s*name\s?=|\s*None)(?:\s*[\w_]+\s*=\s*.+)+\)"),
                    # Filters empty translation function, '_()' and '_("")'
                    # Ref: https://www.renpy.org/doc/html/translation.html#menu-and-string-translations
-                   Rule(r"Character\s*\(\s*_\(\s*(?:[\"']\s*[\"']\s*)?\)")]
+                   Rule(r"(?:Dynamic)?Character\s*\(\s*_\(\s*(?:[\"']\s*[\"']\s*)?\)")]
     # narrator_variable = Character(...)
     OBJECT_VAR = VarObjectRule
 
