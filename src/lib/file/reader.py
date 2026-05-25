@@ -35,8 +35,8 @@ class Reader:
             A list of paths to a file.
         """
         files = []
-        for dirpath, _, file_names in os.walk(root_dir):
-            if file_filter.is_invalid_folder(dirpath):
+        for dirpath, dir_names, file_names in os.walk(root_dir):
+            if file_filter.is_invalid_folder(dirpath, dir_names):
                 continue
             for file_name in file_names:
                 if file_filter.is_valid_file(file_name):

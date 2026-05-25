@@ -16,14 +16,12 @@ class BaseFilter(ABC):
         self._file_filter_set = file_filter_set
 
     @abstractmethod
-    def is_invalid_folder(self, dirpath: str) -> bool:
-        """Checks if folder is invalid.
+    def is_invalid_folder(self, dirpath: str,sub_dirs: list[str]) -> bool:
+        """Removes invalid subdirectories and check if current folder is valid.
 
         Args:
-            dirpath: Directory path
-
-        Returns:
-            A boolean determining if a folder is valid or not.
+            dirpath: absolute directory path
+            sub_dirs: collection of subdirectory names
         """
         pass
 

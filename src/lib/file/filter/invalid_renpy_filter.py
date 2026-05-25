@@ -22,6 +22,9 @@ class InvalidRenpyFilter(RenpyFilter):
         )
 
     @override
-    def is_invalid_folder(self, dirpath: str) -> bool:
+    def is_invalid_folder(self, dirpath: str, sub_dirs: list[str]) -> bool:
+        if self._folder_filter_set is None:
+            return False
+        sub_dirs[:] = [sub_dir for sub_dir in sub_dirs if sub_dir not in self._folder_filter_set]
         dir_base_name = os.path.basename(dirpath)
-        return self._folder_filter_set is not None and any(( x == dir_base_name for x in self._folder_filter_set ))
+        return any((x == dir_base_name for x in self._folder_filter_set))
