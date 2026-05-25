@@ -14,7 +14,7 @@ def suite() -> unittest.TestSuite:
     test_suite.addTests(load(TestAppendUniqueLower))
     test_suite.addTests(load(TestDialogue))
     test_suite.addTests(load(TestRemoveUniqueConst))
-    test_suite.addTests(load(TestTripleQuote))
+    test_suite.addTests(load(TestQuote))
     test_suite.addTests(load(TestAppendUnique))
     test_suite.addTests(load(TestArgChecker))
     test_suite.addTests(load(TestWriter))

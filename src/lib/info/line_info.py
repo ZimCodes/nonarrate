@@ -51,6 +51,9 @@ class LineInfo:
     def __is_choice_menu(strip_line: str) -> bool:
         return strip_line.startswith("menu") and strip_line.endswith(":")
 
+    def has_loose_double_quote(self) -> bool:
+        return self._strip_line.count(LineInfo.__DOUBLE_QUOTE) % 2 != 0
+
     def setup(self, line: str):
         self._strip_line = LineInfo.__strip_inline_comment(line.strip())
         self._is_comment = LineInfo.__is_a_comment(self._strip_line)

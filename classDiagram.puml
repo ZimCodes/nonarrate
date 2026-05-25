@@ -33,8 +33,8 @@ dataclass TextTagRule
 dataclass ObjectRule
 dataclass BasicObjectRule
 dataclass VarObjectRule
-dataclass TQCueRule
-dataclass TQTextTagRule
+dataclass QuoteCueRule
+dataclass QuoteTextTagRule
 
 
 
@@ -104,6 +104,7 @@ class LineInfo {
   #isTripleQuoteEnd: bool
   #hasTripleQuote: bool
   #isMenu: bool
+  +hasLooseDoubleQuote(): bool
   +setup(line:str)
   {static}-isAComment(stripLine:str): bool
   {static}-startswitchTripleQuote(stripLine:str): bool
@@ -197,13 +198,13 @@ class ArgChecker {
 class ArgAssembler {
   {static}-narrValidators: Dictionary<str,Union<List<IValidatorChain>, IValidatorChain>>>
   {static}-nargValidators: Dictionary<str,Type<IValidatorChain>>
-  {static}-tqValidators: List<IValidatorChain>
+  {static}-quoteValidators: List<IValidatorChain>
   {static}+assemble(args:Namespace)
   {static}-convertFilters(args:Namespace)
   {static}-escape(args:Namespace, arg_filter_val: Union<List<str>,None>>): Union<str,List<str>,None>
   {static}-nargFilter(validator:Union<IValidatorChain,None>,arg_filter: Union<str,List<str>,None>,filterName:str, ruleType: Type<Rule>): IValidatorChain
-  {static}-tripleQuoteFilter(args:Namespace)
-  {static}-tripleQuoteNArgs(validator:Union<IValidatorChain,None>, argFilter: Union<str,List<str>,None>,filterType: Type<IValidatorChain>, ruleType: Type<Rule>)
+  {static}-quoteFilter(args:Namespace)
+  {static}-quoteNArgs(validator:Union<IValidatorChain,None>, argFilter: Union<str,List<str>,None>,filterType: Type<IValidatorChain>, ruleType: Type<Rule>)
 }
 
 'Enums
@@ -227,7 +228,7 @@ enum SpeakerRules {
   OBJECT_VAR
 }
 
-enum TripleQuoteRules {
+enum QuoteRules {
   EXPRESSION_CUE_TILDA
   EXPRESSION_CUE_ASTERISK
   ITALIC
@@ -253,9 +254,10 @@ enum FilterTag {
 
 enum MultiLineType {
   NONE
-  ONE_QUOTE
+  SINGLE_QUOTE
   TRIPLE_QUOTE 
   VALID_TRIPLE_QUOTE
+  VALID_SINGLE_QUOTE
 }
 
 'File Filters Relations

@@ -2,8 +2,8 @@ from .rule import Rule
 from .cue_rule import CueRule
 from .basic_char_rule import BasicCharRule
 from .basic_object_rule import BasicObjectRule
-from .tq_cue_rule import TQCueRule
-from .tq_text_tag_rule import TQTextTagRule
+from .quote_cue_rule import QuoteCueRule
+from .quote_text_tag_rule import QuoteTextTagRule
 from .var_object_rule import VarObjectRule
 from .object_rule import ObjectRule
 from .char_rule import CharRule
@@ -61,10 +61,10 @@ class SpeakerRules(Enum):
     # narrator_variable = Character(...)
     OBJECT_VAR = VarObjectRule
 
-class TripleQuoteRules(Enum):
-    EXPRESSION_CUE_TILDA = TQCueRule('~')
-    EXPRESSION_CUE_ASTERISK = TQCueRule(r'\*')
+class QuoteRules(Enum):
+    EXPRESSION_CUE_TILDA = QuoteCueRule('~')
+    EXPRESSION_CUE_ASTERISK = QuoteCueRule(r'\*')
     ITALIC = Rule(r'^(?:{\w+(?:=[^}]+)?})*\{i\}((?:(?!\{/?i\}).)+)(?:\{/?i\})?(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
     ONLY_PUNCTUATION = Rule(r'^(?:{\w+(?:=[^}]+)?})*[.?!]+(?:{/\w+})*$')
     PARENTHESIS = Rule(r'^(?:{\w+(?:=[^}]+)?})*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
-    TEXT_TAG = TQTextTagRule
+    TEXT_TAG = QuoteTextTagRule

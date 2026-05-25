@@ -10,18 +10,18 @@ class TestArgAssembler(unittest.TestCase):
     def setUp(self) -> None:
         self._parser = CLIParser()
 
-    def eval_validator_chain(self, arg_namespace, correct_count: int, is_triple_quote: bool = False):
+    def eval_validator_chain(self, arg_namespace, correct_count: int, is_quote: bool = False):
         ArgAssembler.assemble(arg_namespace)
-        current_validator = arg_namespace.triple_quote_validator if is_triple_quote else arg_namespace.validator
+        current_validator = arg_namespace.quote_validator if is_quote else arg_namespace.validator
         count = 0
         while current_validator:
             count += 1
             current_validator = current_validator.next_validator
         self.assertEqual(count, correct_count, "Validators does not match correct list.")
 
-    def start(self, args, correct_count: int, is_triple_quote: bool = False):
+    def start(self, args, correct_count: int, is_quote: bool = False):
         arg_namespace = fixture.get_args(self._parser, args)
-        self.eval_validator_chain(arg_namespace, correct_count, is_triple_quote)
+        self.eval_validator_chain(arg_namespace, correct_count, is_quote)
 
     def start_escape(self, args, correct_count: int):
         arg_namespace = fixture.get_args(self._parser, args)

@@ -19,9 +19,10 @@ class FilterTag(Enum):
 
 class MultiLineType(Enum):
     NONE = 0
-    ONE_QUOTE = auto()
+    SINGLE_QUOTE = auto()
     TRIPLE_QUOTE = auto()
     VALID_TRIPLE_QUOTE = auto()
+    VALID_SINGLE_QUOTE = auto()
 
 @dataclass
 class FileInfo:

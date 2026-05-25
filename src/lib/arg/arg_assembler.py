@@ -4,7 +4,7 @@ from typing import final
 from lib.validator import ObjectStrategy, IValidatorChain, IValidatorChainSolo, NullStrategy
 from lib.file.filter import InvalidRenpyFilter, ValidRenpyFilter
 from lib.custom_types import FilterTag
-from lib.validator.rule import SpeakerRules, DialogueRules, TripleQuoteRules, Rule
+from lib.validator.rule import SpeakerRules, DialogueRules, QuoteRules, Rule
 
 
 @final
@@ -30,11 +30,11 @@ class ArgAssembler:
         FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value: ObjectStrategy,
         FilterTag.NO_CUSTOM_CHAR_OBJS.value: ObjectStrategy,
     }
-    __tq_validators: list[IValidatorChain] = [IValidatorChainSolo(TripleQuoteRules.EXPRESSION_CUE_TILDA.value),
-                                              IValidatorChainSolo(TripleQuoteRules.EXPRESSION_CUE_ASTERISK.value),
-                                              IValidatorChainSolo(TripleQuoteRules.ITALIC.value),
-                                              IValidatorChainSolo(TripleQuoteRules.ONLY_PUNCTUATION.value),
-                                              IValidatorChainSolo(TripleQuoteRules.PARENTHESIS.value)]
+    __quote_validators: list[IValidatorChain] = [IValidatorChainSolo(QuoteRules.EXPRESSION_CUE_TILDA.value),
+                                                 IValidatorChainSolo(QuoteRules.EXPRESSION_CUE_ASTERISK.value),
+                                                 IValidatorChainSolo(QuoteRules.ITALIC.value),
+                                                 IValidatorChainSolo(QuoteRules.ONLY_PUNCTUATION.value),
+                                                 IValidatorChainSolo(QuoteRules.PARENTHESIS.value)]
 
     @classmethod
     def assemble(cls, args: Namespace):
@@ -44,7 +44,7 @@ class ArgAssembler:
             args: Namespace class containing parsed arguments.
         """
         cls.__line_filters(args)
-        cls.__triple_quote_filters(args)
+        cls.__quote_filters(args)
         cls.__file_filters(args)
 
     @classmethod
@@ -115,21 +115,21 @@ class ArgAssembler:
         return validator.next_validator
 
     @classmethod
-    def __triple_quote_filters(cls, args: Namespace):
+    def __quote_filters(cls, args: Namespace):
         current_validator: IValidatorChain | None = None
-        for validator in cls.__tq_validators:
+        for validator in cls.__quote_validators:
             if not current_validator:
-                args.triple_quote_validator = validator
-                current_validator = args.triple_quote_validator
+                args.quote_validator = validator
+                current_validator = args.quote_validator
             else:
                 current_validator.next_validator = validator
                 current_validator = current_validator.next_validator
 
-        current_validator = cls.__triple_quote_nargs(current_validator, cls.__escape(args, args.no_custom_tags),
-                                                     IValidatorChainSolo, TripleQuoteRules.TEXT_TAG.value)
+        current_validator = cls.__quote_nargs(current_validator, cls.__escape(args, args.no_custom_tags),
+                                              IValidatorChainSolo, QuoteRules.TEXT_TAG.value)
 
     @staticmethod
-    def __triple_quote_nargs(validator, arg_filter: str | list[str] | None, filter_type: type[IValidatorChain], rule_type: type[Rule]):
+    def __quote_nargs(validator, arg_filter: str | list[str] | None, filter_type: type[IValidatorChain], rule_type: type[Rule]):
         if not arg_filter:
             return validator
         if type(arg_filter) is str:

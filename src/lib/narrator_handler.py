@@ -84,12 +84,18 @@ class NarratorHandler:
                     if prev_info.multi_type is MultiLineType.VALID_TRIPLE_QUOTE:
                         if line_info.is_triple_quote_end or line_info.has_triple_quote:
                             prev_info.multi_type = MultiLineType.NONE
-                        is_narrator = args.triple_quote_validator.is_valid(line_info.strip_line)
+                        is_narrator = args.quote_validator.is_valid(line_info.strip_line)
+                        if not is_narrator:
+                            cleaned_lines.append(line)
+                    elif prev_info.multi_type is MultiLineType.VALID_SINGLE_QUOTE:
+                        if cls.__is_closing(line_info.strip_line):
+                            prev_info.multi_type = MultiLineType.NONE
+                        is_narrator = args.quote_validator.is_valid(line_info.strip_line)
                         if not is_narrator:
                             cleaned_lines.append(line)
                     else:
                         if (
-                                prev_info.multi_type is MultiLineType.ONE_QUOTE and cls.__is_closing(
+                                prev_info.multi_type is MultiLineType.SINGLE_QUOTE and cls.__is_closing(
                             line_info.strip_line)
                         ) or (prev_info.multi_type is MultiLineType.TRIPLE_QUOTE and line_info.is_triple_quote_end):
                             prev_info.multi_type = MultiLineType.NONE
@@ -139,15 +145,16 @@ class NarratorHandler:
                             or (is_narrator and line_info.has_triple_quote and not line_info.is_triple_quote_end)
                             or (is_narrator and line_info.is_triple_quote_end)):
                         prev_info.multi_type = MultiLineType.TRIPLE_QUOTE
-                    elif is_narrator and not cls.__is_closing(line_info.strip_line):
-                        prev_info.multi_type = MultiLineType.ONE_QUOTE
+                    elif line_info.has_loose_double_quote() and not cls.__is_closing(line_info.strip_line):
+                        prev_info.multi_type = MultiLineType.SINGLE_QUOTE if is_narrator else MultiLineType.VALID_SINGLE_QUOTE
                     elif not is_narrator and line_info.has_triple_quote:
                         # linda """You are not narrator
                         prev_info.multi_type = MultiLineType.VALID_TRIPLE_QUOTE
 
                     if prev_info.multi_type is not MultiLineType.NONE:
                         prev_info.clear_list()
-                        if prev_info.multi_type is not MultiLineType.VALID_TRIPLE_QUOTE:
+                        if (prev_info.multi_type is not MultiLineType.VALID_TRIPLE_QUOTE
+                                and prev_info.multi_type is not MultiLineType.VALID_SINGLE_QUOTE):
                             prev_info.append_line(line)
                         continue
 
