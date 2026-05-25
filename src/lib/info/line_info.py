@@ -52,7 +52,9 @@ class LineInfo:
         return strip_line.startswith("menu") and strip_line.endswith(":")
 
     def has_loose_double_quote(self) -> bool:
-        return self._strip_line.count(LineInfo.__DOUBLE_QUOTE) % 2 != 0
+        """Check for unpaired double quote."""
+        no_escaped_quotes = self._strip_line.replace(r'\"',"|")
+        return no_escaped_quotes.count(LineInfo.__DOUBLE_QUOTE) % 2 != 0
 
     def setup(self, line: str):
         self._strip_line = LineInfo.__strip_inline_comment(line.strip())

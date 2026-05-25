@@ -16,7 +16,7 @@ class NarratorHandler:
     """
 
     PAUSE_STATEMENTS: tuple[str, str] = ("pause", "$ renpy.pause")
-    __closing_pat: re.Pattern = re.compile(r"(?:[\"']|[\"']\s*with .+)$")
+    __closing_pat: re.Pattern = re.compile(r"(?:\"|\"\s*with .+)$")
     __total_lines: int = 0
     __total_cleaned_lines: int = 0
 
