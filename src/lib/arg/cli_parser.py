@@ -152,6 +152,8 @@ class CLIParser:
                      "extras",
                      "keymap",
                      "music",
+                     "video",
+                     "videos"
                      },
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files. Case-insensitive",
