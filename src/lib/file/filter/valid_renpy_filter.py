@@ -27,4 +27,4 @@ class ValidRenpyFilter(RenpyFilter):
             return False
         sub_dirs[:] = [sub_dir for sub_dir in sub_dirs if sub_dir in self._folder_filter_set]
         dir_base_name = os.path.basename(dirpath)
-        return any((x != dir_base_name for x in self._folder_filter_set))
+        return dir_base_name not in self._folder_filter_set

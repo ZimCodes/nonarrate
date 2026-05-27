@@ -4,7 +4,7 @@ from typing import final
 @final
 class LineInfo:
     """Holds line information from a file."""
-    __DOUBLE_QUOTE:str = '"'
+    __DOUBLE_QUOTE: str = '"'
     __SINGLE_QUOTE: str = "'"
     __HASH: str = '#'
     __SINGLE_TRIPLE_QUOTE = "'''"
@@ -19,32 +19,39 @@ class LineInfo:
             self._has_triple_quote = LineInfo.__has_triple_quote(self._strip_line)
             self._is_menu = LineInfo.__is_choice_menu(self._strip_line)
 
+    @staticmethod
+    def __can_remove_hash(hash_index: int, double_quote_index: int, single_quote_index: int) -> bool:
+        return (double_quote_index != -1 and hash_index > double_quote_index) or (
+                single_quote_index != -1 and hash_index > single_quote_index)
+
     @classmethod
-    def __strip_inline_comment(cls,strip_line: str) -> str:
-        hash_index = strip_line.rfind(cls.__HASH)
-        if hash_index == -1:
+    def __strip_inline_comment(cls, strip_line: str) -> str:
+        most_hash_index = strip_line.rfind(cls.__HASH)
+        least_hash_index = strip_line.find(cls.__HASH)
+        if most_hash_index == -1 and least_hash_index == -1:
             return strip_line
         double_quote_index = strip_line.rfind(cls.__DOUBLE_QUOTE)
         single_quote_index = strip_line.rfind(cls.__SINGLE_QUOTE)
-        if (double_quote_index != -1 and hash_index > double_quote_index) or (
-                single_quote_index != -1 and hash_index > single_quote_index):
-            return strip_line[:hash_index].rstrip()
+        if cls.__can_remove_hash(least_hash_index, double_quote_index, single_quote_index):
+            return strip_line[:least_hash_index].rstrip()
+        elif cls.__can_remove_hash(most_hash_index, double_quote_index, single_quote_index):
+            return strip_line[:most_hash_index].rstrip()
         return strip_line
 
     @classmethod
-    def __is_a_comment(cls,strip_line: str) -> bool:
+    def __is_a_comment(cls, strip_line: str) -> bool:
         return strip_line.startswith("\ufeff#") or strip_line.startswith(cls.__HASH)
 
     @classmethod
-    def __startswith_triple_quote(cls,strip_line: str) -> bool:
+    def __startswith_triple_quote(cls, strip_line: str) -> bool:
         return strip_line.startswith(cls.__DOUBLE_TRIPLE_QUOTE) or strip_line.startswith(cls.__SINGLE_TRIPLE_QUOTE)
 
     @classmethod
-    def __endswith_triple_quote(cls,strip_line: str) -> bool:
+    def __endswith_triple_quote(cls, strip_line: str) -> bool:
         return strip_line.endswith(cls.__SINGLE_TRIPLE_QUOTE) or strip_line.endswith(cls.__DOUBLE_TRIPLE_QUOTE)
 
     @classmethod
-    def __has_triple_quote(cls,strip_line: str) -> bool:
+    def __has_triple_quote(cls, strip_line: str) -> bool:
         return cls.__DOUBLE_TRIPLE_QUOTE in strip_line or cls.__SINGLE_TRIPLE_QUOTE in strip_line
 
     @staticmethod
@@ -53,7 +60,7 @@ class LineInfo:
 
     def has_loose_double_quote(self) -> bool:
         """Check for unpaired double quote."""
-        no_escaped_quotes = self._strip_line.replace(r'\"',"|")
+        no_escaped_quotes = self._strip_line.replace(r'\"', "|")
         return no_escaped_quotes.count(LineInfo.__DOUBLE_QUOTE) % 2 != 0
 
     def setup(self, line: str):

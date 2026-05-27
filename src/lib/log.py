@@ -22,11 +22,15 @@ class Log:
     def info(cls, title: str, value):
         cls.log(f"[{title}]: {value}")
 
+
     @classmethod
     def print_stats(cls, total_lines: int, total_cleaned: int):
-        cls.log(f"""
-        Stats:
-        [Code Removed]: {total_lines - total_cleaned} lines
-        [Code Removed (%)]: {(total_lines - total_cleaned) / total_lines * 100} %
-        [Code Remaining (%)]: {(total_cleaned / total_lines) * 100} %
-        """)
+        try:
+            cls.log(f"""
+            Stats:
+            [Code Removed]: {total_lines - total_cleaned} lines
+            [Code Removed (%)]: {(total_lines - total_cleaned) / total_lines * 100} %
+            [Code Remaining (%)]: {(total_cleaned / total_lines) * 100} %
+            """)
+        except ZeroDivisionError:
+            raise ZeroDivisionError("!~ERROR~!: All rpy files are empty! No operations were made!")
