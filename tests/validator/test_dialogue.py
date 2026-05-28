@@ -279,6 +279,8 @@ class TestDialogue(unittest.TestCase):
             254: 'mc "{tag} **alert!** {/tag}"',
             255: 'mc "{tag} ~~alert!~~ {/tag}"',
             256: 'mc "{tag} .......... {/tag}"',
+            # Incorrect parenthesis
+            257: 'mc "Don’t worry about it." (window_background="gui/transparent_textbox.png")',
         }
 
     def validate_lines(self):
