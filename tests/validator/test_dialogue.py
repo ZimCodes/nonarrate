@@ -288,6 +288,9 @@ class TestDialogue(unittest.TestCase):
             262: 'mc "**groans**" (window_background="gui/transparent_textbox.png")',
             263: 'mc "~~whispers~~" (window_background="gui/transparent_textbox.png")',
             264: 'mc "(Don’t worry about it.)" (window_background="gui/transparent_textbox.png")',
+            # Basic narrator with escaped quotes
+            265: '"It is almost \\"7:00\\" now!"',
+            266: "'It is almost \\'7:00\\' now!'",
         }
 
     def validate_lines(self):
@@ -306,7 +309,7 @@ class TestDialogue(unittest.TestCase):
 
     def test_basic(self):
         obj = validate_solo(DialogueRules.BASIC.value)
-        self.start(obj, [0, 4, 5, 6, 38, 73, 132, 167, 199, 201,258])
+        self.start(obj, [0, 4, 5, 6, 38, 73, 132, 167, 199, 201,258,265,266])
 
     def test_parenthesis(self):
         obj = validate_solo(DialogueRules.PARENTHESIS.value)
