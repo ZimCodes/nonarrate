@@ -40,11 +40,11 @@ class TestCLIParser(unittest.TestCase):
     def test_no_args(self):
         args = ["game/", ""]
         options = [
-            FilterTag.PARENTHESIS_NARR.value,
+            FilterTag.PARENTHESIS.value,
             FilterTag.BASIC_CHAR.value,
-            FilterTag.ITALIC_NARR.value,
+            FilterTag.ITALIC.value,
             FilterTag.BASIC_CHAR_OBJ.value,
-            FilterTag.BASIC_NARR.value,
+            FilterTag.NARRATOR.value,
         ]
         for option in options:
             with self.subTest(i=option):

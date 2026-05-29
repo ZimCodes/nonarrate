@@ -196,11 +196,11 @@ class ArgChecker {
     {static}-validateFolderOrFileArg(folderOrFileArg: Path)
 }
 class ArgAssembler {
-  {static}-narrValidators: Dictionary<str,Union<List<IValidatorChain>, IValidatorChain>>>
   {static}-nargValidators: Dictionary<str,Type<IValidatorChain>>
   {static}-quoteValidators: List<IValidatorChain>
   {static}+assemble(args:Namespace)
   {static}-convertFilters(args:Namespace)
+  {static}-getFilters(optionName:str): Union<IValidatorChain, List<IValidatorChain>>
   {static}-escape(args:Namespace, arg_filter_val: Union<List<str>,None>>): Union<str,List<str>,None>
   {static}-nargFilter(validator:Union<IValidatorChain,None>,arg_filter: Union<str,List<str>,None>,filterName:str, ruleType: Type<Rule>): IValidatorChain
   {static}-quoteFilter(args:Namespace)

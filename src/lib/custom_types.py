@@ -3,10 +3,10 @@ from dataclasses import dataclass
 
 
 class FilterTag(Enum):
-    BASIC_NARR = "--basic-narr"
+    NARRATOR = "--narr"
     BASIC_CHAR_OBJ = "--basic-char-obj"
-    ITALIC_NARR = "--italic-narr"
-    PARENTHESIS_NARR = "--parenthesis-narr"
+    ITALIC = "--italic"
+    PARENTHESIS = "--parenthesis"
     BASIC_CHAR = "--basic-char"
     NONE_CHAR = "--none-char"
     NONE_CHAR_OBJ = "--none-char-obj"

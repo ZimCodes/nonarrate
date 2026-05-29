@@ -9,12 +9,12 @@ class TestRemoveUniqueConst(unittest.TestCase):
         self.parser = CLIParser()
 
     def test_action(self):
-        option = FilterTag.BASIC_NARR.value
+        option = FilterTag.NARRATOR.value
         args = fixture.get_args(self.parser, f"game/ {option}")
         self.assertNotIn(option, args.narr_types)
 
     def test_multiple(self):
-        options = [FilterTag.BASIC_NARR.value, FilterTag.ITALIC_NARR.value]
+        options = [FilterTag.NARRATOR.value, FilterTag.ITALIC.value]
         args = fixture.get_args(self.parser, f"game/ {options[0]} {options[1]}")
         for i in range(len(options)):
             with self.subTest(name=options[i]):

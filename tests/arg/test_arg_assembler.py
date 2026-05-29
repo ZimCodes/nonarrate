@@ -37,8 +37,8 @@ class TestArgAssembler(unittest.TestCase):
         args = [
             "game/",
             FilterTag.BASIC_CHAR.value,
-            FilterTag.ITALIC_NARR.value,
-            FilterTag.BASIC_NARR.value,
+            FilterTag.ITALIC.value,
+            FilterTag.NARRATOR.value,
         ]
         self.start(args, 8)
 
@@ -46,10 +46,10 @@ class TestArgAssembler(unittest.TestCase):
         args = [
             "game/",
             FilterTag.BASIC_CHAR.value,
-            FilterTag.ITALIC_NARR.value,
-            FilterTag.PARENTHESIS_NARR.value,
+            FilterTag.ITALIC.value,
+            FilterTag.PARENTHESIS.value,
             FilterTag.BASIC_CHAR_OBJ.value,
-            FilterTag.BASIC_NARR.value,
+            FilterTag.NARRATOR.value,
             FilterTag.EXPRESSION_CUES.value,
             FilterTag.ONLY_PUNCTUATIONS.value,
             FilterTag.NONE_CHAR.value,
@@ -74,10 +74,10 @@ class TestArgAssembler(unittest.TestCase):
         args = [
             "game/",
             FilterTag.BASIC_CHAR.value,
-            FilterTag.ITALIC_NARR.value,
-            FilterTag.PARENTHESIS_NARR.value,
+            FilterTag.ITALIC.value,
+            FilterTag.PARENTHESIS.value,
             FilterTag.BASIC_CHAR_OBJ.value,
-            FilterTag.BASIC_NARR.value,
+            FilterTag.NARRATOR.value,
             FilterTag.NONE_CHAR_OBJ.value,
             FilterTag.EXPRESSION_CUES.value,
             FilterTag.ONLY_PUNCTUATIONS.value,
@@ -96,10 +96,10 @@ class TestArgAssembler(unittest.TestCase):
         args = [
             "game/",
             FilterTag.BASIC_CHAR.value,
-            FilterTag.ITALIC_NARR.value,
-            FilterTag.PARENTHESIS_NARR.value,
+            FilterTag.ITALIC.value,
+            FilterTag.PARENTHESIS.value,
             FilterTag.BASIC_CHAR_OBJ.value,
-            FilterTag.BASIC_NARR.value,
+            FilterTag.NARRATOR.value,
             FilterTag.NONE_CHAR_OBJ.value,
             FilterTag.EXPRESSION_CUES.value,
             FilterTag.ONLY_PUNCTUATIONS.value,
@@ -118,9 +118,9 @@ class TestArgAssembler(unittest.TestCase):
         args = [
             "game/",
             FilterTag.BASIC_CHAR.value,
-            FilterTag.PARENTHESIS_NARR.value,
+            FilterTag.PARENTHESIS.value,
             FilterTag.BASIC_CHAR_OBJ.value,
-            FilterTag.BASIC_NARR.value,
+            FilterTag.NARRATOR.value,
             FilterTag.NONE_CHAR_OBJ.value,
             FilterTag.ONLY_PUNCTUATIONS.value,
             FilterTag.NONE_CHAR.value,

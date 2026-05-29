@@ -192,6 +192,7 @@ with `--invalid-files`.
 See [Python's fnmatch library](https://docs.python.org/3/library/fnmatch.html#module-fnmatch)
 for list of available globs. **Globs**: `*`, `?`, `[...]`
 
+***NOTE: Nonarrate uses a set of globs to ignore files by default. See [IGNORED_FILES.md](./IGNORED_FILES.md) for list.**
 ***NOTE: Do *not* include `.rpy`. nonarrate will automatically assume this file type!**
 
 ___
@@ -305,27 +306,27 @@ These filters deal with the **dialogue** portion of dialogue box.
 
 | Commands                | Script Examples                                                                      | Description                                                                                                  |
 |-------------------------|--------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| --basic-narr            | “I’m the narrator of this game”                                                      | Dialogues without a speaker                                                                                  |
-| --italic-narr           | mc “{i}Maybe there’s food left over.{/i}" <br>mc "{tag}{i}Lesson learned!{/i}{/tag}" | Italics. Thinking dialogue.                                                                                  |
-| --parenthesis-narr      | mc “(It’s got to be here somewhere.)” <br>mc "{tag}(Opens the car door){/tag}"       | `()`. Thinking/Narrator dialogue                                                                             |
+| --narr                  | “I’m the narrator of this game”                                                      | Dialogues without a speaker                                                                                  |
+| --italic                | mc “{i}Maybe there’s food left over.{/i}" <br>mc "{tag}{i}Lesson learned!{/i}{/tag}" | Italics. Thinking dialogue.                                                                                  |
+| --parenthesis           | mc “(It’s got to be here somewhere.)” <br>mc "{tag}(Opens the car door){/tag}"       | `()`. Thinking/Narrator dialogue                                                                             |
 | --no-custom-tags, --nct | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"        | [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
 | --cues                  | mc "\**blushes softly*\*" <br>mc "{tag}\~*jumps*\~{/tag}"                            | Expression cues. \**smiles*\*, \~yawns\~, \*\**taps foot*\*\*                                                |
 | --punctuations          | mc "......" <br>mc "{tag}....{/tag}" <br>mc "!!!" <br>mc "????"                      | Dialogues with only punctuation marks                                                                        |
 
-***—basic-narr***
+***—narr***
 
 Keep dialogues that do not have a speaker.
 
 Dialogues without a speaker are a clear indication of narration. Use this option if you want to keep this form
 of narration.
 
-***—italic-narr***
+***—italic***
 
 Keep dialogues that are fully italic.
 
 Developers tend to use italics to indicate what a person is thinking about. Use this option to allow this feature.
 
-***—parenthesis-narr***
+***—parenthesis***
 
 Keep dialogues wrapped entirely in a parenthesis
 

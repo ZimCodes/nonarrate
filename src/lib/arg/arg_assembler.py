@@ -11,19 +11,6 @@ from lib.validator.rule import SpeakerRules, DialogueRules, QuoteRules, Rule
 class ArgAssembler:
     """Provides a class for converting parsed arguments into something more useful."""
 
-    __narr_validators: dict[str, list[IValidatorChain] | IValidatorChain] = {
-        FilterTag.BASIC_NARR.value: IValidatorChainSolo(DialogueRules.BASIC.value),
-        FilterTag.BASIC_CHAR_OBJ.value: ObjectStrategy(SpeakerRules.OBJECT_BASIC.value),
-        FilterTag.ITALIC_NARR.value: [IValidatorChainSolo(DialogueRules.ITALIC.value),
-                                      ObjectStrategy(SpeakerRules.OBJECT_ITALIC.value)],
-        FilterTag.PARENTHESIS_NARR.value: IValidatorChainSolo(DialogueRules.PARENTHESIS.value),
-        FilterTag.BASIC_CHAR.value: IValidatorChainSolo(SpeakerRules.CHARACTER_BASIC.value),
-        FilterTag.NONE_CHAR_OBJ.value: ObjectStrategy(SpeakerRules.OBJECT_NONE.value),
-        FilterTag.EXPRESSION_CUES.value: [IValidatorChainSolo(DialogueRules.EXPRESSION_CUE_TILDA.value),
-                                          IValidatorChainSolo(DialogueRules.EXPRESSION_CUE_ASTERISK.value)],
-        FilterTag.ONLY_PUNCTUATIONS.value: IValidatorChainSolo(DialogueRules.ONLY_PUNCTUATION.value),
-        FilterTag.NONE_CHAR.value: IValidatorChainSolo(SpeakerRules.CHARACTER_NONE.value),
-    }
     __narg_validators: dict[str, type[IValidatorChain]] = {
         FilterTag.NO_CUSTOM_TEXT_TAGS.value: IValidatorChainSolo,
         FilterTag.NO_CUSTOM_CHARS.value: IValidatorChainSolo,
@@ -60,12 +47,13 @@ class ArgAssembler:
         current_validator = args.validator
         if args.narr_types:
             for narr_type in args.narr_types:
-                if type(cls.__narr_validators[narr_type]) == list:
-                    for validator in cls.__narr_validators[narr_type]:
+                narr_filters = cls.__get_filters(narr_type)
+                if type(narr_filters) == list:
+                    for validator in narr_filters:
                         current_validator.next_validator = validator
                         current_validator = current_validator.next_validator
                 else:
-                    current_validator.next_validator = cls.__narr_validators[narr_type]
+                    current_validator.next_validator = narr_filters
                     current_validator = current_validator.next_validator
         current_validator = cls.__narg_filter(
             current_validator, cls.__escape(args, args.no_custom_tags), FilterTag.NO_CUSTOM_TEXT_TAGS.value,
@@ -83,6 +71,30 @@ class ArgAssembler:
             current_validator, cls.__escape(args, args.no_custom_char_var_objs),
             FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value, SpeakerRules.OBJECT_VAR.value
         )
+
+    @staticmethod
+    def __get_filters(option_name: str) -> list[IValidatorChain] | IValidatorChain:
+        match option_name:
+            case FilterTag.BASIC_CHAR_OBJ.value:
+                return ObjectStrategy(SpeakerRules.OBJECT_BASIC.value)
+            case FilterTag.ITALIC.value:
+                return [IValidatorChainSolo(DialogueRules.ITALIC.value),
+                        ObjectStrategy(SpeakerRules.OBJECT_ITALIC.value)]
+            case FilterTag.PARENTHESIS.value:
+                return IValidatorChainSolo(DialogueRules.PARENTHESIS.value)
+            case FilterTag.BASIC_CHAR.value:
+                return IValidatorChainSolo(SpeakerRules.CHARACTER_BASIC.value)
+            case FilterTag.NONE_CHAR_OBJ.value:
+                return ObjectStrategy(SpeakerRules.OBJECT_NONE.value)
+            case FilterTag.EXPRESSION_CUES.value:
+                return [IValidatorChainSolo(DialogueRules.EXPRESSION_CUE_TILDA.value),
+                        IValidatorChainSolo(DialogueRules.EXPRESSION_CUE_ASTERISK.value)]
+            case FilterTag.ONLY_PUNCTUATIONS.value:
+                return IValidatorChainSolo(DialogueRules.ONLY_PUNCTUATION.value)
+            case FilterTag.NONE_CHAR.value:
+                return IValidatorChainSolo(SpeakerRules.CHARACTER_NONE.value)
+            case _:
+                return IValidatorChainSolo(DialogueRules.BASIC.value)
 
     @staticmethod
     def __escape(args, arg_filter_val: list[str] | None) -> str | list[str] | None:
@@ -129,7 +141,8 @@ class ArgAssembler:
                                               IValidatorChainSolo, QuoteRules.TEXT_TAG.value)
 
     @staticmethod
-    def __quote_nargs(validator, arg_filter: str | list[str] | None, filter_type: type[IValidatorChain], rule_type: type[Rule]):
+    def __quote_nargs(validator, arg_filter: str | list[str] | None, filter_type: type[IValidatorChain],
+                      rule_type: type[Rule]):
         if not arg_filter:
             return validator
         if type(arg_filter) is str:
