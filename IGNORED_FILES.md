@@ -12,22 +12,23 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 | sound(s)  | video(s) |     shaders     |   font   |
 | movie(s)  | screens  | python-packages | Gallery  |
 |    sfx    |   libs   |       ui        |    UI    |
+| replay(s) |    bg    |       bgm       |   anim   |
+|    vi     |    vo    |                 |          |
 
 ## Invalid Files
 **NOTE:** case-insensitive. Meaning `Credits`, `credits`, `cReDiTS` will be ignored.
 
-|                   |             |             |                |
-|:-----------------:|:-----------:|:-----------:|:--------------:|
-|        gui        |   options   |   screens   |     images     |
-| kinetic_text_tags |   camera    |   credits   |   disclaimer   |
-|   splashscreen    | transitions | transforms  | achievement(s) |
-|       music       |    audio    | animations  |     scenes     |
-|      keymap       | background  | backgrounds |  hsceneselect  |
-|   chapterselect   |   extras    |  video(s)   | layeredimages  |
-|     00warper      |  minigame   |             |                |
+|                   |               |            |            |
+|:-----------------:|:-------------:|:----------:|:----------:|
+|        gui        |    options    |   extras   |  video(s)  |
+| kinetic_text_tags | chapterselect |  credits   | disclaimer |
+|   hsceneselect    |  transitions  | transforms |  00warper  |
+|       music       |     audio     | animations |   scenes   |
+|      keymap       | background(s) |            |            |
 
 ## Invalid Globs
-|                |             |                  |                       |
-|:--------------:|:-----------:|:----------------:|:---------------------:|
-| `*[gG]allery*` | `[Vv]oice*` | `[Aa][Tt][Ll]_*` | `[Aa]ction[Ee]ditor*` |
-|  `*highlight`  |             |                  |                       |
+|                |                |                  |                       |
+|:--------------:|:--------------:|:----------------:|:---------------------:|
+| `*[gG]allery*` |  `[Vv]oice*`   | `[Aa][Tt][Ll]_*` | `[Aa]ction[Ee]ditor*` |
+|  `*highlight`  | `achievement*` |    `*viewer*`    |       `*image*`       |
+|   `*camera*`   |  `*minigame"`  |    `*screen*`    |                       |

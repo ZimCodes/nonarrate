@@ -31,7 +31,7 @@ class ErrorFixer:
     attempts to fix these errors cause by the tool.
     """
 
-    _dest_pat: re.Pattern = re.compile(r"(?:and )?File\s+.+(game/.+\.rpy)")
+    _dest_pat: re.Pattern = re.compile(r"(?:and )?File\s+.+?(game/.+\.rpy)")
     _line_num_pat: re.Pattern = re.compile(r".+line (\d+):")
     _type_pat: re.Pattern = re.compile(
         rf".+({ErrorType.NON_EMPTY}|{ErrorType.INDENTED_LINE}|{ErrorType.EXPECTED_STATEMENT}|[iI]ndentation mismatch|{ErrorType.MENU_NO_CHOICES})"

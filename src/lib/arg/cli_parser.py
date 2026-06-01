@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "4.0.0"
+        self.__version_num = "4.0.1"
         self.__setup()
 
     def __setup(self):
@@ -119,6 +119,14 @@ class CLIParser:
                 "ui",
                 "UI",
                 "libs",
+                "replay",
+                "replays",
+                "cg",
+                "bgm",
+                "bg",
+                "anim",
+                "vi",
+                "vo",
             },
             metavar="IGNORE_FOLDERS",
             help="Ignore specified subfolders when looking for .rpy files",
@@ -136,15 +144,9 @@ class CLIParser:
             action=AppendUniqueLower,
             default={"gui",
                      "options",
-                     "screens",
-                     "images",
-                     "camera",
                      "credits",
-                     "splashscreen",
                      "transitions",
                      "transforms",
-                     "achievement",
-                     "achievements",
                      "audio",
                      "animations",
                      "scenes",
@@ -159,9 +161,7 @@ class CLIParser:
                      "video",
                      "videos",
                      "00warper",
-                     "minigame",
                      "kinetic_text_tags",
-                     "layeredimages",
                      },
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files. Case-insensitive",
@@ -183,6 +183,12 @@ class CLIParser:
                 "[Aa][Tt][Ll]_*",
                 "[Aa]ction[Ee]ditor*",
                 "*highlight",
+                "achievement*",
+                "*viewer*",
+                "*image*",
+                "*camera*",
+                "*minigame",
+                "*screen*"
             },
             metavar="IGNORE_FILE_GLOBS",
             help="Ignore specified [files] using glob syntax."

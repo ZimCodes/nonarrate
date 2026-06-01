@@ -13,11 +13,13 @@ class ValidRenpyFilter(RenpyFilter):
 
     @override
     def _has_passed_file_glob(self, file_name: str) -> bool:
-        return self._glob_filter_set is None or any(
+        if self._glob_filter_set is None:
+            return True
+
+        return any(
             (
-                file_name
+                fnmatch.fnmatchcase(file_name, pat + RenpyFilter._file_ext)
                 for pat in self._glob_filter_set
-                if fnmatch.fnmatchcase(file_name, pat + RenpyFilter._file_ext)
             )
         )
 
