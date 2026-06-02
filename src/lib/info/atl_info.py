@@ -13,7 +13,7 @@ class AtlInfo:
         https://www.renpy.org/doc/html/transforms.html#atl-animation-and-transformation-language
     """
 
-    __atl_pat: re.Pattern = re.compile(r".*\b(?:image|layeredimage|show|scene|transform)\b[^:]+:")
+    __atl_pat: re.Pattern = re.compile(r'[^"\']*\b(?:image|layeredimage|show|scene|transform)\b[^:]+:')
 
     def __init__(self):
         self.is_atl = False

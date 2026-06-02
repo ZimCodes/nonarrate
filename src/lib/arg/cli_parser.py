@@ -188,7 +188,8 @@ class CLIParser:
                 "*image*",
                 "*camera*",
                 "*minigame",
-                "*screen*"
+                "*screen*",
+                "replay*",
             },
             metavar="IGNORE_FILE_GLOBS",
             help="Ignore specified [files] using glob syntax."
