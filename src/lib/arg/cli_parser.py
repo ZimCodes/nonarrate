@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "4.0.1"
+        self.__version_num = "4.0.2"
         self.__setup()
 
     def __setup(self):
@@ -162,6 +162,7 @@ class CLIParser:
                      "videos",
                      "00warper",
                      "kinetic_text_tags",
+                     "y_outline",
                      },
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files. Case-insensitive",
