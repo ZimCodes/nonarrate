@@ -133,4 +133,4 @@ class TestArgAssembler(unittest.TestCase):
 
     def test_triple_quote_with_nargs(self):
         args = ["game/", FilterTag.NO_CUSTOM_TEXT_TAGS.value, "plw", "blq"]
-        self.start(args, 7, True)
+        self.start(args, 9, True)

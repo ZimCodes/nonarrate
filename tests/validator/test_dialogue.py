@@ -350,9 +350,9 @@ class TestDialogue(unittest.TestCase):
         self.start(obj, [244, 245, 246, 247, 250, 251, 256,261])
 
     def test_double_guillemet(self):
-        obj = validate_solo(DialogueRules.DOUBLE_GUILLEMET.value)
+        obj = validate_solo(DialogueRules.GUILLEMET_DOUBLE.value)
         self.start(obj, [267])
 
     def test_single_guillemet(self):
-        obj = validate_solo(DialogueRules.SINGLE_GUILLEMET.value)
+        obj = validate_solo(DialogueRules.GUILLEMET_SINGLE.value)
         self.start(obj, [268])

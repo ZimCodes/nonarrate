@@ -21,7 +21,9 @@ class ArgAssembler:
                                                  IValidatorChainSolo(QuoteRules.EXPRESSION_CUE_ASTERISK.value),
                                                  IValidatorChainSolo(QuoteRules.ITALIC.value),
                                                  IValidatorChainSolo(QuoteRules.ONLY_PUNCTUATION.value),
-                                                 IValidatorChainSolo(QuoteRules.PARENTHESIS.value)]
+                                                 IValidatorChainSolo(QuoteRules.PARENTHESIS.value),
+                                                 IValidatorChainSolo(QuoteRules.GUILLEMET_SINGLE.value),
+                                                 IValidatorChainSolo(QuoteRules.GUILLEMET_DOUBLE.value)]
 
     @classmethod
     def assemble(cls, args: Namespace):
@@ -94,8 +96,8 @@ class ArgAssembler:
             case FilterTag.NONE_CHAR.value:
                 return IValidatorChainSolo(SpeakerRules.CHARACTER_NONE.value)
             case FilterTag.GUILLEMETS.value:
-                return [IValidatorChainSolo(DialogueRules.SINGLE_GUILLEMET.value),
-                        IValidatorChainSolo(DialogueRules.DOUBLE_GUILLEMET.value)]
+                return [IValidatorChainSolo(DialogueRules.GUILLEMET_SINGLE.value),
+                        IValidatorChainSolo(DialogueRules.GUILLEMET_DOUBLE.value)]
             case _:
                 return IValidatorChainSolo(DialogueRules.BASIC.value)
 

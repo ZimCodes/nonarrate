@@ -9,6 +9,7 @@ from .var_object_rule import VarObjectRule
 from .object_rule import ObjectRule
 from .char_rule import CharRule
 from .text_tag_rule import TextTagRule
+from .quote_surround_rule import QuoteSurroundRule
 from enum import Enum
 
 
@@ -36,9 +37,9 @@ class DialogueRules(Enum):
     # mc "{tag}*smiles*{/tag}"
     EXPRESSION_CUE_ASTERISK = CueRule(r'\*')
     # mc "«I am currently thinking right now!»"
-    DOUBLE_GUILLEMET = SurroundRule('«', '»')
+    GUILLEMET_DOUBLE = SurroundRule('«', '»')
     # mc "‹I am currently thinking right now!›"
-    SINGLE_GUILLEMET = SurroundRule('‹', '›')
+    GUILLEMET_SINGLE = SurroundRule('‹', '›')
     # elnor "{fzs}This is a small bold font tag.{/fzs}"
     # gabby "{ba=100}Big bold asterisk text!{/ba}"
     TEXT_TAG = TextTagRule
@@ -78,3 +79,5 @@ class QuoteRules(Enum):
     PARENTHESIS = Rule(
         r'^(?:{\w+(?:=[^}]+)?})*\s*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
     TEXT_TAG = QuoteTextTagRule
+    GUILLEMET_DOUBLE = QuoteSurroundRule('«', '»')
+    GUILLEMET_SINGLE = QuoteSurroundRule('‹', '›')
