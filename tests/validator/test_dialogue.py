@@ -291,6 +291,9 @@ class TestDialogue(unittest.TestCase):
             # Basic narrator with escaped quotes
             265: '"It is almost \\"7:00\\" now!"',
             266: "'It is almost \\'7:00\\' now!'",
+            # Guillemets
+            267: 'mc "«I am currently thinking about things!»"',
+            268: 'mc "‹I am currently thinking about things!›"',
         }
 
     def validate_lines(self):
@@ -345,3 +348,11 @@ class TestDialogue(unittest.TestCase):
     def test_only_punctuations(self):
         obj = validate_solo(DialogueRules.ONLY_PUNCTUATION.value)
         self.start(obj, [244, 245, 246, 247, 250, 251, 256,261])
+
+    def test_double_guillemet(self):
+        obj = validate_solo(DialogueRules.DOUBLE_GUILLEMET.value)
+        self.start(obj, [267])
+
+    def test_single_guillemet(self):
+        obj = validate_solo(DialogueRules.SINGLE_GUILLEMET.value)
+        self.start(obj, [268])

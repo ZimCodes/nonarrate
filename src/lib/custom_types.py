@@ -12,6 +12,7 @@ class FilterTag(Enum):
     NONE_CHAR_OBJ = "--none-char-obj"
     EXPRESSION_CUES = "--cues"
     ONLY_PUNCTUATIONS = "--punctuations"
+    GUILLEMETS = "--guillemets"
     NO_CUSTOM_TEXT_TAGS = "--no-custom-tags"
     NO_CUSTOM_CHARS = "--no-custom-chars"
     NO_CUSTOM_CHAR_OBJS = "--no-custom-char-objs"

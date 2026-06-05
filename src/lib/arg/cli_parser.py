@@ -204,7 +204,8 @@ class CLIParser:
             FilterTag.NONE_CHAR_OBJ.value: "Keep empty Character objects.",
             FilterTag.EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, ~raises eyebrows~.",
             FilterTag.ONLY_PUNCTUATIONS.value: "Keeps dialogue containing only punctuation marks. Ex: '......'",
-            FilterTag.NONE_CHAR.value: "Keeps empty quoted speakers not saved to a Character object."
+            FilterTag.NONE_CHAR.value: "Keeps empty quoted speakers not saved to a Character object.",
+            FilterTag.GUILLEMETS.value: "Keeps dialogue surrounded by Guillemets (double & single)."
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(

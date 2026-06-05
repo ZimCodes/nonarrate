@@ -4,6 +4,7 @@ from .basic_char_rule import BasicCharRule
 from .basic_object_rule import BasicObjectRule
 from .quote_cue_rule import QuoteCueRule
 from .quote_text_tag_rule import QuoteTextTagRule
+from .surround_rule import SurroundRule
 from .var_object_rule import VarObjectRule
 from .object_rule import ObjectRule
 from .char_rule import CharRule
@@ -22,7 +23,8 @@ class DialogueRules(Enum):
     # mc "{tag}........................{/tag}"
     # mc "!!!"
     # mc "????"
-    ONLY_PUNCTUATION = Rule(r'^(?:([\'"])(?:(?!\1).)+\1|\w+?) ([\'"])(?:{\w+(?:=[^}]+)?})*\s*[.?!]+\s*(?:{/\w+})*\s*(?:\2|\2\s*with .+|\2\s*\([^)]+\))?$')
+    ONLY_PUNCTUATION = Rule(
+        r'^(?:([\'"])(?:(?!\1).)+\1|\w+?) ([\'"])(?:{\w+(?:=[^}]+)?})*\s*[.?!]+\s*(?:{/\w+})*\s*(?:\2|\2\s*with .+|\2\s*\([^)]+\))?$')
     # mc "(It's got to be here somewhere.)"
     # mc "{tag}(It's got to be here somewhere.){/tag}"
     PARENTHESIS = Rule(
@@ -33,6 +35,10 @@ class DialogueRules(Enum):
     # mc *smiles*
     # mc "{tag}*smiles*{/tag}"
     EXPRESSION_CUE_ASTERISK = CueRule(r'\*')
+    # mc "«I am currently thinking right now!»"
+    DOUBLE_GUILLEMET = SurroundRule('«', '»')
+    # mc "‹I am currently thinking right now!›"
+    SINGLE_GUILLEMET = SurroundRule('‹', '›')
     # elnor "{fzs}This is a small bold font tag.{/fzs}"
     # gabby "{ba=100}Big bold asterisk text!{/ba}"
     TEXT_TAG = TextTagRule
@@ -52,7 +58,8 @@ class SpeakerRules(Enum):
     OBJECT_ITALIC = [Rule(r"what_italic\s*=\s*True"), Rule(r"what_prefix\s*=\s*([\"'])\{i}\1"),
                      Rule(r"(?:Dynamic)?Character\(\s*(['\"])\s*\{i\}[^\"']+\{/?i\}\s*\1")]
     # Character(None)
-    OBJECT_NONE = [Rule(r"(?:Dynamic)?Character\s*\(\s*(?:name\s*=\s*)?None.*\)"), Rule(r"(?:Dynamic)?Character\s*\(\s*\)"),
+    OBJECT_NONE = [Rule(r"(?:Dynamic)?Character\s*\(\s*(?:name\s*=\s*)?None.*\)"),
+                   Rule(r"(?:Dynamic)?Character\s*\(\s*\)"),
                    Rule(r"(?:Dynamic)?Character\s*\(\s*[\"']\s*[\"']\s*.*\)"),
                    Rule(r"(?:Dynamic)?Character\s*\((?!\s*[\"']{2}|\s*name\s?=|\s*None)(?:\s*[\w_]+\s*=\s*.+)+\)"),
                    # Filters empty translation function, '_()' and '_("")'
@@ -61,10 +68,13 @@ class SpeakerRules(Enum):
     # narrator_variable = Character(...)
     OBJECT_VAR = VarObjectRule
 
+
 class QuoteRules(Enum):
     EXPRESSION_CUE_TILDA = QuoteCueRule('~')
     EXPRESSION_CUE_ASTERISK = QuoteCueRule(r'\*')
-    ITALIC = Rule(r'^(?:{\w+(?:=[^}]+)?})*\s*\{i\}((?:(?!\{/?i\}).)+)(?:\{/?i\})?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
+    ITALIC = Rule(
+        r'^(?:{\w+(?:=[^}]+)?})*\s*\{i\}((?:(?!\{/?i\}).)+)(?:\{/?i\})?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
     ONLY_PUNCTUATION = Rule(r'^(?:{\w+(?:=[^}]+)?})*\s*[.?!]+\s*(?:{/\w+})*$')
-    PARENTHESIS = Rule(r'^(?:{\w+(?:=[^}]+)?})*\s*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
+    PARENTHESIS = Rule(
+        r'^(?:{\w+(?:=[^}]+)?})*\s*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
     TEXT_TAG = QuoteTextTagRule

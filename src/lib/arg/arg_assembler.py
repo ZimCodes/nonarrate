@@ -93,6 +93,9 @@ class ArgAssembler:
                 return IValidatorChainSolo(DialogueRules.ONLY_PUNCTUATION.value)
             case FilterTag.NONE_CHAR.value:
                 return IValidatorChainSolo(SpeakerRules.CHARACTER_NONE.value)
+            case FilterTag.GUILLEMETS.value:
+                return [IValidatorChainSolo(DialogueRules.SINGLE_GUILLEMET.value),
+                        IValidatorChainSolo(DialogueRules.DOUBLE_GUILLEMET.value)]
             case _:
                 return IValidatorChainSolo(DialogueRules.BASIC.value)
 
