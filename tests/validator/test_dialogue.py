@@ -294,6 +294,10 @@ class TestDialogue(unittest.TestCase):
             # Guillemets
             267: 'mc "«I am currently thinking about things!»"',
             268: 'mc "‹I am currently thinking about things!›"',
+            # Basic narrator with escaped characters
+            269: r'"Maybe the point was never reaching the end, \nbut finding out who I\'d become before I got there."',
+            270: r'"The farther I wander, \nthe less I miss the version of me that never left"',
+            271: r'"The farther I wander, the less I miss the version of \me that never left"',
         }
 
     def validate_lines(self):
@@ -312,19 +316,19 @@ class TestDialogue(unittest.TestCase):
 
     def test_basic(self):
         obj = validate_solo(DialogueRules.BASIC.value)
-        self.start(obj, [0, 4, 5, 6, 38, 73, 132, 167, 199, 201,258,265,266])
+        self.start(obj, [0, 4, 5, 6, 38, 73, 132, 167, 199, 201, 258, 265, 266, 269, 270, 271])
 
     def test_parenthesis(self):
         obj = validate_solo(DialogueRules.PARENTHESIS.value)
         self.start(obj,
                    [12, 13, 14, 15, 16, 17, 18, 24, 25, 26, 27, 28, 29, 30, 206, 207, 208, 209, 211, 213, 215, 217, 230,
-                    231, 235, 240, 241, 242, 243, 248, 249, 253,264])
+                    231, 235, 240, 241, 242, 243, 248, 249, 253, 264])
 
     def test_italic(self):
         obj = validate_solo(DialogueRules.ITALIC.value)
         self.start(obj,
                    [44, 45, 46, 47, 48, 49, 50, 51, 57, 58, 59, 60, 61, 62, 63, 64, 202, 203, 204, 205, 223, 228, 229,
-                    234, 238, 239, 252,259])
+                    234, 238, 239, 252, 259])
 
     def test_custom_tags(self):
         rule = DialogueRules.TEXT_TAG.value("fzs|pyw")
@@ -332,22 +336,23 @@ class TestDialogue(unittest.TestCase):
         self.start(
             obj,
             [76, 77, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 98, 99, 101, 102, 103, 104,
-             105, 106, 107, 108, 109, 110, 111, 112, 113, 210, 211, 212, 213, 214, 215, 216, 217,260],
+             105, 106, 107, 108, 109, 110, 111, 112, 113, 210, 211, 212, 213, 214, 215, 216, 217, 260],
         )
 
     def test_cues_asterisk(self):
         obj = validate_solo(DialogueRules.EXPRESSION_CUE_ASTERISK.value)
         self.start(obj,
-                   [138, 139, 140, 141, 143, 145, 151, 152, 153, 154, 156, 158, 218, 220, 222, 224, 225, 232, 236, 254,262])
+                   [138, 139, 140, 141, 143, 145, 151, 152, 153, 154, 156, 158, 218, 220, 222, 224, 225, 232, 236, 254,
+                    262])
 
     def test_cues_tilda(self):
         obj = validate_solo(DialogueRules.EXPRESSION_CUE_TILDA.value)
         self.start(obj,
-                   [173, 174, 175, 176, 178, 185, 186, 187, 188, 190, 219, 221, 226, 227, 233, 237, 255,263])
+                   [173, 174, 175, 176, 178, 185, 186, 187, 188, 190, 219, 221, 226, 227, 233, 237, 255, 263])
 
     def test_only_punctuations(self):
         obj = validate_solo(DialogueRules.ONLY_PUNCTUATION.value)
-        self.start(obj, [244, 245, 246, 247, 250, 251, 256,261])
+        self.start(obj, [244, 245, 246, 247, 250, 251, 256, 261])
 
     def test_double_guillemet(self):
         obj = validate_solo(DialogueRules.GUILLEMET_DOUBLE.value)
