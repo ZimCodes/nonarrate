@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "4.1.0"
+        self.__version_num = "4.2.0"
         self.__setup()
 
     def __setup(self):
@@ -190,7 +190,7 @@ class CLIParser:
                 "*camera*",
                 "*minigame",
                 "*screen*",
-                "replay*",
+                "[Rr]eplay*",
             },
             metavar="IGNORE_FILE_GLOBS",
             help="Ignore specified [files] using glob syntax."
