@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "4.2.0"
+        self.__version_num = "4.3.0"
         self.__setup()
 
     def __setup(self):
@@ -205,7 +205,8 @@ class CLIParser:
             FilterTag.EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, ~raises eyebrows~.",
             FilterTag.ONLY_PUNCTUATIONS.value: "Keeps dialogue containing only punctuation marks. Ex: '......'",
             FilterTag.NONE_CHAR.value: "Keeps empty quoted speakers not saved to a Character object.",
-            FilterTag.GUILLEMETS.value: "Keeps dialogue surrounded by Guillemets (double & single)."
+            FilterTag.GUILLEMETS.value: "Keeps dialogue surrounded by Guillemets (double & single).",
+            FilterTag.NVL.value: "Keeps NVL-Mode narrator."
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(

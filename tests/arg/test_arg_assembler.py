@@ -40,7 +40,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.ITALIC.value,
             FilterTag.NARRATOR.value,
         ]
-        self.start(args, 10)
+        self.start(args, 11)
 
     def test_nargs(self):
         args = [
@@ -55,6 +55,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.NONE_CHAR.value,
             FilterTag.NONE_CHAR_OBJ.value,
             FilterTag.GUILLEMETS.value,
+            FilterTag.NVL.value,
             FilterTag.NO_CUSTOM_CHARS.value,
             "ten",
             "narrator",
@@ -83,6 +84,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.EXPRESSION_CUES.value,
             FilterTag.ONLY_PUNCTUATIONS.value,
             FilterTag.GUILLEMETS.value,
+            FilterTag.NVL.value,
             FilterTag.NONE_CHAR.value,
             "--regex",
             FilterTag.NO_CUSTOM_CHARS.value,
@@ -107,6 +109,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.ONLY_PUNCTUATIONS.value,
             FilterTag.NONE_CHAR.value,
             FilterTag.GUILLEMETS.value,
+            FilterTag.NVL.value,
             FilterTag.NO_CUSTOM_CHARS.value,
             "ten{3}",
             "seco.+",
@@ -128,6 +131,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.ONLY_PUNCTUATIONS.value,
             FilterTag.NONE_CHAR.value,
             FilterTag.GUILLEMETS.value,
+            FilterTag.NVL.value,
         ]
         self.start(args,5)
 

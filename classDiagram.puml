@@ -105,6 +105,7 @@ class LineInfo {
   #hasTripleQuote: bool
   #isMenu: bool
   +hasLooseDoubleQuote(): bool
+  +hasMoreTripleQuote(): bool
   +setup(line:str)
   {static}-isAComment(stripLine:str): bool
   {static}-startswitchTripleQuote(stripLine:str): bool

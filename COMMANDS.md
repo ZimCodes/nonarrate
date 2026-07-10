@@ -217,6 +217,7 @@ outdated usage of `Character()` and is also supported by nonarrate!
 | --none-char-obj                       | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥) | Narrators using an empty character object. In short, nothing in the `name` parameter.                 |
 | --no-custom-chars,<br>--ncc           | “Lily's Inner Self” “It would be a good idea to distract them first”                                                                    | Custom Speaker wrapped in quotes                                                                      |
 | --no-custom-char-var-objs,<br>--nccvo | se = Character("Sue", …)                                                                                                                | Custom speaker saved to character object by their _variable_ name. In this example, its `se`.         |
+| --nvl                                 | nvl = nvl_narrator                                                                                                                      | Narrator in NVL-Mode. `nvl_narrator`                                                                  |
 
 ***—basic-char-obj***
 
@@ -291,6 +292,12 @@ Empty character objects, written as any of the following:
 These character objects are often either used as a blank speaker or are assigned
 an actual speaker name later *(often used when renaming a character later in
 the game.)*.
+
+***--nvl***
+
+Keeps NVL narrator.
+
+Keeps the default narrator found in NVL-Mode. See [Ren'Py NVL Mode](https://www.renpy.org/doc/html/nvl_mode.html#getting-started)
 
 ***—no-custom-chars***, ***—ncc*** `<speaker name>...`
 

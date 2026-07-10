@@ -142,12 +142,12 @@ class NarratorHandler:
 
                 if prev_info.multi_type is MultiLineType.NONE:
                     if (line_info.is_triple_quote_start
-                            or (is_narrator and line_info.has_triple_quote and not line_info.is_triple_quote_end)
-                            or (is_narrator and line_info.is_triple_quote_end)):
+                            or (is_narrator and line_info.has_triple_quote and not line_info.is_triple_quote_end and not line_info.more_triple_quotes)
+                            or (is_narrator and line_info.is_triple_quote_end and not line_info.more_triple_quotes)):
                         prev_info.multi_type = MultiLineType.TRIPLE_QUOTE
-                    elif line_info.has_loose_double_quote() and not cls.__is_closing(line_info.strip_line):
+                    elif line_info.has_loose_double_quote() and not cls.__is_closing(line_info.strip_line) and not line_info.has_triple_quote:
                         prev_info.multi_type = MultiLineType.SINGLE_QUOTE if is_narrator else MultiLineType.VALID_SINGLE_QUOTE
-                    elif not is_narrator and line_info.has_triple_quote:
+                    elif not is_narrator and line_info.has_triple_quote and not line_info.more_triple_quotes:
                         # linda """You are not narrator
                         prev_info.multi_type = MultiLineType.VALID_TRIPLE_QUOTE
 

@@ -98,6 +98,8 @@ class ArgAssembler:
             case FilterTag.GUILLEMETS.value:
                 return [IValidatorChainSolo(DialogueRules.GUILLEMET_SINGLE.value),
                         IValidatorChainSolo(DialogueRules.GUILLEMET_DOUBLE.value)]
+            case FilterTag.NVL.value:
+                return ObjectStrategy(SpeakerRules.NVL_BASIC.value)
             case _:
                 return IValidatorChainSolo(DialogueRules.BASIC.value)
 

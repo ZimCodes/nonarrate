@@ -18,6 +18,7 @@ class LineInfo:
             self._is_triple_quote_end = LineInfo.__endswith_triple_quote(self._strip_line)
             self._has_triple_quote = LineInfo.__has_triple_quote(self._strip_line)
             self._is_menu = LineInfo.__is_choice_menu(self._strip_line)
+            self._has_more_triple_quote = LineInfo.__has_more_triple_quote(self._strip_line)
 
     @staticmethod
     def __can_remove_hash(hash_index: int, double_quote_index: int, single_quote_index: int) -> bool:
@@ -27,6 +28,8 @@ class LineInfo:
     @classmethod
     def __strip_inline_comment(cls, strip_line: str) -> str:
         most_hash_index = strip_line.rfind(cls.__HASH)
+        if most_hash_index != -1 and strip_line[most_hash_index:].rfind('}') != -1:
+            return strip_line
         least_hash_index = strip_line.find(cls.__HASH)
         if most_hash_index == -1 and least_hash_index == -1:
             return strip_line
@@ -48,7 +51,14 @@ class LineInfo:
 
     @classmethod
     def __endswith_triple_quote(cls, strip_line: str) -> bool:
-        return strip_line.endswith(cls.__SINGLE_TRIPLE_QUOTE) or strip_line.endswith(cls.__DOUBLE_TRIPLE_QUOTE)
+        effect = "with vpunch"
+        return strip_line.endswith(cls.__SINGLE_TRIPLE_QUOTE) or strip_line.endswith(
+            f"{cls.__SINGLE_TRIPLE_QUOTE} {effect}") or strip_line.endswith(
+            cls.__DOUBLE_TRIPLE_QUOTE) or strip_line.endswith(f"{cls.__DOUBLE_TRIPLE_QUOTE} {effect}")
+
+    @staticmethod
+    def __endswith_vpunch(strip_line: str) -> bool:
+        return strip_line.endswith("with vpunch")
 
     @classmethod
     def __has_triple_quote(cls, strip_line: str) -> bool:
@@ -63,6 +73,14 @@ class LineInfo:
         no_escaped_quotes = self._strip_line.replace(r'\"', "|")
         return no_escaped_quotes.count(LineInfo.__DOUBLE_QUOTE) % 2 != 0
 
+    @staticmethod
+    def __has_more_triple_quote(strip_line) -> bool:
+        """Checks if more triple quotes are present."""
+        escaped_quote_num = strip_line.count('\\"')
+        triple_quote_num = strip_line.count('"')
+        total_triple_quote = triple_quote_num - escaped_quote_num
+        return total_triple_quote > 3
+
     def setup(self, line: str):
         self._strip_line = LineInfo.__strip_inline_comment(line.strip())
         self._is_comment = LineInfo.__is_a_comment(self._strip_line)
@@ -70,6 +88,7 @@ class LineInfo:
         self._is_triple_quote_end = LineInfo.__endswith_triple_quote(self._strip_line)
         self._has_triple_quote = LineInfo.__has_triple_quote(self._strip_line)
         self._is_menu = LineInfo.__is_choice_menu(self._strip_line)
+        self._has_more_triple_quote = LineInfo.__has_more_triple_quote(self._strip_line)
 
     @property
     def strip_line(self):
@@ -95,3 +114,7 @@ class LineInfo:
     def is_menu(self):
         """Checks if line is a choice menu."""
         return self._is_menu
+
+    @property
+    def more_triple_quotes(self):
+        return self._has_more_triple_quote

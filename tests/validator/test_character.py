@@ -61,6 +61,7 @@ class TestCharacter(unittest.TestCase):
                     'default dynamic2 = DynamicCharacter("Marco")',
                     'default dynamic3 = DynamicCharacter("")',
                     'default dynamic4 = DynamicCharacter(_())',
+                    'default nvl_narr = nvl_narrator',
                 ],
             )
         ]
@@ -169,6 +170,8 @@ class TestCharacter(unittest.TestCase):
             94: 'dynamic2 "It was dusty and tattered, with strange symbols and markings."',
             95: 'dynamic3 "It was dusty and tattered, with strange symbols and markings."',
             96: 'dynamic4 "It was dusty and tattered, with strange symbols and markings."',
+            # NVL narrator
+            97: 'nvl_narr "The mystery deepened."',
         }
 
     def setUp(self) -> None:
@@ -254,3 +257,7 @@ class TestCharacter(unittest.TestCase):
     def test_empty_char(self):
         obj = validate_solo(SpeakerRules.CHARACTER_NONE.value)
         self.start(obj, [83, 84])
+
+    def test_nvl(self):
+        obj = validate_obj(SpeakerRules.NVL_BASIC.value)
+        self.start_object(obj,[97])
