@@ -298,6 +298,8 @@ class TestDialogue(unittest.TestCase):
             269: r'"Maybe the point was never reaching the end, \nbut finding out who I\'d become before I got there."',
             270: r'"The farther I wander, \nthe less I miss the version of me that never left"',
             271: r'"The farther I wander, the less I miss the version of \me that never left"',
+            # Centered basic narrator
+            272: r'centered "The farther I wander, the less I miss the version of \me that never left"',
         }
 
     def validate_lines(self):
@@ -316,7 +318,7 @@ class TestDialogue(unittest.TestCase):
 
     def test_basic(self):
         obj = validate_solo(DialogueRules.BASIC.value)
-        self.start(obj, [0, 4, 5, 6, 38, 73, 132, 167, 199, 201, 258, 265, 266, 269, 270, 271])
+        self.start(obj, [0, 4, 5, 6, 38, 73, 132, 167, 199, 201, 258, 265, 266, 269, 270, 271, 272])
 
     def test_parenthesis(self):
         obj = validate_solo(DialogueRules.PARENTHESIS.value)

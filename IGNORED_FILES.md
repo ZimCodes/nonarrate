@@ -13,7 +13,7 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 | movie(s)  | screens  | python-packages | Gallery  |
 |    sfx    |   libs   |       ui        |    UI    |
 | replay(s) |    bg    |       bgm       |   anim   |
-|    vi     |    vo    |                 |          |
+|    vi     |    vo    |       img       |          |
 
 ## Invalid Files
 **NOTE:** case-insensitive. Meaning `Credits`, `credits`, `cReDiTS` will be ignored.
@@ -24,11 +24,11 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 | kinetic_text_tags | chapterselect |  credits   | disclaimer |
 |   hsceneselect    |  transitions  | transforms |  00warper  |
 |       music       |     audio     | animations |   scenes   |
-|      keymap       | background(s) |            |            |
+|      keymap       | background(s) | y_outline  |            |
 
 ## Invalid Globs
 |                |                |                  |                       |
 |:--------------:|:--------------:|:----------------:|:---------------------:|
 | `*[gG]allery*` |  `[Vv]oice*`   | `[Aa][Tt][Ll]_*` | `[Aa]ction[Ee]ditor*` |
 |  `*highlight`  | `achievement*` |    `*viewer*`    |       `*image*`       |
-|   `*camera*`   |  `*minigame"`  |    `*screen*`    |       `[Rr]eplay*`       |
+|   `*camera*`   |  `*minigame"`  |    `*screen*`    |     `[Rr]eplay*`      |

@@ -15,7 +15,8 @@ from enum import Enum
 
 class DialogueRules(Enum):
     # "Hey! I'm actually a narrator."
-    BASIC = Rule(r'^(["\'])(?:(?!\1|\\).|\\.)+(?:\1\s*with .+|\1\s*\([^)]+)?[^:]$')
+    # centered "Hey! I'm actually a narrator."
+    BASIC = Rule(r'^(?:centered\s)?(["\'])(?:(?!\1|\\).|\\.)+(?:\1\s*with .+|\1\s*\([^)]+)?[^:]$')
     # mc "{i}Maybe there's food left over.{/i}"
     # mc "{tag}{i}Maybe there's food left over.{/i}{/tag}"
     ITALIC = Rule(

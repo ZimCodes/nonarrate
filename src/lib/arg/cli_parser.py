@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "4.3.0"
+        self.__version_num = "4.3.1"
         self.__setup()
 
     def __setup(self):
@@ -127,6 +127,7 @@ class CLIParser:
                 "anim",
                 "vi",
                 "vo",
+                "img"
             },
             metavar="IGNORE_FOLDERS",
             help="Ignore specified subfolders when looking for .rpy files",
