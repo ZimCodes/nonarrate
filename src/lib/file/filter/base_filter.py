@@ -16,7 +16,7 @@ class BaseFilter(ABC):
         self._file_filter_set = file_filter_set
 
     @abstractmethod
-    def is_invalid_folder(self, dirpath: str,sub_dirs: list[str]) -> bool:
+    def is_invalid_folder(self, dirpath: str, sub_dirs: list[str]) -> bool:
         """Removes invalid subdirectories and check if current folder is valid.
 
         Args:

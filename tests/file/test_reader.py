@@ -42,7 +42,7 @@ class TestReader(unittest.TestCase):
         self.assertEqual(len(files), 1, "ex_reader.rpy should be the only valid file")
 
     def test_valid_dirs(self):
-        args = self._prepare_args([self._path, "--valid-dirs", "child_dir"])
+        args = self._prepare_args([self._path, "--valid-dirs", "child_dir", "--valid-globs", "*"])
         files = self._reader.walk_files(args.folder_or_file, args.file_filter)
         self.assertEqual(len(files), 2, "child_dir is the only valid folder to look for rpy files.")
 

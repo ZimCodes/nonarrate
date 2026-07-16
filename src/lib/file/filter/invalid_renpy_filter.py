@@ -29,3 +29,10 @@ class InvalidRenpyFilter(RenpyFilter):
         sub_dirs[:] = [sub_dir for sub_dir in sub_dirs if sub_dir not in self._folder_filter_set]
         dir_base_name = os.path.basename(dirpath)
         return any((x == dir_base_name for x in self._folder_filter_set))
+
+
+    @override
+    def is_valid_file(self, file_name: str) -> bool:
+        if not super().is_valid_file(file_name):
+            return False
+        return self._has_passed_file_literal(file_name) and self._has_passed_file_glob(file_name)

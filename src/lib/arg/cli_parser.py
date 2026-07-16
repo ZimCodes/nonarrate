@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "4.4.0"
+        self.__version_num = "4.4.1"
         self.__setup()
 
     def __setup(self):
@@ -84,7 +84,7 @@ class CLIParser:
             "--vd",
             action=AppendUnique,
             metavar="FOCUS_FOLDERS",
-            help="Look for .rpy files in these specified subfolders."
+            help="Tell nonarrate the specified folder(s) are valid to look through."
         )
         self.__add_search_arg(
             "--invalid-dirs",

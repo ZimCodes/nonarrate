@@ -105,12 +105,13 @@ ___
 
 ```bash
 # While looking through 'mycoolgame\game' ONLY use directories: gui/, gamepad_control_schemes/, and cache helper/
-nonarrate mycoolgame\game --valid-dirs gui gamepad_control_schemes "cache helper"
+nonarrate mycoolgame\game --valid-dirs gui gamepad_control_schemes "cache helper" --valid-globs *
 ```
 
-Look for .rpy files in these specified subfolders.
+Tell nonarrate what folders are valid to look through.
 
-Nonarrate will *only* use .rpy files found in the subfolders you specify when using this option.
+Nonarrate will *only* consider the folder(s) itself valid. If you want nonarrate to see the *.rpy files*
+within the folder(s) too, you must also use `--valid-files` or/and `--valid-globs`.
 
 ***NOTE:** `--valid-*` options take precedence over `--invalid-*` ones.
 

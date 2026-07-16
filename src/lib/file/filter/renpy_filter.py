@@ -38,8 +38,9 @@ class RenpyFilter(BaseFilter, abc.ABC):
     def _has_passed_file_literal(self, file_name: str) -> bool:
         pass
 
+    def _is_empty_glob_set(self) -> bool:
+        return self._glob_filter_set is None
+
     @override
     def is_valid_file(self, file_name: str) -> bool:
-        if not file_name.endswith(RenpyFilter._file_ext):
-            return False
-        return self._has_passed_file_literal(file_name) and self._has_passed_file_glob(file_name)
+        return file_name.endswith(RenpyFilter._file_ext)
