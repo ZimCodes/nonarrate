@@ -192,6 +192,7 @@ class CLIParser:
                 "*minigame",
                 "*screen*",
                 "[Rr]eplay*",
+                "[Ff]unction?"
             },
             metavar="IGNORE_FILE_GLOBS",
             help="Ignore specified [files] using glob syntax."
