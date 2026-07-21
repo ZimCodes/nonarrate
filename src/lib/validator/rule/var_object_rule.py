@@ -6,5 +6,5 @@ class VarObjectRule(Rule):
     def __init__(self, var_items: str | list[str]):
         if type(var_items) is list:
             var_items = "|".join(var_items)
-        super().__init__(rf"^(?:define|default)\s+\b(?:{var_items})\b")
+        super().__init__(rf"(?:\$|(?:define|default))\s+\b(?:{var_items})\b")
 

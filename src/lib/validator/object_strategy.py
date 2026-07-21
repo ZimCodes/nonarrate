@@ -14,7 +14,7 @@ class ObjectStrategy(IValidatorChain):
         define lily = Character("Lily")
     """
 
-    __obj_name_pat = re.compile(r"^\s*(?:define|default)\s+(\w+)")
+    __obj_name_pat = re.compile(r"^\s*(?:\$|(?:define|default))\s+(\w+)")
     _speaker_objects: set[str] = set()
     _char_item_pats: list[re.Pattern] = list()
     _validate_pat: "re.Pattern | None" = None

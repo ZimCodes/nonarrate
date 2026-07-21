@@ -217,7 +217,7 @@ outdated usage of `Character()` and is also supported by nonarrate!
 | --none-char                           | "" "It was a bright and stormy night."                                                                                                  | Using empty quotes in-place of speaker.                                                               |
 | --none-char-obj                       | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥) | Narrators using an empty character object. In short, nothing in the `name` parameter.                 |
 | --no-custom-chars,<br>--ncc           | “Lily's Inner Self” “It would be a good idea to distract them first”                                                                    | Custom Speaker wrapped in quotes                                                                      |
-| --no-custom-char-var-objs,<br>--nccvo | se = Character("Sue", …)                                                                                                                | Custom speaker saved to character object by their _variable_ name. In this example, its `se`.         |
+| --no-custom-char-var-objs,<br>--nccvo | se = Character("Sue", …)<br>$ se = Character("Sue")                                                                                     | Custom speaker saved to character object by their _variable_ name. In this example, its `se`.         |
 | --nvl                                 | nvl = nvl_narrator                                                                                                                      | Narrator in NVL-Mode. `nvl_narrator`                                                                  |
 
 ***—basic-char-obj***
@@ -259,7 +259,7 @@ Removes speaker(s) saved to a `Character` object by their _variable_ name.
 Sometimes it is easier to remove a narrator based on the variable's name the Character object is saved to.
 
 To find the variable name, you must look into the `.rpy` files. A variable is defined as follows:
-`define <variable-name> = Character` or `default <variable-name> = Character`.
+`define <variable-name> = Character`, `default <variable-name> = Character` or `$ <variable-name> = Character`
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.
 See [REGEX Examples](#regex-examples) for examples.

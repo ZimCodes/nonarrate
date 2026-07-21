@@ -1,5 +1,5 @@
 import unittest
-from tests.fixture import get_dialogue_list,validate_solo,validate_obj
+from tests.fixture import get_dialogue_list, validate_solo, validate_obj
 from lib.validator import ObjectStrategy, IValidatorChain
 from lib.custom_types import FileInfo
 from lib.validator.rule import SpeakerRules
@@ -62,6 +62,7 @@ class TestCharacter(unittest.TestCase):
                     'default dynamic3 = DynamicCharacter("")',
                     'default dynamic4 = DynamicCharacter(_())',
                     'default nvl_narr = nvl_narrator',
+                    '$ varvar = Character("varra")'
                 ],
             )
         ]
@@ -172,6 +173,8 @@ class TestCharacter(unittest.TestCase):
             96: 'dynamic4 "It was dusty and tattered, with strange symbols and markings."',
             # NVL narrator
             97: 'nvl_narr "The mystery deepened."',
+            # '$' python variable name
+            98: 'varvar "The mystery deepened."'
         }
 
     def setUp(self) -> None:
@@ -222,19 +225,19 @@ class TestCharacter(unittest.TestCase):
 
     def test_basic_object_char(self):
         obj = validate_obj(SpeakerRules.OBJECT_BASIC.value)
-        self.start_object(obj, [35, 41, 42, 44, 45, 48, 77, 82, 86, 87, 88,93])
+        self.start_object(obj, [35, 41, 42, 44, 45, 48, 77, 82, 86, 87, 88, 93])
 
     def test_object_none_char_item(self):
         obj = validate_obj(SpeakerRules.OBJECT_NONE.value)
         self.start_object(
             obj,
-            [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 79,95,96]
+            [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 79, 95, 96]
         )
 
     def test_chaining(self):
         obj = validate_obj(SpeakerRules.OBJECT_BASIC.value, validate_obj(SpeakerRules.OBJECT.value("base")))
         self.start_object(obj,
-                          [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78, 82, 86, 87, 88,93])
+                          [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78, 82, 86, 87, 88, 93])
 
     def test_spaces(self):
         """Test spaces between character object and calling parenthesis.
@@ -242,7 +245,7 @@ class TestCharacter(unittest.TestCase):
         Example:
             default n = Character     ('Nadia')
         """
-        obj = validate_obj([SpeakerRules.OBJECT.value("Linda"),SpeakerRules.OBJECT.value("Umeha")])
+        obj = validate_obj([SpeakerRules.OBJECT.value("Linda"), SpeakerRules.OBJECT.value("Umeha")])
         self.start_object(obj, [49, 50, 81])
 
     def test_italic_object(self):
@@ -254,10 +257,14 @@ class TestCharacter(unittest.TestCase):
         obj = validate_obj(SpeakerRules.OBJECT_VAR.value("pop"))
         self.start_object(obj, [57])
 
+    def test_object_var_python(self):
+        obj = validate_obj(SpeakerRules.OBJECT_VAR.value("varvar"))
+        self.start_object(obj, [98])
+
     def test_empty_char(self):
         obj = validate_solo(SpeakerRules.CHARACTER_NONE.value)
         self.start(obj, [83, 84])
 
     def test_nvl(self):
         obj = validate_obj(SpeakerRules.NVL_BASIC.value)
-        self.start_object(obj,[97])
+        self.start_object(obj, [97])

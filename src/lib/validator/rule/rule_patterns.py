@@ -68,6 +68,7 @@ class SpeakerRules(Enum):
                    # Ref: https://www.renpy.org/doc/html/translation.html#menu-and-string-translations
                    Rule(r"(?:Dynamic)?Character\s*\(\s*_\(\s*(?:[\"']\s*[\"']\s*)?\)")]
     # narrator_variable = Character(...)
+    # $ narrator_variable = Character(...)
     OBJECT_VAR = VarObjectRule
     # NVL Mode narrator: define/default v = nvl_narrator
     # Ref: https://www.renpy.org/doc/html/nvl_mode.html#getting-started
