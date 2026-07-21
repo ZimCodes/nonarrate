@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "4.5.0"
+        self.__version_num = "4.5.1"
         self.__setup()
 
     def __setup(self):
@@ -127,7 +127,8 @@ class CLIParser:
                 "anim",
                 "vi",
                 "vo",
-                "img"
+                "img",
+                "camera"
             },
             metavar="IGNORE_FOLDERS",
             help="Ignore specified subfolders when looking for .rpy files",
@@ -148,6 +149,7 @@ class CLIParser:
                      "credits",
                      "transitions",
                      "transforms",
+                     "transform",
                      "audio",
                      "animations",
                      "scenes",
@@ -164,6 +166,7 @@ class CLIParser:
                      "00warper",
                      "kinetic_text_tags",
                      "y_outline",
+                     "wipes"
                      },
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files. Case-insensitive",
