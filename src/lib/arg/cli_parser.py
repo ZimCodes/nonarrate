@@ -147,6 +147,7 @@ class CLIParser:
             default={"gui",
                      "options",
                      "credits",
+                     "credit",
                      "transitions",
                      "transforms",
                      "transform",
@@ -195,7 +196,8 @@ class CLIParser:
                 "*minigame",
                 "*screen*",
                 "[Rr]eplay*",
-                "[Ff]unction?"
+                "[Ff]unction?",
+                "*[sS]tyle*"
             },
             metavar="IGNORE_FILE_GLOBS",
             help="Ignore specified [files] using glob syntax."
@@ -240,7 +242,7 @@ class CLIParser:
             "--nccvo",
             metavar="SPEAKER_OBJECT_VARIABLE_NAMES",
             nargs="*",
-            help="Removes speaker(s) saved to a Character object by their 'variable' name."
+            help="Removes speaker(s) by their 'variable' name."
         )
 
     def __add_no_filters(self, optnames: dict[str, str]):
