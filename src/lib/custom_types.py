@@ -3,21 +3,22 @@ from dataclasses import dataclass
 
 
 class FilterTag(Enum):
-    NARRATOR = "--narr"
-    BASIC_CHAR_OBJ = "--basic-char-obj"
-    ITALIC = "--italic"
-    PARENTHESIS = "--parenthesis"
-    BASIC_CHAR = "--basic-char"
-    NONE_CHAR = "--none-char"
-    NONE_CHAR_OBJ = "--none-char-obj"
-    EXPRESSION_CUES = "--cues"
-    ONLY_PUNCTUATIONS = "--punctuations"
-    GUILLEMETS = "--guillemets"
-    NVL = "--nvl"
-    NO_CUSTOM_TEXT_TAGS = "--no-custom-tags"
-    NO_CUSTOM_CHARS = "--no-custom-chars"
-    NO_CUSTOM_CHAR_OBJS = "--no-custom-char-objs"
-    NO_CUSTOM_CHAR_VAR_OBJS = "--no-custom-char-var-objs"
+    KEEP_NARRATION = "--keep-narr"
+    KEEP_COMMON_OBJ_CHARS = "--keep-common-obj-chars"
+    KEEP_ITALIC = "--keep-italic"
+    KEEP_PARENTHESIS = "--keep-parenthesis"
+    KEEP_COMMON_QUOTED_CHARS = "--keep-common-quoted-chars"
+    KEEP_EMPTY_QUOTED_CHARS = "--keep-empty-quoted-chars"
+    KEEP_EMPTY_OBJ_CHARS = "--keep-empty-obj-chars"
+    KEEP_EXPRESSION_CUES = "--keep-cues"
+    KEEP_PUNCTUATIONS = "--keep-punctuations"
+    KEEP_GUILLEMETS = "--keep-guillemets"
+    KEEP_NVL = "--keep-nvl"
+    TEXT_TAGS = "--text-tags"
+    QUOTED_CHARS = "--quoted-chars"
+    OBJ_CHARS = "--obj-chars"
+    RENPY_VARS = "--renpy-vars"
+    PYTHON_VARS = "--python-vars"
 
 class MultiLineType(Enum):
     NONE = 0

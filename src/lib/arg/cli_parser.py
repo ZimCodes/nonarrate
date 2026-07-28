@@ -203,46 +203,53 @@ class CLIParser:
             help="Ignore specified [files] using glob syntax."
         )
         no_filters: dict[str, str] = {
-            FilterTag.NARRATOR.value: "Keep dialogues that don't have a speaker",
-            FilterTag.BASIC_CHAR_OBJ.value: "Keep [default narrators] that are saved to a Character object",
-            FilterTag.ITALIC.value: "Keep fully italic dialogues",
-            FilterTag.PARENTHESIS.value: "Keep dialogue fully wrapped in a parenthesis",
-            FilterTag.BASIC_CHAR.value: "Keep [default narrators] not saved to a Character object",
-            FilterTag.NONE_CHAR_OBJ.value: "Keep empty Character objects.",
-            FilterTag.EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, ~raises eyebrows~.",
-            FilterTag.ONLY_PUNCTUATIONS.value: "Keeps dialogue containing only punctuation marks. Ex: '......'",
-            FilterTag.NONE_CHAR.value: "Keeps empty quoted speakers not saved to a Character object.",
-            FilterTag.GUILLEMETS.value: "Keeps dialogue surrounded by Guillemets (double & single).",
-            FilterTag.NVL.value: "Keeps NVL-Mode narrator."
+            FilterTag.KEEP_NARRATION.value: "Keep dialogues that don't have a speaker",
+            FilterTag.KEEP_COMMON_OBJ_CHARS.value: "Keep common [default narrators] that are saved to a Character object",
+            FilterTag.KEEP_ITALIC.value: "Keep fully italic dialogues",
+            FilterTag.KEEP_PARENTHESIS.value: "Keep dialogue fully wrapped in a parenthesis",
+            FilterTag.KEEP_COMMON_QUOTED_CHARS.value: "Keep common [default narrators] speakers defined in quotes and not saved to a Character object",
+            FilterTag.KEEP_EMPTY_OBJ_CHARS.value: "Keep empty Character objects.",
+            FilterTag.KEEP_EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, ~raises eyebrows~.",
+            FilterTag.KEEP_PUNCTUATIONS.value: "Keeps dialogue containing only punctuation marks. Ex: '......'",
+            FilterTag.KEEP_EMPTY_QUOTED_CHARS.value: "Keeps empty quoted speakers not saved to a Character object.",
+            FilterTag.KEEP_GUILLEMETS.value: "Keeps dialogue surrounded by Guillemets (double & single).",
+            FilterTag.KEEP_NVL.value: "Keeps NVL-Mode narrator."
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(
-            FilterTag.NO_CUSTOM_TEXT_TAGS.value,
-            "--nct",
+            FilterTag.TEXT_TAGS.value,
+            "--tt",
             metavar="TAG_NAMES",
             nargs="*",
             help="Removes dialogue wrapped entirely in a custom text tag. Ex:{t}..{/t}",
         )
         self.__add_filter_arg(
-            FilterTag.NO_CUSTOM_CHARS.value,
-            "--ncc",
+            FilterTag.QUOTED_CHARS.value,
+            "--qc",
             metavar="SPEAKER_NAMES",
             nargs="*",
             help="Removes speaker(s) surrounded by quotes.",
         )
         self.__add_filter_arg(
-            FilterTag.NO_CUSTOM_CHAR_OBJS.value,
-            "--ncco",
+            FilterTag.OBJ_CHARS.value,
+            "--oc",
             metavar="SPEAKER_OBJECT_NAMES",
             nargs="*",
             help="Removes speaker(s) saved to a Character object by their 'in-game' name.",
         )
         self.__add_filter_arg(
-            FilterTag.NO_CUSTOM_CHAR_VAR_OBJS.value,
-            "--nccvo",
-            metavar="SPEAKER_OBJECT_VARIABLE_NAMES",
+            FilterTag.RENPY_VARS.value,
+            "--rv",
+            metavar="RENPY_VARIABLE_NAMES",
             nargs="*",
-            help="Removes speaker(s) by their 'variable' name."
+            help="Removes speaker(s) by their variable name defined by Ren'Py syntax, 'define' or 'default'"
+        )
+        self.__add_filter_arg(
+            FilterTag.PYTHON_VARS.value,
+            "--pv",
+            metavar="PYTHON_VARIABLE_NAMES",
+            nargs="*",
+            help="Removes speaker(s) by their variable name defined by Python syntax, '$'"
         )
 
     def __add_no_filters(self, optnames: dict[str, str]):

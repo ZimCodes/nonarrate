@@ -1,8 +1,8 @@
 from typing import override
-from .prev_info import PrevInfo
+from .prev_state import PrevState
 
 
-class PrevIndentInfo(PrevInfo):
+class PrevIndentState(PrevState):
     """Holds previous line indentation information."""
 
     def __init__(self):
@@ -29,8 +29,7 @@ class PrevIndentInfo(PrevInfo):
         self._has_reset = False
 
     @override
-    def reset(self):
-        super().reset()
+    def _reset_state(self):
         self._indent_num = 0
         self._has_reset = True
 

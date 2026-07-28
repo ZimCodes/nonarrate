@@ -10,6 +10,7 @@ from .object_rule import ObjectRule
 from .char_rule import CharRule
 from .text_tag_rule import TextTagRule
 from .quote_surround_rule import QuoteSurroundRule
+from .var_rule import VarRule
 from enum import Enum
 
 
@@ -67,9 +68,14 @@ class SpeakerRules(Enum):
                    # Filters empty translation function, '_()' and '_("")'
                    # Ref: https://www.renpy.org/doc/html/translation.html#menu-and-string-translations
                    Rule(r"(?:Dynamic)?Character\s*\(\s*_\(\s*(?:[\"']\s*[\"']\s*)?\)")]
-    # narrator_variable = Character(...)
-    # $ narrator_variable = Character(...)
+    # define narrator_variable = Character(...)
+    # default narrator_variable = Character(...)
+    # define narrator_variable = "narrator"
+    # default narrator_variable = "narrator"
     OBJECT_VAR = VarObjectRule
+    # $ narrator_variable = Character(...)
+    # $ narrator_variable = "narrator"
+    VAR = VarRule
     # NVL Mode narrator: define/default v = nvl_narrator
     # Ref: https://www.renpy.org/doc/html/nvl_mode.html#getting-started
     NVL_BASIC = Rule(r" = nvl_narrator\s*$")

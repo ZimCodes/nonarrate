@@ -1,7 +1,7 @@
 from typing import final
 
 @final
-class PauseInfo:
+class PauseState:
     """Holds information about subsequent  pause statements."""
 
     def __init__(self):

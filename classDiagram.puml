@@ -35,6 +35,7 @@ dataclass BasicObjectRule
 dataclass VarObjectRule
 dataclass QuoteCueRule
 dataclass QuoteTextTagRule
+dataclass VarRule
 
 
 
@@ -85,14 +86,14 @@ class  FileExecutor <<Singleton>>{
   {static}-fixFunc(errors: List<RenpyError>)
 }
 
-'Handler Info
-class AtlInfo {
+'Handler State
+class AtlState {
   +isAtl: bool
   +indentNum: int
   -altPat: Regex
   {static}+isBlock(stripLine:str): bool
 }
-class LineInfo {
+class LineState {
   {static}-SINGLE_QUOTE:str
   {static}-DOUBLE_QUOTE: str
   {static}-SINGLE_TRIPLE_QUOTE: str
@@ -113,34 +114,32 @@ class LineInfo {
   {static}-endswithTripleQuote(stripLine:str): bool
   {static}-isChoiceMenu(stripLine:str): bool
 }
-class MultiLineInfo {
+class MultiLineState {
   +multiType: MultiLineType
   +isChoiceMenu: bool
   #lines: List<str>
   +clear()
-  +append(line:str)
+  +appendLine(line:str)
   +isEmpty(): bool
   +reset()
+  +getLine(): List<str>
 }
-class PrevInfo {
+abstract class PrevState {
   +line: str
   +reset()
+  {abstract}#resetState()
 }
-class PrevMultiInfo {
-  #multiInfo: MultiLineInfo
+class PrevMultiState {
+  +multiLine: MultiLineState
   +isNarr: bool
-  +appendLine(line:str)
-  +clearList()
-  +isEmptyList(): bool
-  +getLines(): List<str>
-  +reset()
+  #resetState()
 }
-class PrevIndentInfo {
+class PrevIndentState {
   #indentNum: int
   #hasReset: bool
-  +reset()
+  #resetState()
 }
-class PauseInfo {
+class PauseState {
   -isPause: bool
   -isPrevPause: bool
   +setPause(value:bool)
@@ -229,6 +228,7 @@ enum SpeakerRules {
   OBJECT_ITALIC
   OBJECT_NONE
   OBJECT_VAR
+  VAR
 }
 
 enum QuoteRules {
@@ -243,19 +243,22 @@ enum QuoteRules {
 }
 
 enum FilterTag {
-  BASIC_CHAR
-  NONE_CHAR
-  ITALIC_NARR
-  PARENTHESIS_NARR
-  BASIC_NARR
-  BASIC_CHAR_OBJ
-  NONE_CHAR_OBJ
-  EXPRESSION_CUES
-  ONLY_PUNCTUATIONS
-  GUILLEMETS
-  NO_CUSTOM_CHAR_OBJS
-  NO_CUSTOM_TEXT_TAGS
-  NO_CUSTOM_CHARS
+    KEEP_NARRATION
+    KEEP_COMMON_OBJ_CHARS
+    KEEP_ITALIC
+    KEEP_PARENTHESIS
+    KEEP_COMMON_QUOTED_CHARS
+    KEEP_EMPTY_QUOTED_CHARS
+    KEEP_EMPTY_OBJ_CHARS
+    KEEP_EXPRESSION_CUES
+    KEEP_PUNCTUATIONS
+    KEEP_GUILLEMETS
+    KEEP_NVL
+    TEXT_TAGS
+    QUOTED_CHARS
+    OBJ_CHARS
+    RENPY_VARS
+    PYTHON_VARS
 }
 
 enum MultiLineType {
@@ -271,17 +274,17 @@ BaseFilter <|-- RenpyFilter
 RenpyFilter <|-- InvalidRenpyFilter
 RenpyFilter <|-- ValidRenpyFilter
 
-'Info Relations
-PrevInfo <|-- PrevIndentInfo
-PrevInfo <|-- PrevMultiInfo
-MultiLineInfo o-- PrevMultiInfo
+'State Relations
+PrevState <|-- PrevIndentInfo
+PrevState <|-- PrevMultiInfo
+MultiLineState o-- PrevMultiInfo
 
 'Handler Relations
-NarratorHandler --> PrevIndentInfo : uses
-NarratorHandler --> PrevMultiInfo : uses
-NarratorHandler --> AltInfo : uses
-NarratorHandler --> LineInfo : uses
-NarratorHandler --> PauseInfo : uses
+NarratorHandler --> PrevIndentState : uses
+NarratorHandler --> PrevMultiState : uses
+NarratorHandler --> AltState : uses
+NarratorHandler --> LineState : uses
+NarratorHandler --> PauseState : uses
 
 'Validator Relations
 IValidatorChain <|-- ObjectStrategy
@@ -295,6 +298,7 @@ Rule <|-- CueRule
 Rule <|-- TextTagRule
 Rule <|-- ObjectRule
 Rule <|-- VarObjectRule
+Rule <|-- VarRule
 Rule <|-- TQCueRule
 Rule <|-- TQTextTagRule
 CharRule <|-- BasicCharRule

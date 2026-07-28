@@ -27,9 +27,9 @@ class TestCLIParser(unittest.TestCase):
         """Test options with variable arguments."""
         args = ["game/", "", "t", "scan", "hem phk"]
         options = [
-            FilterTag.NO_CUSTOM_TEXT_TAGS.value,
-            FilterTag.NO_CUSTOM_CHARS.value,
-            FilterTag.NO_CUSTOM_CHAR_OBJS.value,
+            FilterTag.TEXT_TAGS.value,
+            FilterTag.QUOTED_CHARS.value,
+            FilterTag.OBJ_CHARS.value,
         ]
         for option in options:
             with self.subTest(i=option):
@@ -40,11 +40,11 @@ class TestCLIParser(unittest.TestCase):
     def test_no_args(self):
         args = ["game/", ""]
         options = [
-            FilterTag.PARENTHESIS.value,
-            FilterTag.BASIC_CHAR.value,
-            FilterTag.ITALIC.value,
-            FilterTag.BASIC_CHAR_OBJ.value,
-            FilterTag.NARRATOR.value,
+            FilterTag.KEEP_PARENTHESIS.value,
+            FilterTag.KEEP_COMMON_QUOTED_CHARS.value,
+            FilterTag.KEEP_ITALIC.value,
+            FilterTag.KEEP_COMMON_OBJ_CHARS.value,
+            FilterTag.KEEP_NARRATION.value,
         ]
         for option in options:
             with self.subTest(i=option):

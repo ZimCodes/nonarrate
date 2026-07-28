@@ -3,7 +3,7 @@ from typing import final
 
 
 @final
-class AtlInfo:
+class AtlState:
     """Holds line information involving Animation and Transformation language (atl).
 
     The information stored here is used to tell nonarrate to ignore all Animation and Transformation Language blocks

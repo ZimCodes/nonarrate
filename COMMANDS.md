@@ -209,34 +209,35 @@ These filters deal with the **speaker** portion of a dialogue box.
 ***NOTE:** [`DynamicCharacter()`](https://www.renpy.org/wiki/renpy/doc/reference/functions/DynamicCharacter) is an
 outdated usage of `Character()` and is also supported by nonarrate!
 
-| Commands                              | Script Example                                                                                                                          | Description                                                                                           |
-|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| --basic-char-obj                      | n = Character(“Narrator”, …)                                                                                                            | [Default narrators](DEFAULT_NARRATORS.md) saved to character object.                                  |
-| --no-custom-char-objs,<br>--ncco      | d = Character(“Developer”, …)                                                                                                           | Custom speaker saved to character object by their _in-game_ name. In this example, its `"Developer"`. |
-| --basic-char                          | “Narrator” “It was a sunny day.”                                                                                                        | [Default narrators](DEFAULT_NARRATORS.md) wrapped in quotes.                                          |
-| --none-char                           | "" "It was a bright and stormy night."                                                                                                  | Using empty quotes in-place of speaker.                                                               |
-| --none-char-obj                       | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥) | Narrators using an empty character object. In short, nothing in the `name` parameter.                 |
-| --no-custom-chars,<br>--ncc           | “Lily's Inner Self” “It would be a good idea to distract them first”                                                                    | Custom Speaker wrapped in quotes                                                                      |
-| --no-custom-char-var-objs,<br>--nccvo | se = Character("Sue", …)<br>$ se = Character("Sue")                                                                                     | Custom speaker saved to a _variable_ name. In this example, its `se`.                                 |
-| --nvl                                 | nvl = nvl_narrator                                                                                                                      | Narrator in NVL-Mode. `nvl_narrator`                                                                  |
+| Commands                   | Script Example                                                                                                                          | Description                                                                                           |
+|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| --keep-common-obj-chars    | n = Character(“Narrator”, …)                                                                                                            | [Default narrators](DEFAULT_NARRATORS.md) saved to character object.                                  |
+| --obj-chars,<br>--oc       | d = Character(“Developer”, …)                                                                                                           | Custom speaker saved to character object by their _in-game_ name. In this example, its `"Developer"`. |
+| --keep-common-quoted-chars | “Narrator” “It was a sunny day.”                                                                                                        | [Default narrators](DEFAULT_NARRATORS.md) wrapped in quotes.                                          |
+| --keep-empty-quoted-chars  | "" "It was a bright and stormy night."                                                                                                  | Using empty quotes in-place of speaker.                                                               |
+| --keep-empty-obj-chars     | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥) | Narrators using an empty character object. In short, nothing in the `name` parameter.                 |
+| --quoted-chars,<br>--qc    | “Lily's Inner Self” “It would be a good idea to distract them first”                                                                    | Custom speaker wrapped in quotes                                                                      |
+| --renpy-vars,<br>--rv      | define se = Character("Sue", …)<br>default se = Character("Sue", ...)                                                                   | Custom speaker saved to a _variable_ name using **Ren'Py** syntax. In this example, its `se`.         |
+| --python-vars,<br>--pv     | $ il = Character("Iz")                                                                                                                  | Custom speaker saved to a _variable_ name using **Python** syntax. In this example, its `il`          |
+| --keep-nvl                 | nvl = nvl_narrator                                                                                                                      | Narrator in NVL-Mode. `nvl_narrator`                                                                  |
 
-***—basic-char-obj***
+***—keep-common-obj-chars***
 
 ```bash
-nonarrate mycoolgame\game --basic-char-obj 
+nonarrate mycoolgame\game --keep-common-obj-chars 
 ```
 
 Keep [default narrators](DEFAULT_NARRATORS.md) saved to a `Character` object.
 
 By default, *nonarrate*
-will remove *all* [default narrators](DEFAULT_NARRATORS.md) saved to a character object. Use this option to disable this
-filter.
+will remove *all* [default narrators](DEFAULT_NARRATORS.md) saved to a character object. Use this option to keep the default
+narrators.
 
-***—no-custom-char-objs***, ***—ncco*** `<speaker name>...`
+***—obj-chars***, ***—oc*** `<speaker name>...`
 
 ```bash
 # Removes speakers: Wilson, Marisa, & Kyli Naya
-nonarrate mycoolgame\game --no-custom-char-objs Wilson Marisa "Kyli Naya"
+nonarrate mycoolgame\game --obj-chars Wilson Marisa "Kyli Naya"
 ```
 
 Removes speaker(s) saved to a `Character` object by their in-game name.
@@ -247,26 +248,40 @@ the narrator can introduce itself as *Emily*, *Dev*, *The Chosen One*, or anythi
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.
 See [REGEX Examples](#regex-examples) for examples.
 
-***—no-custom-char-var-objs***, ***—nccvo*** `<speaker name>...`
+***—renpy-vars***, ***—rv*** `<variable name>...`
 
 ```bash
 # Removes speakers whose variable names in an `.rpy` file are: nt, bik, naomi
-nonarrate mycoolgame\game --no-custom-char-var-objs nt bik naomi
+nonarrate mycoolgame\game --renpy-vars nt bik naomi
 ```
 
-Removes speaker(s) saved to a  _variable_ name.
+Removes speaker(s) saved to a  _variable_ name using **Ren'Py syntax**.
 
 Sometimes it is easier to remove a narrator by their _variable_ name.
 
-To find the variable name, you must look into the `.rpy` files. A variable is defined as any of the following:
-- `define <variable-name> = Character`
-- `default <variable-name> = Character`
-- `$ <variable-name> = Character`
+To find the variable name, you must look into the `.rpy` files. A variable defined using **Ren'Py syntax** are any of the following:
+- `define <variable-name> = `
+- `default <variable-name> = `
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.
 See [REGEX Examples](#regex-examples) for examples.
 
-***—basic-char***
+***—python-vars***, ***—pv*** `<variable name>...`
+
+```bash
+# Removes speakers whose variable names in an `.rpy` file are: nt, bik, naomi
+nonarrate mycoolgame\game --python-vars nt bik naomi
+```
+
+Removes speaker(s) saved to a  _variable_ name using **Python syntax**.
+
+To find the variable name, you must look into the `.rpy` files. A variable defined using **Python syntax** are any of the following:
+- `$ <variable-name> = `
+
+**Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.
+See [REGEX Examples](#regex-examples) for examples.
+
+***—keep-common-quoted-chars***
 
 Keep [default narrators](DEFAULT_NARRATORS.md) introduced in quotes.
 
@@ -274,13 +289,13 @@ Prevents *all* [default narrators](DEFAULT_NARRATORS.md) explicitly written in q
 alongside their dialogue from being removed. These types of narrators are
 **NOT** saved to a `Character` object.
 
-***--none-char***
+***--keep-empty-quoted-chars***
 
 Keeps empty quoted speakers not saved to a Character object.
 
 This option keeps the following type of dialogue `"" "Hey! I'm a narrator!"`.
 
-***--none-char-obj***
+***--keep-empty-obj-chars***
 
 Keep empty Character objects.
 
@@ -296,17 +311,17 @@ These character objects are often either used as a blank speaker or are assigned
 an actual speaker name later *(often used when renaming a character later in
 the game.)*.
 
-***--nvl***
+***--keep-nvl***
 
 Keeps NVL narrator.
 
 Keeps the default narrator found in NVL-Mode. See [Ren'Py NVL Mode](https://www.renpy.org/doc/html/nvl_mode.html#getting-started)
 
-***—no-custom-chars***, ***—ncc*** `<speaker name>...`
+***—quoted-chars***, ***—qc*** `<speaker name>...`
 
 ```bash
 # Removes speakers: Minie, Brock Lyn, & Carmi
-nonarrate mycoolgame\game --no-custom-chars Minie "Brock Lyn" Carmi
+nonarrate mycoolgame\game --quoted-chars Minie "Brock Lyn" Carmi
 ```
 
 Removes a speaker introduced in quotes.
@@ -322,47 +337,47 @@ See [REGEX Examples](#regex-examples) for examples.
 
 These filters deal with the **dialogue** portion of dialogue box.
 
-| Commands                | Script Examples                                                                                                       | Description                                                                                                  |
-|-------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| --narr                  | “I’m the narrator of this game”<br>centered "Today was a day like any other."                                         | Dialogues without a speaker                                                                                  |
-| --italic                | mc “{i}Maybe there’s food left over.{/i}" <br>mc "{tag}{i}Lesson learned!{/i}{/tag}"                                  | Italics. Thinking dialogue.                                                                                  |
-| --parenthesis           | mc “(It’s got to be here somewhere.)” <br>mc "{tag}(Opens the car door){/tag}"                                        | `()`. Thinking/Narrator dialogue                                                                             |
-| --no-custom-tags, --nct | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"                                         | [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
-| --cues                  | mc "\**blushes softly*\*" <br>mc "{tag}\~*jumps*\~{/tag}"                                                             | Expression cues. \**smiles*\*, \~yawns\~, \*\**taps foot*\*\*                                                |
-| --punctuations          | mc "......" <br>mc "{tag}....{/tag}" <br>mc "!!!" <br>mc "????"                                                       | Dialogues with only punctuation marks                                                                        |
-| --guillemets            | mc "«I am currently thinking about my situation again.»" <br>mc "‹I am currently thinking about my situation again.›" | Guillements.`›`,`‹`, `«`,`»`                                                                                 |
+| Commands            | Script Examples                                                                                                       | Description                                                                                                  |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| --keep-narr         | “I’m the narrator of this game”<br>centered "Today was a day like any other."                                         | Dialogues without a speaker                                                                                  |
+| --keep-italic       | mc “{i}Maybe there’s food left over.{/i}" <br>mc "{tag}{i}Lesson learned!{/i}{/tag}"                                  | Italics. Thinking dialogue.                                                                                  |
+| --keep-parenthesis  | mc “(It’s got to be here somewhere.)” <br>mc "{tag}(Opens the car door){/tag}"                                        | `()`. Thinking/Narrator dialogue                                                                             |
+| --text-tags, --tt   | mc “{fzs}A small bold font tag.{/fzs}” <br>mc "{fzs=10}My text is here{/fzs}"                                         | [Custom text tag.](https://www.renpy.org/doc/html/custom_text_tags.html) Can be used for thoughts/narrative. |
+| --keep-cues         | mc "\**blushes softly*\*" <br>mc "{tag}\~*jumps*\~{/tag}"                                                             | Expression cues. \**smiles*\*, \~yawns\~, \*\**taps foot*\*\*                                                |
+| --keep-punctuations | mc "......" <br>mc "{tag}....{/tag}" <br>mc "!!!" <br>mc "????"                                                       | Dialogues with only punctuation marks                                                                        |
+| --keep-guillemets   | mc "«I am currently thinking about my situation again.»" <br>mc "‹I am currently thinking about my situation again.›" | Guillements.`›`,`‹`, `«`,`»`                                                                                 |
 
-***—narr***
+***—keep-narr***
 
 Keep dialogues that do not have a speaker.
 
 Dialogues without a speaker are a clear indication of narration. Use this option if you want to keep this form
 of narration.
 
-***—italic***
+***—keep-italic***
 
 Keep dialogues that are fully italic.
 
 Developers tend to use italics to indicate what a person is thinking about. Use this option to allow this feature.
 
-***—parenthesis***
+***—keep-parenthesis***
 
 Keep dialogues wrapped entirely in a parenthesis
 
 Parentheses are used to indicate thoughts. It’s often used for narration.
 Use this option to allow this feature.
 
-***--guillemets***
+***--keep-guillemets***
 
 Keeps dialogue surrounded by Guillemets
 
 The symbols for guillemets are `‹`, `›`, `«` and `»`.
 
-***—no-custom-tags***, ***—nct*** `<tag name>...`
+***—text-tags***, ***—tt*** `<tag name>...`
 
 ```bash
 # Removes dialogues fully wrapped in either a {fzs}, {b}, or {color} tag
-nonarrate mycoolgame\game --no-custom-tags fzs b color
+nonarrate mycoolgame\game --text-tags fzs b color
 ```
 
 Removes dialogue wrapped entirely in a custom text tag
@@ -375,13 +390,13 @@ This option also automatically removes the `=` variants of a custom text tag.
 
 ```bash
 # Removes {fzs} and {fzs=<any-value-here>}
-nonarrate mycoolgame\game --no-custom-tags fzs
+nonarrate mycoolgame\game --text-tags fzs
 ```
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.
 See [REGEX Examples](#regex-examples) for examples.
 
-***--cues***
+***--keep-cues***
 
 Keeps expression cues.
 
@@ -400,7 +415,7 @@ Expression cue examples:
 - \*\*rubs shoulder\*\*
 - \*\*eats slowly\*\*
 
-**--punctuations**
+**--keep-punctuations**
 
 Keeps dialogue with only punctuation marks.
 
@@ -415,12 +430,12 @@ See [Python REGEX Documentation](https://docs.python.org/3/library/re.html#regul
 
 ```bash
 # Remove speakers: Wilson, Greyes, and Grayes character objects
-nonarrate --no-custom-char-objs Wilson "Gr[ea]yes"
+nonarrate --obj-chars Wilson "Gr[ea]yes"
 
 # Removes speakers: Temo, Temoes, Teemoes, & Teemo
-nonarrate --no-custom-chars "Te{1,2}mo(es)?"
+nonarrate --quoted-chars "Te{1,2}mo(es)?"
 
 # Removes speakers: [mcname]
 # Use '\\' to escape special characters.
-nonarrate --no-custom-char-objs '\\[mcname\\]'
+nonarrate --obj-chars '\\[mcname\\]'
 ```

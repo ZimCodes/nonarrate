@@ -62,7 +62,9 @@ class TestCharacter(unittest.TestCase):
                     'default dynamic3 = DynamicCharacter("")',
                     'default dynamic4 = DynamicCharacter(_())',
                     'default nvl_narr = nvl_narrator',
-                    '$ varvar = Character("varra")'
+                    '$ varvar = Character("varra")',
+                    '$ varvar2 = "narrator"',
+                    'define pop5 = "narrator"'
                 ],
             )
         ]
@@ -174,7 +176,10 @@ class TestCharacter(unittest.TestCase):
             # NVL narrator
             97: 'nvl_narr "The mystery deepened."',
             # '$' python variable name
-            98: 'varvar "The mystery deepened."'
+            98: 'varvar "The mystery deepened."',
+            99: 'varvar2 "The mystery deepened."',
+            # Variable definition without Character object
+            100: 'pop5 "The mystery deepened."'
         }
 
     def setUp(self) -> None:
@@ -254,12 +259,12 @@ class TestCharacter(unittest.TestCase):
         self.start_object(obj, [52, 53, 54, 55, 58, 59, 80, 82, 85])
 
     def test_object_var(self):
-        obj = validate_obj(SpeakerRules.OBJECT_VAR.value("pop"))
-        self.start_object(obj, [57])
+        obj = validate_obj([SpeakerRules.OBJECT_VAR.value("pop"),SpeakerRules.OBJECT_VAR.value("pop5")])
+        self.start_object(obj, [57,100])
 
-    def test_object_var_python(self):
-        obj = validate_obj(SpeakerRules.OBJECT_VAR.value("varvar"))
-        self.start_object(obj, [98])
+    def test_var_python(self):
+        obj = validate_obj([SpeakerRules.VAR.value("varvar"),SpeakerRules.VAR.value("varvar2")])
+        self.start_object(obj, [98,99])
 
     def test_empty_char(self):
         obj = validate_solo(SpeakerRules.CHARACTER_NONE.value)

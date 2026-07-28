@@ -2,7 +2,7 @@ from typing import final
 
 
 @final
-class LineInfo:
+class LineState:
     """Holds line information from a file."""
     __DOUBLE_QUOTE: str = '"'
     __SINGLE_QUOTE: str = "'"
@@ -12,13 +12,13 @@ class LineInfo:
 
     def __init__(self, line: str | None = None) -> None:
         if line is not None:
-            self._strip_line = LineInfo.__strip_inline_comment(line.strip())
-            self._is_comment = LineInfo.__is_a_comment(self._strip_line)
-            self._is_triple_quote_start = LineInfo.__startswith_triple_quote(self._strip_line)
-            self._is_triple_quote_end = LineInfo.__endswith_triple_quote(self._strip_line)
-            self._has_triple_quote = LineInfo.__has_triple_quote(self._strip_line)
-            self._is_menu = LineInfo.__is_choice_menu(self._strip_line)
-            self._has_more_triple_quote = LineInfo.__has_more_triple_quote(self._strip_line)
+            self._strip_line = LineState.__strip_inline_comment(line.strip())
+            self._is_comment = LineState.__is_a_comment(self._strip_line)
+            self._is_triple_quote_start = LineState.__startswith_triple_quote(self._strip_line)
+            self._is_triple_quote_end = LineState.__endswith_triple_quote(self._strip_line)
+            self._has_triple_quote = LineState.__has_triple_quote(self._strip_line)
+            self._is_menu = LineState.__is_choice_menu(self._strip_line)
+            self._has_more_triple_quote = LineState.__has_more_triple_quote(self._strip_line)
 
     @staticmethod
     def __can_remove_hash(hash_index: int, double_quote_index: int, single_quote_index: int) -> bool:
@@ -71,7 +71,7 @@ class LineInfo:
     def has_loose_double_quote(self) -> bool:
         """Check for unpaired double quote."""
         no_escaped_quotes = self._strip_line.replace(r'\"', "|")
-        return no_escaped_quotes.count(LineInfo.__DOUBLE_QUOTE) % 2 != 0
+        return no_escaped_quotes.count(LineState.__DOUBLE_QUOTE) % 2 != 0
 
     @staticmethod
     def __has_more_triple_quote(strip_line) -> bool:
@@ -82,13 +82,13 @@ class LineInfo:
         return total_triple_quote > 3
 
     def setup(self, line: str):
-        self._strip_line = LineInfo.__strip_inline_comment(line.strip())
-        self._is_comment = LineInfo.__is_a_comment(self._strip_line)
-        self._is_triple_quote_start = LineInfo.__startswith_triple_quote(self._strip_line)
-        self._is_triple_quote_end = LineInfo.__endswith_triple_quote(self._strip_line)
-        self._has_triple_quote = LineInfo.__has_triple_quote(self._strip_line)
-        self._is_menu = LineInfo.__is_choice_menu(self._strip_line)
-        self._has_more_triple_quote = LineInfo.__has_more_triple_quote(self._strip_line)
+        self._strip_line = LineState.__strip_inline_comment(line.strip())
+        self._is_comment = LineState.__is_a_comment(self._strip_line)
+        self._is_triple_quote_start = LineState.__startswith_triple_quote(self._strip_line)
+        self._is_triple_quote_end = LineState.__endswith_triple_quote(self._strip_line)
+        self._has_triple_quote = LineState.__has_triple_quote(self._strip_line)
+        self._is_menu = LineState.__is_choice_menu(self._strip_line)
+        self._has_more_triple_quote = LineState.__has_more_triple_quote(self._strip_line)
 
     @property
     def strip_line(self):

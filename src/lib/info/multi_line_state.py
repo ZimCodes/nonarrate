@@ -1,7 +1,7 @@
 from lib.custom_types import MultiLineType
 
 
-class MultiLineInfo:
+class MultiLineState:
     """Holds multiple line information.
 
     Mostly used to hold previous multiple lines.
@@ -21,7 +21,7 @@ class MultiLineInfo:
         """Clear collection of multiple lines stored."""
         self._lines.clear()
 
-    def append(self, line: str):
+    def append_line(self, line: str):
         """Add a line to the collection of lines.
 
         Args:
@@ -38,3 +38,7 @@ class MultiLineInfo:
         self._lines = list()
         self.multi_type = MultiLineType.NONE
         self.is_choice_menu = False
+
+    def get_lines(self) -> list[str]:
+        """Gets a collection of lines."""
+        return self._lines
