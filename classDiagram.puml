@@ -275,9 +275,9 @@ RenpyFilter <|-- InvalidRenpyFilter
 RenpyFilter <|-- ValidRenpyFilter
 
 'State Relations
-PrevState <|-- PrevIndentInfo
-PrevState <|-- PrevMultiInfo
-MultiLineState o-- PrevMultiInfo
+PrevState <|-- PrevIndentState
+PrevState <|-- PrevMultiState
+MultiLineState o-- PrevMultiState
 
 'Handler Relations
 NarratorHandler --> PrevIndentState : uses

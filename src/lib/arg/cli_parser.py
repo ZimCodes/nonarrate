@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "4.5.1"
+        self.__version_num = "5.0.0"
         self.__setup()
 
     def __setup(self):
@@ -242,14 +242,14 @@ class CLIParser:
             "--rv",
             metavar="RENPY_VARIABLE_NAMES",
             nargs="*",
-            help="Removes speaker(s) by their variable name defined by Ren'Py syntax, 'define' or 'default'"
+            help="Removes speaker(s) by their variable name 'defined' by Ren'Py syntax, 'define' or 'default'"
         )
         self.__add_filter_arg(
             FilterTag.PYTHON_VARS.value,
             "--pv",
             metavar="PYTHON_VARIABLE_NAMES",
             nargs="*",
-            help="Removes speaker(s) by their variable name defined by Python syntax, '$'"
+            help="Removes speaker(s) by their variable name 'defined' by Python syntax, '$'"
         )
 
     def __add_no_filters(self, optnames: dict[str, str]):
