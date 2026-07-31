@@ -18,13 +18,13 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 ## Invalid Files
 **NOTE:** case-insensitive. Meaning `Credits`, `credits`, `cReDiTS` will be ignored.
 
-|                   |               |              |            |
-|:-----------------:|:-------------:|:------------:|:----------:|
-|        gui        |    options    |    extras    |  video(s)  |
-| kinetic_text_tags | chapterselect |  credit(s)   | disclaimer |
-|   hsceneselect    |  transitions  | transform(s) |  00warper  |
-|       music       |     audio     |  animations  |   scenes   |
-|      keymap       | background(s) |  y_outline   |   wipes    |
+|                   |               |           |            |
+|:-----------------:|:-------------:|:---------:|:----------:|
+|        gui        |    options    |  extras   |  video(s)  |
+| kinetic_text_tags | chapterselect | credit(s) | disclaimer |
+|   hsceneselect    |  transitions  | y_outline |  00warper  |
+|       music       |     audio     |   wipes   |   scenes   |
+|      keymap       | background(s) |           |            |
 
 ## Invalid Globs
 |                |                |                  |                       |
@@ -32,4 +32,4 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 | `*[gG]allery*` |  `[Vv]oice*`   | `[Aa][Tt][Ll]_*` | `[Aa]ction[Ee]ditor*` |
 |  `*highlight`  | `achievement*` |    `*viewer*`    |       `*image*`       |
 |   `*camera*`   |  `*minigame"`  |    `*screen*`    |     `[Rr]eplay*`      |
-| `[Ff]unction?` |  `*[Ss]tyle*`  |                  |                       |
+| `[Ff]unction?` |  `*[Ss]tyle*`  | `*[Tt]ransform*` |   `*[Aa]nimation*`    |

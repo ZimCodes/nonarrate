@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "5.0.0"
+        self.__version_num = "5.0.1"
         self.__setup()
 
     def __setup(self):
@@ -149,10 +149,7 @@ class CLIParser:
                      "credits",
                      "credit",
                      "transitions",
-                     "transforms",
-                     "transform",
                      "audio",
-                     "animations",
                      "scenes",
                      "disclaimer",
                      "background",
@@ -197,7 +194,9 @@ class CLIParser:
                 "*screen*",
                 "[Rr]eplay*",
                 "[Ff]unction?",
-                "*[sS]tyle*"
+                "*[sS]tyle*",
+                "*[Tt]ransform*",
+                "*[Aa]nimation*"
             },
             metavar="IGNORE_FILE_GLOBS",
             help="Ignore specified [files] using glob syntax."
