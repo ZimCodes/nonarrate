@@ -31,7 +31,7 @@ MyRenpyProject/
 
 - If a `folder` is provided, *nonarrate* will operate on `.rpy` files located in subdirectories too.
 - If `errors.txt` file is provided, *nonarrate* will *attempt* to fix the errors mentioned in the file.
-    - **Nonarrate will not fix all errors!** See *[ERROR_TYPE.md](./ERROR_TYPES.md)* for list of fixes.
+  - **Nonarrate will not fix all errors!** See *[ERROR_TYPE.md](./ERROR_TYPES.md)* for list of fixes.
 - If `errors.txt` file is provided, **all options you provide will be ignored!**
 - If you need help using nonarrate, see [INSTRUCTIONS](./INSTRUCTIONS.md).
 
@@ -211,15 +211,15 @@ outdated usage of `Character()` and is also supported by nonarrate!
 
 | Commands                   | Script Example                                                                                                                          | Description                                                                                           |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| --keep-common-obj-chars    | n = Character(“Narrator”, …)                                                                                                            | [Default narrators](DEFAULT_NARRATORS.md) saved to character object.                                  |
-| --obj-chars,<br>--oc       | d = Character(“Developer”, …)                                                                                                           | Custom speaker saved to character object by their _in-game_ name. In this example, its `"Developer"`. |
+| --keep-common-obj-chars    | n = Character(“Narrator”, …)<br> narrator "He grabs the sword from the fallen soldier."                                                                                                             | [Default narrators](DEFAULT_NARRATORS.md) saved to character object. Also includes builtin `narrator`.                                  |
+| --obj-chars,<br>--oc       | d = Character(“Developer”, …)                                                                                                           | Custom speaker saved to character object by their *in-game* name. In this example, its `"Developer"`. |
 | --keep-common-quoted-chars | “Narrator” “It was a sunny day.”                                                                                                        | [Default narrators](DEFAULT_NARRATORS.md) wrapped in quotes.                                          |
 | --keep-empty-quoted-chars  | "" "It was a bright and stormy night."                                                                                                  | Using empty quotes in-place of speaker.                                                               |
 | --keep-empty-obj-chars     | narr = Character("", ‥)<br> narr = Character(None, ‥) <br> narr = Character() <br> narr = Character(Nothing in the `name` parameter, ‥) | Narrators using an empty character object. In short, nothing in the `name` parameter.                 |
 | --quoted-chars,<br>--qc    | “Lily's Inner Self” “It would be a good idea to distract them first”                                                                    | Custom speaker wrapped in quotes                                                                      |
-| --renpy-vars,<br>--rv      | define se = Character("Sue", …)<br>default se = Character("Sue", ...)                                                                   | Custom speaker saved to a _variable_ name using **Ren'Py** syntax. In this example, its `se`.         |
-| --python-vars,<br>--pv     | $ il = Character("Iz")                                                                                                                  | Custom speaker saved to a _variable_ name using **Python** syntax. In this example, its `il`          |
-| --keep-nvl                 | nvl = nvl_narrator                                                                                                                      | Narrator in NVL-Mode. `nvl_narrator`                                                                  |
+| --renpy-vars,<br>--rv      | define se = Character("Sue", …)<br>default se = Character("Sue", ...)                                                                   | Custom speaker saved to a *variable* name using **Ren'Py** syntax. In this example, its `se`.         |
+| --python-vars,<br>--pv     | $ il = Character("Iz")                                                                                                                  | Custom speaker saved to a *variable* name using **Python** syntax. In this example, its `il`          |
+| --keep-nvl                 | nvl = nvl_narrator<br> nvl_narrator "Not long before the storm"                                                                                                                      | Narrator in NVL-Mode. Includes builtin `nvl_narrator`                                                                  |
 
 ***—keep-common-obj-chars***
 
@@ -255,13 +255,14 @@ See [REGEX Examples](#regex-examples) for examples.
 nonarrate mycoolgame\game --renpy-vars nt bik naomi
 ```
 
-Removes speaker(s) saved to a  _variable_ name using **Ren'Py syntax**.
+Removes speaker(s) saved to a  *variable* name using **Ren'Py syntax**.
 
-Sometimes it is easier to remove a narrator by their _variable_ name.
+Sometimes it is easier to remove a narrator by their *variable* name.
 
 To find the variable name, you must look into the `.rpy` files. A variable defined using **Ren'Py syntax** are any of the following:
-- `define <variable-name> = `
-- `default <variable-name> = `
+
+- `define <variable-name> =`
+- `default <variable-name> =`
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.
 See [REGEX Examples](#regex-examples) for examples.
@@ -273,10 +274,11 @@ See [REGEX Examples](#regex-examples) for examples.
 nonarrate mycoolgame\game --python-vars nt bik naomi
 ```
 
-Removes speaker(s) saved to a  _variable_ name using **Python syntax**.
+Removes speaker(s) saved to a  *variable* name using **Python syntax**.
 
 To find the variable name, you must look into the `.rpy` files. A variable defined using **Python syntax** are any of the following:
-- `$ <variable-name> = `
+
+- `$ <variable-name> =`
 
 **Side Note:** This option can use **REGEX**. Use `--regex` to enable this feature.
 See [REGEX Examples](#regex-examples) for examples.

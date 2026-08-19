@@ -9,3 +9,10 @@ This is a list of common narrator/introspection phrases that are removed by defa
 - narrator
 - inner voice
 - inner monologue
+
+## Built-In Narrators
+
+Narrator character objects available to developers by default.
+
+- `nvl_narrator`
+- `narrator`

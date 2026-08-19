@@ -84,7 +84,7 @@ class CLIParser:
             "--vd",
             action=AppendUnique,
             metavar="FOCUS_FOLDERS",
-            help="Tell nonarrate the specified folder(s) are valid to look through."
+            help="Tell nonarrate the specified folder(s) are valid to look through.",
         )
         self.__add_search_arg(
             "--invalid-dirs",
@@ -128,7 +128,7 @@ class CLIParser:
                 "vi",
                 "vo",
                 "img",
-                "camera"
+                "camera",
             },
             metavar="IGNORE_FOLDERS",
             help="Ignore specified subfolders when looking for .rpy files",
@@ -138,34 +138,38 @@ class CLIParser:
             "--vf",
             action=AppendUniqueLower,
             metavar="FOCUS_FILES",
-            help="Tell nonarrate to use these specified .rpy files."
+            help="Tell nonarrate to use these specified .rpy files.",
         )
         self.__add_search_arg(
             "--invalid-files",
             "--inf",
             action=AppendUniqueLower,
-            default={"gui",
-                     "options",
-                     "credits",
-                     "credit",
-                     "transitions",
-                     "audio",
-                     "scenes",
-                     "disclaimer",
-                     "background",
-                     "backgrounds",
-                     "hsceneselect",
-                     "chapterselect",
-                     "extras",
-                     "keymap",
-                     "music",
-                     "video",
-                     "videos",
-                     "00warper",
-                     "kinetic_text_tags",
-                     "y_outline",
-                     "wipes"
-                     },
+            default={
+                "gui",
+                "options",
+                "credits",
+                "credit",
+                "transitions",
+                "audio",
+                "scenes",
+                "disclaimer",
+                "background",
+                "backgrounds",
+                "hsceneselect",
+                "chapterselect",
+                "extras",
+                "keymap",
+                "music",
+                "video",
+                "videos",
+                "00warper",
+                "kinetic_text_tags",
+                "y_outline",
+                "wipes",
+                "movie",
+                "movies",
+                "effects",
+            },
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files. Case-insensitive",
         )
@@ -174,7 +178,7 @@ class CLIParser:
             "--vg",
             action=AppendUnique,
             metavar="VALID_FILE_GLOBS",
-            help="Use specified [files] using glob syntax."
+            help="Use specified [files] using glob syntax.",
         )
         self.__add_search_arg(
             "--invalid-globs",
@@ -196,10 +200,10 @@ class CLIParser:
                 "[Ff]unction?",
                 "*[sS]tyle*",
                 "*[Tt]ransform*",
-                "*[Aa]nimation*"
+                "*[Aa]nimation*",
             },
             metavar="IGNORE_FILE_GLOBS",
-            help="Ignore specified [files] using glob syntax."
+            help="Ignore specified [files] using glob syntax.",
         )
         no_filters: dict[str, str] = {
             FilterTag.KEEP_NARRATION.value: "Keep dialogues that don't have a speaker",
@@ -212,7 +216,7 @@ class CLIParser:
             FilterTag.KEEP_PUNCTUATIONS.value: "Keeps dialogue containing only punctuation marks. Ex: '......'",
             FilterTag.KEEP_EMPTY_QUOTED_CHARS.value: "Keeps empty quoted speakers not saved to a Character object.",
             FilterTag.KEEP_GUILLEMETS.value: "Keeps dialogue surrounded by Guillemets (double & single).",
-            FilterTag.KEEP_NVL.value: "Keeps NVL-Mode narrator."
+            FilterTag.KEEP_NVL.value: "Keeps NVL-Mode narrator.",
         }
         self.__add_no_filters(no_filters)
         self.__add_filter_arg(
@@ -241,14 +245,14 @@ class CLIParser:
             "--rv",
             metavar="RENPY_VARIABLE_NAMES",
             nargs="*",
-            help="Removes speaker(s) by their variable name 'defined' by Ren'Py syntax, 'define' or 'default'"
+            help="Removes speaker(s) by their variable name 'defined' by Ren'Py syntax, 'define' or 'default'",
         )
         self.__add_filter_arg(
             FilterTag.PYTHON_VARS.value,
             "--pv",
             metavar="PYTHON_VARIABLE_NAMES",
             nargs="*",
-            help="Removes speaker(s) by their variable name 'defined' by Python syntax, '$'"
+            help="Removes speaker(s) by their variable name 'defined' by Python syntax, '$'",
         )
 
     def __add_no_filters(self, optnames: dict[str, str]):

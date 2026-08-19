@@ -40,7 +40,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.KEEP_ITALIC.value,
             FilterTag.KEEP_NARRATION.value,
         ]
-        self.start(args, 11)
+        self.start(args, 13)
 
     def test_nargs(self):
         args = [
@@ -71,7 +71,7 @@ class TestArgAssembler(unittest.TestCase):
             "se",
             FilterTag.PYTHON_VARS.value,
             "myname",
-            "llrd"
+            "llrd",
         ]
         self.start(args, 12)
 
@@ -136,7 +136,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.KEEP_GUILLEMETS.value,
             FilterTag.KEEP_NVL.value,
         ]
-        self.start(args,5)
+        self.start(args, 5)
 
     def test_triple_quote_with_nargs(self):
         args = ["game/", FilterTag.TEXT_TAGS.value, "plw", "blq"]

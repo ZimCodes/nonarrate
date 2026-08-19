@@ -37,7 +37,7 @@ dataclass QuoteCueRule
 dataclass QuoteTextTagRule
 dataclass QuoteSurroundRule
 dataclass VarRule
-
+dataclass BuiltinRule
 
 
 'File Descriptors
@@ -232,6 +232,11 @@ enum SpeakerRules {
   VAR
 }
 
+enum BuiltInSpeakerRules {
+  NVL
+  NARRATOR
+}
+
 enum QuoteRules {
   EXPRESSION_CUE_TILDA
   EXPRESSION_CUE_ASTERISK
@@ -303,6 +308,7 @@ Rule <|-- VarRule
 Rule <|-- QuoteCueRule
 Rule <|-- QuoteTextTagRule
 Rule <|-- QuoteSurroundRule
+Rule <|-- BuiltinRule
 CharRule <|-- BasicCharRule
 ObjectRule <|-- BasicObjectRule
 

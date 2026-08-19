@@ -5,6 +5,7 @@ from lib.validator import ObjectStrategy, IValidatorChain, IValidatorChainSolo, 
 from lib.file.filter import InvalidRenpyFilter, ValidRenpyFilter
 from lib.custom_types import FilterTag
 from lib.validator.rule import SpeakerRules, DialogueRules, QuoteRules, Rule
+from lib.validator.rule.rule_patterns import BuiltInSpeakerRules
 
 
 @final
@@ -18,13 +19,15 @@ class ArgAssembler:
         FilterTag.OBJ_CHARS.value: ObjectStrategy,
         FilterTag.PYTHON_VARS.value: ObjectStrategy,
     }
-    __quote_validators: list[IValidatorChain] = [IValidatorChainSolo(QuoteRules.EXPRESSION_CUE_TILDA.value),
-                                                 IValidatorChainSolo(QuoteRules.EXPRESSION_CUE_ASTERISK.value),
-                                                 IValidatorChainSolo(QuoteRules.ITALIC.value),
-                                                 IValidatorChainSolo(QuoteRules.ONLY_PUNCTUATION.value),
-                                                 IValidatorChainSolo(QuoteRules.PARENTHESIS.value),
-                                                 IValidatorChainSolo(QuoteRules.GUILLEMET_SINGLE.value),
-                                                 IValidatorChainSolo(QuoteRules.GUILLEMET_DOUBLE.value)]
+    __quote_validators: list[IValidatorChain] = [
+        IValidatorChainSolo(QuoteRules.EXPRESSION_CUE_TILDA.value),
+        IValidatorChainSolo(QuoteRules.EXPRESSION_CUE_ASTERISK.value),
+        IValidatorChainSolo(QuoteRules.ITALIC.value),
+        IValidatorChainSolo(QuoteRules.ONLY_PUNCTUATION.value),
+        IValidatorChainSolo(QuoteRules.PARENTHESIS.value),
+        IValidatorChainSolo(QuoteRules.GUILLEMET_SINGLE.value),
+        IValidatorChainSolo(QuoteRules.GUILLEMET_DOUBLE.value),
+    ]
 
     @classmethod
     def assemble(cls, args: Namespace):
@@ -59,35 +62,43 @@ class ArgAssembler:
                     current_validator.next_validator = narr_filters
                     current_validator = current_validator.next_validator
         current_validator = cls.__narg_filter(
-            current_validator, cls.__escape(args, args.text_tags), FilterTag.TEXT_TAGS.value,
-            DialogueRules.TEXT_TAG.value
+            current_validator,
+            cls.__escape(args, args.text_tags),
+            FilterTag.TEXT_TAGS.value,
+            DialogueRules.TEXT_TAG.value,
         )
         current_validator = cls.__narg_filter(
-            current_validator, cls.__escape(args, args.quoted_chars), FilterTag.QUOTED_CHARS.value,
-            SpeakerRules.CHARACTER.value
+            current_validator,
+            cls.__escape(args, args.quoted_chars),
+            FilterTag.QUOTED_CHARS.value,
+            SpeakerRules.CHARACTER.value,
         )
         current_validator = cls.__narg_filter(
-            current_validator, cls.__escape(args, args.obj_chars), FilterTag.OBJ_CHARS.value,
-            SpeakerRules.OBJECT.value
+            current_validator, cls.__escape(args, args.obj_chars), FilterTag.OBJ_CHARS.value, SpeakerRules.OBJECT.value
         )
         current_validator = cls.__narg_filter(
-            current_validator, cls.__escape(args, args.renpy_vars),
-            FilterTag.RENPY_VARS.value, SpeakerRules.OBJECT_VAR.value
+            current_validator,
+            cls.__escape(args, args.renpy_vars),
+            FilterTag.RENPY_VARS.value,
+            SpeakerRules.OBJECT_VAR.value,
         )
         current_validator = cls.__narg_filter(
-            current_validator, cls.__escape(args, args.python_vars),
-            FilterTag.PYTHON_VARS.value, SpeakerRules.VAR.value
+            current_validator, cls.__escape(args, args.python_vars), FilterTag.PYTHON_VARS.value, SpeakerRules.VAR.value
         )
-
 
     @staticmethod
     def __get_filters(option_name: str) -> list[IValidatorChain] | IValidatorChain:
         match option_name:
             case FilterTag.KEEP_COMMON_OBJ_CHARS.value:
-                return ObjectStrategy(SpeakerRules.OBJECT_BASIC.value)
+                return [
+                    ObjectStrategy(SpeakerRules.OBJECT_BASIC.value),
+                    IValidatorChainSolo(BuiltInSpeakerRules.NARRATOR.value),
+                ]
             case FilterTag.KEEP_ITALIC.value:
-                return [IValidatorChainSolo(DialogueRules.ITALIC.value),
-                        ObjectStrategy(SpeakerRules.OBJECT_ITALIC.value)]
+                return [
+                    IValidatorChainSolo(DialogueRules.ITALIC.value),
+                    ObjectStrategy(SpeakerRules.OBJECT_ITALIC.value),
+                ]
             case FilterTag.KEEP_PARENTHESIS.value:
                 return IValidatorChainSolo(DialogueRules.PARENTHESIS.value)
             case FilterTag.KEEP_COMMON_QUOTED_CHARS.value:
@@ -95,17 +106,24 @@ class ArgAssembler:
             case FilterTag.KEEP_EMPTY_OBJ_CHARS.value:
                 return ObjectStrategy(SpeakerRules.OBJECT_NONE.value)
             case FilterTag.KEEP_EXPRESSION_CUES.value:
-                return [IValidatorChainSolo(DialogueRules.EXPRESSION_CUE_TILDA.value),
-                        IValidatorChainSolo(DialogueRules.EXPRESSION_CUE_ASTERISK.value)]
+                return [
+                    IValidatorChainSolo(DialogueRules.EXPRESSION_CUE_TILDA.value),
+                    IValidatorChainSolo(DialogueRules.EXPRESSION_CUE_ASTERISK.value),
+                ]
             case FilterTag.KEEP_PUNCTUATIONS.value:
                 return IValidatorChainSolo(DialogueRules.ONLY_PUNCTUATION.value)
             case FilterTag.KEEP_EMPTY_QUOTED_CHARS.value:
                 return IValidatorChainSolo(SpeakerRules.CHARACTER_NONE.value)
             case FilterTag.KEEP_GUILLEMETS.value:
-                return [IValidatorChainSolo(DialogueRules.GUILLEMET_SINGLE.value),
-                        IValidatorChainSolo(DialogueRules.GUILLEMET_DOUBLE.value)]
+                return [
+                    IValidatorChainSolo(DialogueRules.GUILLEMET_SINGLE.value),
+                    IValidatorChainSolo(DialogueRules.GUILLEMET_DOUBLE.value),
+                ]
             case FilterTag.KEEP_NVL.value:
-                return ObjectStrategy(SpeakerRules.NVL_BASIC.value)
+                return [
+                    ObjectStrategy(SpeakerRules.NVL_BASIC.value),
+                    IValidatorChainSolo(BuiltInSpeakerRules.NVL.value),
+                ]
             case _:
                 return IValidatorChainSolo(DialogueRules.BASIC.value)
 
@@ -150,12 +168,14 @@ class ArgAssembler:
                 current_validator.next_validator = validator
                 current_validator = current_validator.next_validator
 
-        current_validator = cls.__quote_nargs(current_validator, cls.__escape(args, args.text_tags),
-                                              IValidatorChainSolo, QuoteRules.TEXT_TAG.value)
+        current_validator = cls.__quote_nargs(
+            current_validator, cls.__escape(args, args.text_tags), IValidatorChainSolo, QuoteRules.TEXT_TAG.value
+        )
 
     @staticmethod
-    def __quote_nargs(validator, arg_filter: str | list[str] | None, filter_type: type[IValidatorChain],
-                      rule_type: type[Rule]):
+    def __quote_nargs(
+        validator, arg_filter: str | list[str] | None, filter_type: type[IValidatorChain], rule_type: type[Rule]
+    ):
         if not arg_filter:
             return validator
         if type(arg_filter) is str:

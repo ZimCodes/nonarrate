@@ -16,6 +16,7 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 |    vi     |    vo    |       img       |  camera  |
 
 ## Invalid Files
+
 **NOTE:** case-insensitive. Meaning `Credits`, `credits`, `cReDiTS` will be ignored.
 
 |                   |               |           |            |
@@ -24,9 +25,10 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 | kinetic_text_tags | chapterselect | credit(s) | disclaimer |
 |   hsceneselect    |  transitions  | y_outline |  00warper  |
 |       music       |     audio     |   wipes   |   scenes   |
-|      keymap       | background(s) |           |            |
+|      keymap       | background(s) |   movie(s)           | effects            |
 
 ## Invalid Globs
+
 |                |                |                  |                       |
 |:--------------:|:--------------:|:----------------:|:---------------------:|
 | `*[gG]allery*` |  `[Vv]oice*`   | `[Aa][Tt][Ll]_*` | `[Aa]ction[Ee]ditor*` |

@@ -1,6 +1,7 @@
 import unittest
 from lib.validator import IValidatorChain
 from lib.validator.rule import DialogueRules
+from lib.validator.rule.rule_patterns import BuiltInSpeakerRules
 from tests.fixture import get_dialogue_list, validate_solo
 
 
@@ -300,6 +301,8 @@ class TestDialogue(unittest.TestCase):
             271: r'"The farther I wander, the less I miss the version of \me that never left"',
             # Centered basic narrator
             272: r'centered "The farther I wander, the less I miss the version of \me that never left"',
+            273: 'narrator "This is a builtin narrator provided by the one."',
+            274: 'nvl_narrator "This is a builtin narrator for nv; provided by the one."',
         }
 
     def validate_lines(self):
@@ -363,3 +366,12 @@ class TestDialogue(unittest.TestCase):
     def test_single_guillemet(self):
         obj = validate_solo(DialogueRules.GUILLEMET_SINGLE.value)
         self.start(obj, [268])
+
+    def test_builtin_narr(self):
+        obj = validate_solo(BuiltInSpeakerRules.NARRATOR.value)
+        self.start(obj, [273])
+
+    def test_builtin_nvl(self):
+        obj = validate_solo(BuiltInSpeakerRules.NVL.value)
+        self.start(obj, [274])
+

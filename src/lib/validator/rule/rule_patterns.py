@@ -1,3 +1,4 @@
+from .builtin_rule import BuiltinRule
 from .rule import Rule
 from .cue_rule import CueRule
 from .basic_char_rule import BasicCharRule
@@ -21,27 +22,30 @@ class DialogueRules(Enum):
     # mc "{i}Maybe there's food left over.{/i}"
     # mc "{tag}{i}Maybe there's food left over.{/i}{/tag}"
     ITALIC = Rule(
-        r'^(?:([\'"])(?:(?!\1).)+\1|\w+?) ([\'"])(?:{\w+(?:=[^}]+)?})*\s*\{i\}((?:(?!\{/?i\}).)+)(?:\{/?i\})?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)\s*(?:\2|\2\s*with .+|\2\s*\([^)]+\))?$')
+        r'^(?:([\'"])(?:(?!\1).)+\1|\w+?) ([\'"])(?:{\w+(?:=[^}]+)?})*\s*\{i\}((?:(?!\{/?i\}).)+)(?:\{/?i\})?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)\s*(?:\2|\2\s*with .+|\2\s*\([^)]+\))?$'
+    )
     # mc "............."
     # mc "{tag}........................{/tag}"
     # mc "!!!"
     # mc "????"
     ONLY_PUNCTUATION = Rule(
-        r'^(?:([\'"])(?:(?!\1).)+\1|\w+?) ([\'"])(?:{\w+(?:=[^}]+)?})*\s*[.?!]+\s*(?:{/\w+})*\s*(?:\2|\2\s*with .+|\2\s*\([^)]+\))?$')
+        r'^(?:([\'"])(?:(?!\1).)+\1|\w+?) ([\'"])(?:{\w+(?:=[^}]+)?})*\s*[.?!]+\s*(?:{/\w+})*\s*(?:\2|\2\s*with .+|\2\s*\([^)]+\))?$'
+    )
     # mc "(It's got to be here somewhere.)"
     # mc "{tag}(It's got to be here somewhere.){/tag}"
     PARENTHESIS = Rule(
-        r'^(?:([\'"])(?:(?!\1).)+\1|\w+?) ([\'"])(?:{\w+(?:=[^}]+)?})*\s*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)\s*(?:\2|\2\s*with .+|\2\s*\([^)]+\))?$')
+        r'^(?:([\'"])(?:(?!\1).)+\1|\w+?) ([\'"])(?:{\w+(?:=[^}]+)?})*\s*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)\s*(?:\2|\2\s*with .+|\2\s*\([^)]+\))?$'
+    )
     # mc "~yawns~"
     # mc "{tag}~yawns~{/tag}"
-    EXPRESSION_CUE_TILDA = CueRule('~')
+    EXPRESSION_CUE_TILDA = CueRule("~")
     # mc *smiles*
     # mc "{tag}*smiles*{/tag}"
-    EXPRESSION_CUE_ASTERISK = CueRule(r'\*')
+    EXPRESSION_CUE_ASTERISK = CueRule(r"\*")
     # mc "«I am currently thinking right now!»"
-    GUILLEMET_DOUBLE = SurroundRule('«', '»')
+    GUILLEMET_DOUBLE = SurroundRule("«", "»")
     # mc "‹I am currently thinking right now!›"
-    GUILLEMET_SINGLE = SurroundRule('‹', '›')
+    GUILLEMET_SINGLE = SurroundRule("‹", "›")
     # elnor "{fzs}This is a small bold font tag.{/fzs}"
     # gabby "{ba=100}Big bold asterisk text!{/ba}"
     TEXT_TAG = TextTagRule
@@ -57,17 +61,22 @@ class SpeakerRules(Enum):
     CHARACTER_NONE = Rule(r'([\'"])\s*\1\s*([\'"])[^\2]+\2?')
     OBJECT = ObjectRule
     # Character("My Thoughts")
-    OBJECT_BASIC = [BasicObjectRule()]
-    OBJECT_ITALIC = [Rule(r"what_italic\s*=\s*True"), Rule(r"what_prefix\s*=\s*([\"'])\{i}\1"),
-                     Rule(r"(?:Dynamic)?Character\(\s*(['\"])\s*\{i\}[^\"']+\{/?i\}\s*\1")]
+    OBJECT_BASIC = BasicObjectRule()
+    OBJECT_ITALIC = [
+        Rule(r"what_italic\s*=\s*True"),
+        Rule(r"what_prefix\s*=\s*([\"'])\{i}\1"),
+        Rule(r"(?:Dynamic)?Character\(\s*(['\"])\s*\{i\}[^\"']+\{/?i\}\s*\1"),
+    ]
     # Character(None)
-    OBJECT_NONE = [Rule(r"(?:Dynamic)?Character\s*\(\s*(?:name\s*=\s*)?None.*\)"),
-                   Rule(r"(?:Dynamic)?Character\s*\(\s*\)"),
-                   Rule(r"(?:Dynamic)?Character\s*\(\s*[\"']\s*[\"']\s*.*\)"),
-                   Rule(r"(?:Dynamic)?Character\s*\((?!\s*[\"']{2}|\s*name\s?=|\s*None)(?:\s*[\w_]+\s*=\s*.+)+\)"),
-                   # Filters empty translation function, '_()' and '_("")'
-                   # Ref: https://www.renpy.org/doc/html/translation.html#menu-and-string-translations
-                   Rule(r"(?:Dynamic)?Character\s*\(\s*_\(\s*(?:[\"']\s*[\"']\s*)?\)")]
+    OBJECT_NONE = [
+        Rule(r"(?:Dynamic)?Character\s*\(\s*(?:name\s*=\s*)?None.*\)"),
+        Rule(r"(?:Dynamic)?Character\s*\(\s*\)"),
+        Rule(r"(?:Dynamic)?Character\s*\(\s*[\"']\s*[\"']\s*.*\)"),
+        Rule(r"(?:Dynamic)?Character\s*\((?!\s*[\"']{2}|\s*name\s?=|\s*None)(?:\s*[\w_]+\s*=\s*.+)+\)"),
+        # Filters empty translation function, '_()' and '_("")'
+        # Ref: https://www.renpy.org/doc/html/translation.html#menu-and-string-translations
+        Rule(r"(?:Dynamic)?Character\s*\(\s*_\(\s*(?:[\"']\s*[\"']\s*)?\)"),
+    ]
     # define narrator_variable = Character(...)
     # default narrator_variable = Character(...)
     # define narrator_variable = "narrator"
@@ -81,14 +90,23 @@ class SpeakerRules(Enum):
     NVL_BASIC = Rule(r" = nvl_narrator\s*$")
 
 
+class BuiltInSpeakerRules(Enum):
+    # nvl_narrator "Hey there im an nvl narrator"
+    NVL = BuiltinRule("nvl_narrator")
+    # narrator "Hey there im a narrator"
+    NARRATOR = BuiltinRule("narrator")
+
+
 class QuoteRules(Enum):
-    EXPRESSION_CUE_TILDA = QuoteCueRule('~')
-    EXPRESSION_CUE_ASTERISK = QuoteCueRule(r'\*')
+    EXPRESSION_CUE_TILDA = QuoteCueRule("~")
+    EXPRESSION_CUE_ASTERISK = QuoteCueRule(r"\*")
     ITALIC = Rule(
-        r'^(?:{\w+(?:=[^}]+)?})*\s*\{i\}((?:(?!\{/?i\}).)+)(?:\{/?i\})?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
-    ONLY_PUNCTUATION = Rule(r'^(?:{\w+(?:=[^}]+)?})*\s*[.?!]+\s*(?:{/\w+})*$')
+        r"^(?:{\w+(?:=[^}]+)?})*\s*\{i\}((?:(?!\{/?i\}).)+)(?:\{/?i\})?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$"
+    )
+    ONLY_PUNCTUATION = Rule(r"^(?:{\w+(?:=[^}]+)?})*\s*[.?!]+\s*(?:{/\w+})*$")
     PARENTHESIS = Rule(
-        r'^(?:{\w+(?:=[^}]+)?})*\s*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$')
+        r'^(?:{\w+(?:=[^}]+)?})*\s*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)$'
+    )
     TEXT_TAG = QuoteTextTagRule
-    GUILLEMET_DOUBLE = QuoteSurroundRule('«', '»')
-    GUILLEMET_SINGLE = QuoteSurroundRule('‹', '›')
+    GUILLEMET_DOUBLE = QuoteSurroundRule("«", "»")
+    GUILLEMET_SINGLE = QuoteSurroundRule("‹", "›")
