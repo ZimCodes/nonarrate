@@ -6,8 +6,8 @@
 ## Idea
 
 A story should unfold *organically*. Let the **environment**, characters' **actions**,
-and active **scenarios** carry the narrative. Players are 
-*encouraged* to draw their own interpretations 
+and active **scenarios** carry the narrative. Players are
+*encouraged* to draw their own interpretations
 of the events unfolding.
 
 ## Types of Narration
@@ -30,17 +30,29 @@ There are 2 sectors to identify narration in Ren'Py:
 
 There are multiple ways to install/upgrade.
 
-### From GitHub
+### Install From GitHub
 
 ```bash
 python -m pip install "nonarrate @ git+https://github.com/ZimCodes/nonarrate.git"
 ```
 
-### From Source Code
+#### Upgrade From GitHub
+
+```bash
+python -m pip install --upgrade "nonarrate @ git+https://github.com/ZimCodes/nonarrate.git"
+```
+
+### Install From Source Code
 
 ```bash
 git clone https://github.com/ZimCodes/nonarrate.git && cd nonarrate
 python -m pip install .
+```
+
+#### Upgrade From Source
+
+```bash
+python -m pip install --upgrade .
 ```
 
 **To Uninstall**:
