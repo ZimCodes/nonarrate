@@ -30,32 +30,19 @@ There are 2 sectors to identify narration in Ren'Py:
 
 There are multiple ways to install/upgrade.
 
-### Install From GitHub
+### Installing
 
 ```bash
 python -m pip install "nonarrate @ git+https://github.com/ZimCodes/nonarrate.git"
 ```
 
-#### Upgrade From GitHub
+### Updating
 
 ```bash
 python -m pip install --upgrade "nonarrate @ git+https://github.com/ZimCodes/nonarrate.git"
 ```
 
-### Install From Source Code
-
-```bash
-git clone https://github.com/ZimCodes/nonarrate.git && cd nonarrate
-python -m pip install .
-```
-
-#### Upgrade From Source
-
-```bash
-python -m pip install --upgrade .
-```
-
-**To Uninstall**:
+### Uninstall
 
 ```bash
 python -m pip uninstall nonarrate
