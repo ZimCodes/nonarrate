@@ -1,16 +1,14 @@
-from concurrent.futures import ThreadPoolExecutor
 import pathlib
+from concurrent.futures import ThreadPoolExecutor
+from typing import final
 
+from lib.custom_types import FileInfo
+from lib.error import RenpyError, ErrorParser, ErrorFixer
 from lib.log import Log
 
-from ..error_fixer import ErrorFixer
-
 from .deleter import Deleter
-
 from .reader import Reader
 from .writer import Writer
-from lib.custom_types import FileInfo, RenpyError
-from typing import final
 
 
 @final
@@ -42,7 +40,7 @@ class FileExecutor:
     @classmethod
     def fix_errors(cls, error_txt: pathlib.Path, reader: Reader):
         Log.wait(f"Parsing errors from {error_txt}")
-        errors = ErrorFixer.get_errors(error_txt, reader)
+        errors = ErrorParser.get_errors(error_txt, reader)
         with ThreadPoolExecutor(cls.max_workers) as ex:
             Log.wait("Fixing errors")
             ex.map(cls.__fix_func, errors.values())

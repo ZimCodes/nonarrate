@@ -162,23 +162,25 @@ class  NarratorHandler <<Singleton>>{
   {static}-correctIndent(fileInfos:List<FileInfo>): List<FileInfo>
   {static}-pauseFilter(fileInfos:List<FileInfo>): List<FileInfo>
 }
-class  ErrorFixer {
+class ErrorFixer {
+  +fix(errors: List<RenpyError>,reader:Reader,writer:Writer,deleter:Deleter)
+}
+class ErrorParser {
   {static}-destPat: Regex
   {static}-typePat: Regex
   {static}-lineNumPat: Regex
-  {static}-projectDir:Union[str,None]
-  +fix(errors: List<RenpyError>,reader:Reader,writer:Writer,deleter:Deleter)
   {static}+getErrors(errors_txt:Path, reader:Reader): Dictionary<str,List<RenpyError>>
+  {static}-formatErrorType(): str
   {static}-addError(errors: Dictionary<str,List<RenpyError>>,error: RenpyError)
-  {static}-getError(line:str): RenpyError
-  {static}-dedentLines(lines:List<str>,startIndex: int,startIndent: Union[int,None]): List<str>
-  {static}-reverseDedentLines(lines:List<str>,startIndex: int): List<str>
-}
+  {static}-parseError(projectDir:str,line:str): RenpyError
+  {static}-regexMatch(pattern:Regex,line:str, transformFunc): str
+ } 
 dataclass FileInfo {
   +url:str
   +lines: List<str>
 }
 dataclass RenpyError {
+  +projectDir:Union[str,None]
   +line_num:Union[int,None]
   +file_loc:Union[str,None]
   +category:Union[str,None]

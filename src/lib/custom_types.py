@@ -20,6 +20,7 @@ class FilterTag(Enum):
     RENPY_VARS = "--renpy-vars"
     PYTHON_VARS = "--python-vars"
 
+
 class MultiLineType(Enum):
     NONE = 0
     SINGLE_QUOTE = auto()
@@ -27,18 +28,10 @@ class MultiLineType(Enum):
     VALID_TRIPLE_QUOTE = auto()
     VALID_SINGLE_QUOTE = auto()
 
+
 @dataclass
 class FileInfo:
     """Class to hold file information."""
 
     url: str
     lines: list[str]
-
-
-@dataclass
-class RenpyError:
-    """Represents an error from the 'errors.txt' file."""
-
-    file_loc: str | None
-    line_num: int | None
-    category: str | None

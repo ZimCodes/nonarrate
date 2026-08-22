@@ -4,6 +4,7 @@ from lib.log import Log
 from lib.narrator_handler import NarratorHandler
 from lib.validator import ObjectStrategy
 
+
 def run():
     parser = CLIParser()
     arg_namespace = parser.parse_args()
@@ -29,7 +30,7 @@ def run():
     total_cleaned_lines, total_lines = NarratorHandler.line_stats()
     if arg_namespace.stats:
         Log.mark("Exporting stats to stats.json")
-        writer.dump_stats(total_lines,total_cleaned_lines)
+        writer.dump_stats(total_lines, total_cleaned_lines)
     Log.print_stats(total_lines, total_cleaned_lines)
 
 
