@@ -74,6 +74,7 @@ class InvalidRenpyFilter {
   +isInvalidFolder(dirPath: str):bool
 }
 class ValidRenpyFilter {
+   #completedFirstDepth: bool
    #hasPassedFileGlob(fileName:str): bool
    #hasPassedFileLiteral(fileName:str): bool
    +isInvalidFolder(dirPath: str):bool
@@ -163,7 +164,7 @@ class  NarratorHandler <<Singleton>>{
   {static}-pauseFilter(fileInfos:List<FileInfo>): List<FileInfo>
 }
 class ErrorFixer {
-  +fix(errors: List<RenpyError>,reader:Reader,writer:Writer,deleter:Deleter)
+  +fix(errors_txt_dir: str, errors: List<RenpyError>,reader:Reader,writer:Writer,deleter:Deleter)
 }
 class ErrorParser {
   {static}-destPat: Regex

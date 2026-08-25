@@ -17,7 +17,6 @@ class ErrorType(enum.StrEnum):
 class RenpyError:
     """Represents an error from the 'errors.txt' file."""
 
-    project_dir: str | None
     file_loc: str | None
     line_num: int | None
-    category: str | None
+    category: ErrorType | None

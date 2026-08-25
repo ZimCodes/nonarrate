@@ -36,7 +36,12 @@ class CLIParser:
 
     def __init_parser_groups(self):
         self.__search_group = self.__parser.add_argument_group("File Search", "Limits the search for .rpy files.")
-        self.__filter_group = self.__parser.add_argument_group("Filters", "Types of narration to remove.")
+        self.__disable_filter_group = self.__parser.add_argument_group(
+            "Disable Filters", "Disable filter types nonarrate enables by default."
+        )
+        self.__custom_filter_group = self.__parser.add_argument_group(
+            "Custom Filters", "User specified narration to remove."
+        )
 
     def __configure_opts(self):
         self.__add_arg(
@@ -219,35 +224,35 @@ class CLIParser:
             FilterTag.KEEP_NVL.value: "Keeps NVL-Mode narrator.",
         }
         self.__add_no_filters(no_filters)
-        self.__add_filter_arg(
+        self.__add_custom_filter_arg(
             FilterTag.TEXT_TAGS.value,
             "--tt",
             metavar="TAG_NAMES",
             nargs="*",
             help="Removes dialogue wrapped entirely in a custom text tag. Ex:{t}..{/t}",
         )
-        self.__add_filter_arg(
+        self.__add_custom_filter_arg(
             FilterTag.QUOTED_CHARS.value,
             "--qc",
             metavar="SPEAKER_NAMES",
             nargs="*",
             help="Removes speaker(s) surrounded by quotes.",
         )
-        self.__add_filter_arg(
+        self.__add_custom_filter_arg(
             FilterTag.OBJ_CHARS.value,
             "--oc",
             metavar="SPEAKER_OBJECT_NAMES",
             nargs="*",
             help="Removes speaker(s) saved to a Character object by their 'in-game' name.",
         )
-        self.__add_filter_arg(
+        self.__add_custom_filter_arg(
             FilterTag.RENPY_VARS.value,
             "--rv",
             metavar="RENPY_VARIABLE_NAMES",
             nargs="*",
             help="Removes speaker(s) by their variable name 'defined' by Ren'Py syntax, 'define' or 'default'",
         )
-        self.__add_filter_arg(
+        self.__add_custom_filter_arg(
             FilterTag.PYTHON_VARS.value,
             "--pv",
             metavar="PYTHON_VARIABLE_NAMES",
@@ -260,7 +265,7 @@ class CLIParser:
         initial_default = set(optnames)
         for optname, helpMsg in optnames.items():
             if not has_default:
-                self.__add_filter_arg(
+                self.__add_disable_filter_arg(
                     optname,
                     dest="narr_types",
                     action=RemoveUniqueConst,
@@ -270,7 +275,7 @@ class CLIParser:
                 )
                 has_default = True
             else:
-                self.__add_filter_arg(
+                self.__add_disable_filter_arg(
                     optname,
                     dest="narr_types",
                     action=RemoveUniqueConst,
@@ -281,8 +286,11 @@ class CLIParser:
     def __add_arg(self, *args, **kwargs: Any):
         self.__parser.add_argument(*args, **kwargs)
 
-    def __add_filter_arg(self, *args, **kwargs: Any):
-        self.__filter_group.add_argument(*args, **kwargs)
+    def __add_disable_filter_arg(self, *args, **kwargs: Any):
+        self.__disable_filter_group.add_argument(*args, **kwargs)
+
+    def __add_custom_filter_arg(self, *args, **kwargs: Any):
+        self.__custom_filter_group.add_argument(*args, **kwargs)
 
     def __add_search_arg(self, *args, **kwargs: Any):
         self.__search_group.add_argument(*args, **kwargs)

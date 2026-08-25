@@ -1,4 +1,3 @@
-import os
 import typing
 import re
 import pathlib
@@ -13,12 +12,6 @@ class ErrorParser:
 
     _dest_pat: re.Pattern = re.compile(r"(?:and )?File\s+.+?(game/.+\.rpy)")
     _line_num_pat: re.Pattern = re.compile(r".+line (\d+):")
-    _type_pat: re.Pattern | None
-
-    @staticmethod
-    def _format_error_type() -> str:
-        err_types = [str(x) for x in ErrorType]
-        return "|".join(err_types)
 
     @staticmethod
     def _regex_match(pattern: re.Pattern | None, line: str, transform_func=None) -> typing.Any:
@@ -38,14 +31,23 @@ class ErrorParser:
         else:
             errors[error.file_loc].append(error)
 
+    @staticmethod
+    def _parse_error_type(line: str) -> ErrorType | None:
+        for error_type in ErrorType:
+            if error_type == ErrorType.DUPLICATE:
+                continue
+            if re.search(error_type, line):
+                return error_type
+        if line.startswith("and File"):
+            return ErrorType.DUPLICATE
+        return None
+
     @classmethod
-    def _parse_error(cls, project_dir: str, line: str) -> RenpyError:
+    def _parse_error(cls, line: str) -> RenpyError:
         file_url = cls._regex_match(cls._dest_pat, line)
         line_num = cls._regex_match(cls._line_num_pat, line, int)
-        category = cls._regex_match(cls._type_pat, line)
-        if not category and line.startswith("and File"):
-            category = ErrorType.DUPLICATE
-        return RenpyError(project_dir, file_url, line_num, category)
+        category = cls._parse_error_type(line)
+        return RenpyError(file_url, line_num, category)
 
     @classmethod
     def get_errors(cls, errors_txt: pathlib.Path, reader: Reader) -> dict[str, list[RenpyError]]:
@@ -62,9 +64,6 @@ class ErrorParser:
             a list of Ren'Py errors acquired from errors.txt file.
         """
 
-        project_dir = os.path.dirname(errors_txt)
-        if cls._type_pat is None:
-            cls._type_pat = re.compile(rf".+({cls._format_error_type()})")
         file_info = reader.read_lines(errors_txt)
         errors = {}
         total_errors_log = 0
@@ -72,8 +71,8 @@ class ErrorParser:
             strip_line = line.strip()
             if not strip_line.startswith("File") and not strip_line.startswith("and File"):
                 continue
-            error = cls._parse_error(project_dir, line)
-            if error.category:
+            error = cls._parse_error(line)
+            if error.category is not None:
                 total_errors_log += 1
             cls._add_error(errors, error)
         Log.info("Errors detected", total_errors_log)

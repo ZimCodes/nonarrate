@@ -1,4 +1,5 @@
 import pathlib
+import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import final
 
@@ -41,19 +42,20 @@ class FileExecutor:
     def fix_errors(cls, error_txt: pathlib.Path, reader: Reader):
         Log.wait(f"Parsing errors from {error_txt}")
         errors = ErrorParser.get_errors(error_txt, reader)
+        error_txt_dir = os.path.dirname(error_txt)
         with ThreadPoolExecutor(cls.max_workers) as ex:
             Log.wait("Fixing errors")
-            ex.map(cls.__fix_func, errors.values())
+            ex.map(lambda error_list: cls.__fix_func(error_txt_dir, error_list), errors.values())
         Log.mark("DONE! Enjoy!")
 
     @classmethod
-    def __fix_func(cls, errors: list[RenpyError]):
+    def __fix_func(cls, error_txt_dir: str, errors: list[RenpyError]):
         try:
             reader = Reader()
             writer = Writer()
             deleter = Deleter()
             fixer = ErrorFixer()
-            fixer.fix(errors, reader, writer, deleter)
+            fixer.fix(error_txt_dir, errors, reader, writer, deleter)
         except Exception as e:
             Log.log(f"[Error] in fix_func: {e}")
             raise

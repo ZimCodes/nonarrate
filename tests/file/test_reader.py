@@ -22,7 +22,7 @@ class TestReader(unittest.TestCase):
         self.assertEqual(len(files), 3, "all .rpy files should be seen by reader")
 
     def test_invalid_files(self):
-        args = self._prepare_args([self._path, "--invalid-files", "oracle","ex_reader", "hello"])
+        args = self._prepare_args([self._path, "--invalid-files", "oracle", "ex_reader", "hello"])
         files = self._reader.walk_files(args.folder_or_file, args.file_filter)
         self.assertEqual(len(files), 0, "ex_reader.py, oracle.rpy and hello.rpy should not be seen by reader")
 
@@ -47,6 +47,18 @@ class TestReader(unittest.TestCase):
         self.assertEqual(len(files), 2, "child_dir is the only valid folder to look for rpy files.")
 
     def test_valid_file_globs(self):
-        args = self._prepare_args([self._path, "--valid-globs", "o*"])
+        args = self._prepare_args([self._path, "--valid-dirs", "child_dir", "--valid-globs", "o*"])
         files = self._reader.walk_files(args.folder_or_file, args.file_filter)
         self.assertEqual(len(files), 1, "Glob should match any .rpy files starting with o!")
+
+    def test_valid_strictness(self):
+        """Validation filters must explicitly specify what directories and files are allowed.
+
+        Invalidation filters allow all items unless explicitly specified. However, validation filters are the opposite. They
+        do NOT allow any items UNLESS explicitly stated. This test makes sure validation filter does not allow everything
+        by default like invalidation does.
+        """
+        args = self._prepare_args([self._path, "--valid-globs", "o*"])
+        files = self._reader.walk_files(args.folder_or_file, args.file_filter)
+        self.assertEqual(len(files), 0, "Glob should not match anything!")
+

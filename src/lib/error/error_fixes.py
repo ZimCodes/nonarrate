@@ -3,28 +3,7 @@ from .typing import ErrorType, RenpyError
 from lib.narrator_handler import NarratorHandler
 
 
-def apply_fix(lines: list[str], error: RenpyError, deleter: Deleter, current_file_loc: str) -> list[str]:
-    if error.category:
-        if error.line_num:
-            if ErrorType.NON_EMPTY in error.category or ErrorType.EXPECTED_STATEMENT in error.category:
-                lines = __remove_cur_line(lines, error)
-            elif ErrorType.INDENTED_LINE in error.category:
-                lines = __dedent_lines(lines, error.line_num - 1)
-            elif ErrorType.INDENT_MISMATCH.lower() in error.category.lower():
-                lines = __reverse_dedent_lines(lines, error.line_num - 1)
-            elif ErrorType.MENU_NO_CHOICES in error.category:
-                lines = __dedent_lines(
-                    lines,
-                    error.line_num,
-                    NarratorHandler.get_indent_num(lines[error.line_num - 1]),
-                )
-                lines = __remove_cur_line(lines, error)
-        elif ErrorType.DUPLICATE in error.category:
-            deleter.delete(current_file_loc)
-    return lines
-
-
-def __reverse_dedent_lines(lines: list[str], start_index: int) -> list[str]:
+def reverse_dedent_lines(lines: list[str], start_index: int) -> list[str]:
     """Correct indentation by decreasing indent level by 1 going up to preceding lines.
 
     All preceding lines with an indentation level higher than the starting line will be dedented 1 level.
@@ -50,7 +29,7 @@ def __reverse_dedent_lines(lines: list[str], start_index: int) -> list[str]:
     return lines
 
 
-def __dedent_lines(lines: list[str], start_index: int, start_indent: int | None = None) -> list[str]:
+def dedent_lines(lines: list[str], start_index: int, start_indent: int | None = None) -> list[str]:
     """Correct indentation by decreasing indent level by 1.
 
     Indentation will be decreased by 1 level (4 spaces) until a line with the
@@ -76,8 +55,33 @@ def __dedent_lines(lines: list[str], start_index: int, start_indent: int | None 
     return lines
 
 
-def __remove_cur_line(lines: list[str], error: RenpyError) -> list[str]:
+def remove_cur_line(lines: list[str], error: RenpyError) -> list[str]:
     if error.line_num is None:
         return lines
     lines.pop(error.line_num - 1)
     return lines
+
+
+def delete_file(deleter: Deleter, current_file_loc: str):
+    deleter.delete(current_file_loc)
+
+
+def menu_no_choice_fix(lines: list[str], error: RenpyError) -> list[str]:
+    if error.line_num is None:
+        return lines
+    lines = dedent_lines(
+        lines,
+        error.line_num,
+        NarratorHandler.get_indent_num(lines[error.line_num - 1]),
+    )
+    return remove_cur_line(lines, error)
+
+
+FIXES = {
+    ErrorType.EXPECTED_STATEMENT: remove_cur_line,
+    ErrorType.NON_EMPTY: remove_cur_line,
+    ErrorType.INDENTED_LINE: lambda lines, error: dedent_lines(lines, error.line_num - 1),
+    ErrorType.INDENT_MISMATCH: lambda lines, error: reverse_dedent_lines(lines, error.line_num - 1),
+    ErrorType.DUPLICATE: lambda deleter, current_file_loc: delete_file(deleter, current_file_loc),
+    ErrorType.MENU_NO_CHOICES: menu_no_choice_fix,
+}

@@ -110,8 +110,8 @@ nonarrate mycoolgame\game --valid-dirs gui gamepad_control_schemes "cache helper
 
 Tell nonarrate what folders are valid to look through.
 
-Nonarrate will *only* consider the folder(s) itself valid. If you want nonarrate to see the *.rpy files*
-within the folder(s) too, you must also use `--valid-files` or/and `--valid-globs`.
+When used, nonarrate will ignore all files/folders. Use this option to specify what **folder(s)** to *not* ignore.
+If you want nonarrate to see *.rpy files* within the folder(s) too, you must also use `--valid-files` or/and `--valid-globs`.
 
 ***NOTE:** `--valid-*` options take precedence over `--invalid-*` ones.
 
@@ -138,9 +138,11 @@ nonarrate mycoolgame\game --valid-files options image keymap
 
 Use .rpy files with these specified names.
 
-nonarrate will ignore all files *except* the file names you specified when search for *.rpy* files.
-**File names are case-insensitive!**. Can be used with `--valid-globs`.
+When used, nonarrate will ignore all files/folders. Use this option to specify what **.rpy files** to *not* ignore.
+Recommend using with `--valid-dirs` to allow valid folders. Using this option *without* `--valid-dirs` allows only the current directory
+to be looked at.
 
+\***NOTE: File names are case-insensitive!**. Can be used with `--valid-globs`.
 ***NOTE:** `--valid-*` options take precedence over `--invalid-*` ones.
 ***NOTE: Do *not* include `.rpy`. nonarrate will automatically assume this file type!**
 

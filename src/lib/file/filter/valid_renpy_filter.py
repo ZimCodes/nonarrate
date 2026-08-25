@@ -7,6 +7,21 @@ from .renpy_filter import RenpyFilter
 class ValidRenpyFilter(RenpyFilter):
     """Tools for filtering valid renpy files."""
 
+    def __init__(
+        self,
+        folder_filter_set: set[str] | None = None,
+        file_filter_set: set[str] | None = None,
+        glob_filter_set: set[str] | None = None,
+    ):
+        super().__init__(folder_filter_set, file_filter_set, glob_filter_set)
+        self._completed_first_depth = False
+
+    def _no_valid_folder(self) -> bool:
+        no_valid_folder = self._folder_filter_set is None and self._completed_first_depth
+        if not self._completed_first_depth:
+            self._completed_first_depth = True
+        return no_valid_folder
+
     @override
     def _has_passed_file_literal(self, file_name: str) -> bool:
         return self._file_filter_set is not None and file_name[:-4].lower() in self._file_filter_set
@@ -16,17 +31,15 @@ class ValidRenpyFilter(RenpyFilter):
         if self._glob_filter_set is None:
             return False
 
-        return any(
-            (
-                fnmatch.fnmatchcase(file_name, pat + RenpyFilter._file_ext)
-                for pat in self._glob_filter_set
-            )
-        )
+        return any((fnmatch.fnmatchcase(file_name, pat + RenpyFilter._file_ext) for pat in self._glob_filter_set))
 
     @override
     def is_invalid_folder(self, dirpath: str, sub_dirs: list[str]) -> bool:
         if self._folder_filter_set is None:
-            return False
+            if not self._completed_first_depth:
+                self._completed_first_depth = True
+                return False
+            return True
         sub_dirs[:] = [sub_dir for sub_dir in sub_dirs if sub_dir in self._folder_filter_set]
         dir_base_name = os.path.basename(dirpath)
         return dir_base_name not in self._folder_filter_set
