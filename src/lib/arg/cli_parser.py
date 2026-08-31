@@ -206,6 +206,7 @@ class CLIParser:
                 "*[sS]tyle*",
                 "*[Tt]ransform*",
                 "*[Aa]nimation*",
+                "*[Ss]prite*",
             },
             metavar="IGNORE_FILE_GLOBS",
             help="Ignore specified [files] using glob syntax.",
