@@ -12,7 +12,7 @@ This is a list of common narrator/introspection phrases that are removed by defa
 
 ## Built-In Narrators
 
-Narrator character objects available to developers by default.
+Narrator character objects available to developers by default. [Ren'Py's Reserved Names](https://www.renpy.org/doc/html/reserved.html)
 
 - `nvl_narrator`
 - `narrator`
