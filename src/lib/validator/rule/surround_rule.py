@@ -6,5 +6,5 @@ class SurroundRule(Rule):
 
     def __init__(self, open_symbol: str, close_symbol: str):
         super().__init__(
-            rf"(?:(['\"])(?:(?!\1).)+\1|\w+?) ([\"'])(?:{{\w+(?:=[^}}]+)?}})*\s*{open_symbol}[^{open_symbol}]+{close_symbol}\s*(?:(?:{{/\w+}})*[.?!]?|[.?!]?(?:{{/\w+}})*)\s*\2(?:\s*(?:with|id) .+|\s*\([^)]+\))?"
+            rf"(?:(['\"])(?:(?!\1).)+\1|\w+?)\s?([\"'])(?:{{\w+(?:=[^}}]+)?}})*\s*{open_symbol}[^{open_symbol}]+{close_symbol}\s*(?:(?:{{/\w+}})*[.?!]?|[.?!]?(?:{{/\w+}})*)\s*\2(?:\s*(?:with|id) .+|\s*\([^)]+\))?"
         )
