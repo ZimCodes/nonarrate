@@ -26,6 +26,7 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 |   hsceneselect    |  transitions  | y_outline |  00warper  |
 |       music       |     audio     |   wipes   |   scenes   |
 |      keymap       | background(s) |   movie(s)           | effects            |
+| patchcheck | | | |
 
 ## Invalid Globs
 

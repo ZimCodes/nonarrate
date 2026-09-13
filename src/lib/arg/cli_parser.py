@@ -174,6 +174,7 @@ class CLIParser:
                 "movie",
                 "movies",
                 "effects",
+                "patchcheck",
             },
             metavar="IGNORE_FILES",
             help="Ignore specified [files] when looking for .rpy files. Case-insensitive",
