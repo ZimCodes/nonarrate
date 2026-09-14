@@ -7,6 +7,7 @@ extracting command line arguments from the command line interface.
 import argparse
 import pathlib
 import os
+import tomllib
 from typing import Any
 
 from lib.arg.actions import *
@@ -20,8 +21,14 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "6.0.0"
+        self.__version_num = self.__get_version()
         self.__setup()
+
+    def __get_version(self) -> dict:
+        data = None
+        with open("pyproject.toml", "rb") as f:
+            data = tomllib.load(f)
+        return data["project"]["version"]
 
     def __setup(self):
         self.__init_parser()
