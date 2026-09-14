@@ -15,12 +15,7 @@ class InvalidRenpyFilter(RenpyFilter):
     def _has_passed_file_glob(self, file_name: str) -> bool:
         if self._glob_filter_set is None:
             return True
-        return not any(
-            (
-                fnmatch.fnmatchcase(file_name, pat + RenpyFilter._file_ext)
-                for pat in self._glob_filter_set
-            )
-        )
+        return not any((fnmatch.fnmatchcase(file_name, pat + RenpyFilter.FILE_EXT) for pat in self._glob_filter_set))
 
     @override
     def is_invalid_folder(self, dirpath: str, sub_dirs: list[str]) -> bool:
@@ -29,7 +24,6 @@ class InvalidRenpyFilter(RenpyFilter):
         sub_dirs[:] = [sub_dir for sub_dir in sub_dirs if sub_dir not in self._folder_filter_set]
         dir_base_name = os.path.basename(dirpath)
         return any((x == dir_base_name for x in self._folder_filter_set))
-
 
     @override
     def is_valid_file(self, file_name: str) -> bool:

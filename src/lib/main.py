@@ -1,5 +1,7 @@
 from lib.arg import CLIParser, ArgChecker, ArgAssembler
 from lib.file import Writer, FileExecutor, Reader
+from lib.file.backup import Backup
+from lib.file.filter import BackupFilter
 from lib.log import Log
 from lib.narrator_handler import NarratorHandler
 from lib.validator import ObjectStrategy
@@ -11,7 +13,13 @@ def run():
     reader = Reader()
     file_executor = FileExecutor()
     FileExecutor.max_workers = arg_namespace.jobs
-    if arg_namespace.folder_or_file.is_file() and arg_namespace.folder_or_file.name == "errors.txt":
+    # Restore Files
+    if arg_namespace.folder_or_file.is_dir() and arg_namespace.restore:
+        files = reader.walk_files(arg_namespace.folder_or_file, BackupFilter())
+        Backup.restore_files(files)
+        return
+    # Fix Errors
+    elif arg_namespace.folder_or_file.is_file() and arg_namespace.folder_or_file.name == "errors.txt":
         file_executor.fix_errors(arg_namespace.folder_or_file, reader)
         return
     ArgChecker.check_args(arg_namespace)

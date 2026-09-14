@@ -2,22 +2,22 @@ import abc
 from abc import abstractmethod
 from typing import override
 
-from .base_filter import BaseFilter
+from .fs_filter import FSFilter
 
 
-class RenpyFilter(BaseFilter, abc.ABC):
+class RenpyFilter(FSFilter, abc.ABC):
     """Tools for validating renpy files.
 
     Renpy files validated are '.rpy' files.
     """
 
-    _file_ext: str = ".rpy"
+    FILE_EXT: str = ".rpy"
 
     def __init__(
-            self,
-            folder_filter_set: set[str] | None = None,
-            file_filter_set: set[str] | None = None,
-            glob_filter_set: set[str] | None = None,
+        self,
+        folder_filter_set: set[str] | None = None,
+        file_filter_set: set[str] | None = None,
+        glob_filter_set: set[str] | None = None,
     ):
         super().__init__(folder_filter_set, file_filter_set)
         self._glob_filter_set = glob_filter_set
@@ -43,4 +43,4 @@ class RenpyFilter(BaseFilter, abc.ABC):
 
     @override
     def is_valid_file(self, file_name: str) -> bool:
-        return file_name.endswith(RenpyFilter._file_ext)
+        return file_name.endswith(RenpyFilter.FILE_EXT)

@@ -29,5 +29,4 @@ class ArgChecker:
         if not folder_or_file_arg.exists():
             raise FileNotFoundError(f"The file/folder, {folder_or_file_arg}, cannot be found!")
         if folder_or_file_arg.is_file() and folder_or_file_arg.name != "errors.txt":
-            raise WrongFileError("Only accepts a file called 'errors.txt' or a folder. Preferably the 'game' folder.")
-
+            raise WrongFileError("Only accepts a file called 'errors.txt' or a folder. Preferably 'game' folder.")

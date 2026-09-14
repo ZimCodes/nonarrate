@@ -20,7 +20,7 @@ class CLIParser:
     """
 
     def __init__(self):
-        self.__version_num = "5.2.1"
+        self.__version_num = "6.0.0"
         self.__setup()
 
     def __setup(self):
@@ -65,9 +65,14 @@ class CLIParser:
         self.__add_arg(
             "-b",
             "--backup",
-            metavar="BACKUP_DIR_PATH",
-            type=pathlib.Path,
-            help="Backup .rpy files to a specified location.",
+            action="store_true",
+            help="Create backups of .rpy files alongside original files",
+        )
+        self.__add_arg(
+            "-r",
+            "--restore",
+            action="store_true",
+            help="Restore .rpy files to their original state from backups, .rpybu files",
         )
         self.__add_arg("-s", "--stats", action="store_true", help="Write stats to a file, 'stats.json'")
         self.__add_arg(

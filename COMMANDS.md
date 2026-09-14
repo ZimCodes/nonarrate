@@ -70,11 +70,18 @@ To enable this feature, use this option.
 are some instances where clicking to move forward *feels* like it does nothing.
 In reality, the next sequence is *also* a pause statement.
 
-***-b, --backup*** `<backup-path-directory>`
+***-b, --backup***
 
-Backup *.rpy* files to a specified location.
+Backup *.rpy* files
 
-Backup the project's *.rpy* files to a specified location *before* removing narration.
+Backup the project's *.rpy* files. This will create `.rpybu` files alongside the
+original files.
+
+***-r, --restore***
+
+Restore `.rpy` files from backup files, `.rpybu`.
+
+Restore `.rpy` files to their original state using `rpybu` files generated with `--backup`.
 
 ***-s, --stats***
 

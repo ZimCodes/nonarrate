@@ -43,26 +43,38 @@ dataclass BuiltinRule
 'File Descriptors
 class Reader {
   +readLines(fileURL: Union[str,Path]): FileInfo
-  +walkFiles(rootDir:str): List<str>
+  +walkFiles(rootDir:str, fileFilter: Union[FileFilter,RenpyFilter]): List<str>
 }
 class Writer {
   +writeLines(fileInfo:FileInfo)
-  {static}+backupDir(filePaths:List<str>,backupDirPath:Path)
-  {static}+printStats(total_lines:int, total_cleaned:int)
+  {static}+dumpStats(total_lines:int, total_cleaned:int)
 }
 class Deleter {
 	+delete(fileURL: str)
 }
+class Backup {
+  {static}+backupFiles(filePaths:List<str>)
+  {static}+restoreFiles(filePaths:List<str>)
+  {static}-copyFiles(filePaths:List<str>,fileExt: str)
+}
 
 'File Filters
-abstract class BaseFilter {
-   #folderFilterSet: Set<str>
-   #fileFilterSet: Set<str>
-   {abstract}+isInvalidFolder(dirPath: str): bool
-   {abstract}+isValidFile(fileName:str): bool
+abstract class FileFilter {
+  {static}+FILEEXT: str
+  #fileFilterSet: Set<str>
+  {abstract}+isValidFile(fileName: str): bool
 }
+abstract class FolderFilter {
+  #folderFilterSet: Set<str>
+  {abstract}+isInvalidFolder(dirPath: str, subDirs: List<str>):bool
+}
+class BackupFilter {
+  {static}+FILEEXT: str
+  +isValidFile(fileName: str): bool
+
+abstract class FSFilter
 abstract class RenpyFilter {
-  {static}#fileExt: str
+  {static}+FILEEXT: str
   #globFilterSet: Set<str>
   {abstract}#hasPassedFileGlob(fileName:str): bool
   {abstract}#hasPassedFileLiteral(fileName:str): bool
@@ -71,7 +83,7 @@ abstract class RenpyFilter {
 class InvalidRenpyFilter {
   #hasPassedFileGlob(fileName:str): bool
   #hasPassedFileLiteral(fileName:str): bool
-  +isInvalidFolder(dirPath: str):bool
+  +isInvalidFolder(dirPath: str, subDirs: List<str>):bool
 }
 class ValidRenpyFilter {
    #completedFirstDepth: bool
@@ -279,7 +291,10 @@ enum MultiLineType {
 }
 
 'File Filters Relations
-BaseFilter <|-- RenpyFilter
+FileFilter <|-- FSFilter
+FileFilter <|-- BackupFilter
+FolderFilter <|-- FSFilter
+FSFilter <|-- RenpyFilter
 RenpyFilter <|-- InvalidRenpyFilter
 RenpyFilter <|-- ValidRenpyFilter
 

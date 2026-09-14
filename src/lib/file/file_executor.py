@@ -7,6 +7,7 @@ from lib.custom_types import FileInfo
 from lib.error import RenpyError, ErrorParser, ErrorFixer
 from lib.log import Log
 
+from .backup import Backup
 from .deleter import Deleter
 from .reader import Reader
 from .writer import Writer
@@ -26,7 +27,7 @@ class FileExecutor:
     def file_lines(cls, reader: Reader, arg_namespace) -> list[FileInfo]:
         files = reader.walk_files(arg_namespace.folder_or_file, arg_namespace.file_filter)
         if arg_namespace.backup:
-            Writer.backup_dir(files, arg_namespace.backup)
+            Backup.backup_files(files)
         file_infos = None
         with ThreadPoolExecutor(cls.max_workers) as ex:
             results = ex.map(reader.read_lines, files)

@@ -31,7 +31,7 @@ class ValidRenpyFilter(RenpyFilter):
         if self._glob_filter_set is None:
             return False
 
-        return any((fnmatch.fnmatchcase(file_name, pat + RenpyFilter._file_ext) for pat in self._glob_filter_set))
+        return any((fnmatch.fnmatchcase(file_name, pat + RenpyFilter.FILE_EXT) for pat in self._glob_filter_set))
 
     @override
     def is_invalid_folder(self, dirpath: str, sub_dirs: list[str]) -> bool:
