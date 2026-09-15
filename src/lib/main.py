@@ -35,11 +35,10 @@ def run():
     Log.wait("Writing modified lines to files")
     file_executor.write_files(writer, file_infos)
     Log.mark("DONE! Enjoy!")
-    total_cleaned_lines, total_lines = NarratorHandler.line_stats()
     if arg_namespace.stats:
         Log.mark("Exporting stats to stats.json")
-        writer.dump_stats(total_lines, total_cleaned_lines)
-    Log.print_stats(total_lines, total_cleaned_lines)
+        writer.dump_stats()
+    Log.print_stats()
 
 
 if __name__ == "__main__":

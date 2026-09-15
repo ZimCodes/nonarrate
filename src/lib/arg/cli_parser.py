@@ -24,7 +24,7 @@ class CLIParser:
         self.__version_num = self.__get_version()
         self.__setup()
 
-    def __get_version(self) -> dict:
+    def __get_version(self) -> str:
         data = None
         with open("pyproject.toml", "rb") as f:
             data = tomllib.load(f)

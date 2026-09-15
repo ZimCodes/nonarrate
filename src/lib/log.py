@@ -1,4 +1,5 @@
 from typing import final
+from lib.stat import Stat
 
 
 @final
@@ -15,22 +16,22 @@ class Log:
 
     @classmethod
     def mark(cls, text: str):
-        dashes = '-' * 8
+        dashes = "-" * 8
         cls.log(f"{dashes}> {text} <{dashes}")
 
     @classmethod
     def info(cls, title: str, value):
         cls.log(f"[{title}]: {value}")
 
-
     @classmethod
-    def print_stats(cls, total_lines: int, total_cleaned: int):
+    def print_stats(cls):
         try:
             cls.log(f"""
             Stats:
-            [Code Removed]: {total_lines - total_cleaned} lines
-            [Code Removed (%)]: {(total_lines - total_cleaned) / total_lines * 100} %
-            [Code Remaining (%)]: {(total_cleaned / total_lines) * 100} %
+            [Code Removed]: {Stat.total_lines - Stat.total_cleaned_lines} lines
+            [Code Removed (%)]: {(Stat.total_lines - Stat.total_cleaned_lines) / Stat.total_lines * 100} %
+            [Code Remaining (%)]: {(Stat.total_cleaned_lines / Stat.total_lines) * 100} %
             """)
         except ZeroDivisionError:
             raise ZeroDivisionError("!~ERROR~!: All rpy files are empty! No operations were made!")
+

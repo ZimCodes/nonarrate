@@ -29,7 +29,7 @@ class Backup:
         """
         Log.wait("Restoring files to their original state. This may take a while!")
         Backup.__copy_files(file_paths, RenpyFilter.FILE_EXT)
-        Log.info("files restored", len(file_paths))
+        Log.info("Files restored", len(file_paths))
 
     @staticmethod
     def __copy_files(file_paths: list[str], file_ext: str):

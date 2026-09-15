@@ -47,7 +47,7 @@ class Reader {
 }
 class Writer {
   +writeLines(fileInfo:FileInfo)
-  {static}+dumpStats(total_lines:int, total_cleaned:int)
+  +dumpStats()
 }
 class Deleter {
 	+delete(fileURL: str)
@@ -71,6 +71,7 @@ abstract class FolderFilter {
 class BackupFilter {
   {static}+FILEEXT: str
   +isValidFile(fileName: str): bool
+}
 
 abstract class FSFilter
 abstract class RenpyFilter {
@@ -165,13 +166,9 @@ class PauseState {
 class  NarratorHandler <<Singleton>>{
   {static}+PAUSE_STATEMENTS:tuple<str>
   {static}-closingPat: Regex
-  {static}-totalLines: int
-  {static}-totalCleanedLines: int
   {static}+remove(fileInfos:List<FileInfo>,args:Namespace): List<Dictionary<str,List<str>>>
   {static}+getIdentNum(line:str):int
   {static}-isClosing(line:str):bool
-  {static}-resetLineStats()
-  {static}+lineStats(): Tuple<int,int>
   {static}-correctIndent(fileInfos:List<FileInfo>): List<FileInfo>
   {static}-pauseFilter(fileInfos:List<FileInfo>): List<FileInfo>
 }

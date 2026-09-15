@@ -1,4 +1,5 @@
 from lib.info import AtlState, LineState, PauseState, PrevIndentState, PrevMultiState
+from lib.stat import Stat
 from .custom_types import FileInfo, MultiLineType
 import typing
 import re
@@ -17,8 +18,6 @@ class NarratorHandler:
 
     PAUSE_STATEMENTS: tuple[str, str] = ("pause", "$ renpy.pause")
     __closing_pat: re.Pattern = re.compile(r"(?:\"|\"\s*with .+)$")
-    __total_lines: int = 0
-    __total_cleaned_lines: int = 0
 
     @staticmethod
     def get_indent_num(line: str) -> int:
@@ -28,15 +27,6 @@ class NarratorHandler:
     @classmethod
     def __is_closing(cls, strip_line: str) -> bool:
         return True if cls.__closing_pat.search(strip_line) else False
-
-    @classmethod
-    def __reset_line_stats(cls):
-        cls.__total_cleaned_lines = 0
-        cls.__total_lines = 0
-
-    @classmethod
-    def line_stats(cls) -> tuple[int, int]:
-        return cls.__total_cleaned_lines, cls.__total_lines
 
     @classmethod
     def remove(cls, file_infos: list[FileInfo], args) -> list[FileInfo]:
@@ -50,19 +40,24 @@ class NarratorHandler:
         Returns:
             a list of file information and their modified content without the presence of a narrator or thought.
         """
-        cls.__reset_line_stats()
+        Stat.reset_stats()
         for file_info in file_infos:
-            cls.__total_lines += len(file_info.lines)
+            if args.stats:
+                Stat.file_urls.append(file_info.url)
+            Stat.total_lines += len(file_info.lines)
             cleaned_lines = []
             line_state = LineState()
             atl_state = AtlState()
             prev_multi_state = PrevMultiState()
             for line in file_info.lines:
                 line_state.setup(line)
-                if (line_state.is_comment
+                if (
+                    line_state.is_comment
                     # REF: https://www.renpy.org/doc/html/dialogue.html#special-characters
                     # 'extend' keyword
-                        or prev_multi_state.is_narr and line_state.strip_line.startswith('extend ')):
+                    or prev_multi_state.is_narr
+                    and line_state.strip_line.startswith("extend ")
+                ):
                     continue
 
                 # REF:https://www.renpy.org/doc/html/transforms.html#atl-animation-and-transformation-language
@@ -99,16 +94,16 @@ class NarratorHandler:
                             cleaned_lines.append(line)
                     else:
                         if (
-                                prev_multi_state.multi_line.multi_type is MultiLineType.SINGLE_QUOTE and cls.__is_closing(
-                            line_state.strip_line)
+                            prev_multi_state.multi_line.multi_type is MultiLineType.SINGLE_QUOTE
+                            and cls.__is_closing(line_state.strip_line)
                         ) or (
-                                prev_multi_state.multi_line.multi_type is MultiLineType.TRIPLE_QUOTE and line_state.is_triple_quote_end):
+                            prev_multi_state.multi_line.multi_type is MultiLineType.TRIPLE_QUOTE
+                            and line_state.is_triple_quote_end
+                        ):
                             prev_multi_state.multi_line.multi_type = MultiLineType.NONE
                             if args.pauses:
                                 # Replaces narration with pauses
-                                cleaned_lines.append(
-                                    f"{' ' * cls.get_indent_num(line)}{cls.PAUSE_STATEMENTS[0]}\n"
-                                )
+                                cleaned_lines.append(f"{' ' * cls.get_indent_num(line)}{cls.PAUSE_STATEMENTS[0]}\n")
                         prev_multi_state.multi_line.append_line(line)
                     continue
 
@@ -121,12 +116,11 @@ class NarratorHandler:
                     if not line_state.is_triple_quote_start:
                         cleaned_lines.append(line)
                 elif (
-                        args.pauses
-                        and is_narrator
-                        and not prev_multi_state.line.strip().startswith(cls.PAUSE_STATEMENTS)
-                        and len(cleaned_lines)
-                        and not cleaned_lines[len(cleaned_lines) - 1].strip().startswith(
-                    cls.PAUSE_STATEMENTS)
+                    args.pauses
+                    and is_narrator
+                    and not prev_multi_state.line.strip().startswith(cls.PAUSE_STATEMENTS)
+                    and len(cleaned_lines)
+                    and not cleaned_lines[len(cleaned_lines) - 1].strip().startswith(cls.PAUSE_STATEMENTS)
                 ):
                     # Replaces narration with pauses
                     cleaned_lines.append(f"{' ' * cls.get_indent_num(line)}{cls.PAUSE_STATEMENTS[0]}\n")
@@ -146,22 +140,35 @@ class NarratorHandler:
                     prev_multi_state.multi_line.is_choice_menu = False
 
                 if prev_multi_state.multi_line.multi_type is MultiLineType.NONE:
-                    if (line_state.is_triple_quote_start
-                            or (
-                                    is_narrator and line_state.has_triple_quote and not line_state.is_triple_quote_end and not line_state.more_triple_quotes)
-                            or (is_narrator and line_state.is_triple_quote_end and not line_state.more_triple_quotes)):
+                    if (
+                        line_state.is_triple_quote_start
+                        or (
+                            is_narrator
+                            and line_state.has_triple_quote
+                            and not line_state.is_triple_quote_end
+                            and not line_state.more_triple_quotes
+                        )
+                        or (is_narrator and line_state.is_triple_quote_end and not line_state.more_triple_quotes)
+                    ):
                         prev_multi_state.multi_line.multi_type = MultiLineType.TRIPLE_QUOTE
-                    elif line_state.has_loose_double_quote() and not cls.__is_closing(
-                            line_state.strip_line) and not line_state.has_triple_quote:
-                        prev_multi_state.multi_line.multi_type = MultiLineType.SINGLE_QUOTE if is_narrator else MultiLineType.VALID_SINGLE_QUOTE
+                    elif (
+                        line_state.has_loose_double_quote()
+                        and not cls.__is_closing(line_state.strip_line)
+                        and not line_state.has_triple_quote
+                    ):
+                        prev_multi_state.multi_line.multi_type = (
+                            MultiLineType.SINGLE_QUOTE if is_narrator else MultiLineType.VALID_SINGLE_QUOTE
+                        )
                     elif not is_narrator and line_state.has_triple_quote and not line_state.more_triple_quotes:
                         # linda """You are not narrator
                         prev_multi_state.multi_line.multi_type = MultiLineType.VALID_TRIPLE_QUOTE
 
                     if prev_multi_state.multi_line.multi_type is not MultiLineType.NONE:
                         prev_multi_state.multi_line.clear()
-                        if (prev_multi_state.multi_line.multi_type is not MultiLineType.VALID_TRIPLE_QUOTE
-                                and prev_multi_state.multi_line.multi_type is not MultiLineType.VALID_SINGLE_QUOTE):
+                        if (
+                            prev_multi_state.multi_line.multi_type is not MultiLineType.VALID_TRIPLE_QUOTE
+                            and prev_multi_state.multi_line.multi_type is not MultiLineType.VALID_SINGLE_QUOTE
+                        ):
                             prev_multi_state.multi_line.append_line(line)
                         continue
 
@@ -201,15 +208,15 @@ class NarratorHandler:
                 elif not prev_indent_state.has_reset:
                     line_indent_num = cls.get_indent_num(line)
                     if (
-                            (prev_indent_state.indent_num < line_indent_num)
-                            # labels do not need to follow strict indentation. Also,
-                            # if previous is a statement , '<block-name>:', allow it through.
-                            # Valid example:
-                            # label my_cool_label:
-                            # scene 103
-                            # mc "esvebrewsgr"
-                            or prev_indent_state.indent_num == line_indent_num
-                            and prev_indent_state.recent_line.rstrip().endswith(":")
+                        (prev_indent_state.indent_num < line_indent_num)
+                        # labels do not need to follow strict indentation. Also,
+                        # if previous is a statement , '<block-name>:', allow it through.
+                        # Valid example:
+                        # label my_cool_label:
+                        # scene 103
+                        # mc "esvebrewsgr"
+                        or prev_indent_state.indent_num == line_indent_num
+                        and prev_indent_state.recent_line.rstrip().endswith(":")
                     ):
                         cleaned_lines.append(prev_indent_state.recent_line)
                         cleaned_lines.append(line)
@@ -222,7 +229,7 @@ class NarratorHandler:
                 else:
                     cleaned_lines.append(line)
             file_info.lines = cleaned_lines
-            cls.__total_cleaned_lines += len(cleaned_lines)
+            Stat.total_cleaned_lines += len(cleaned_lines)
         return file_infos
 
     @classmethod
