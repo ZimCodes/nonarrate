@@ -7,6 +7,7 @@ class FilterTag(Enum):
     KEEP_COMMON_OBJ_CHARS = "--keep-common-obj-chars"
     KEEP_ITALIC = "--keep-italic"
     KEEP_PARENTHESIS = "--keep-parenthesis"
+    KEEP_COMMON_PARENTHETICALS = "--keep-common-parentheticals"
     KEEP_COMMON_QUOTED_CHARS = "--keep-common-quoted-chars"
     KEEP_EMPTY_QUOTED_CHARS = "--keep-empty-quoted-chars"
     KEEP_EMPTY_OBJ_CHARS = "--keep-empty-obj-chars"
@@ -19,6 +20,7 @@ class FilterTag(Enum):
     OBJ_CHARS = "--obj-chars"
     RENPY_VARS = "--renpy-vars"
     PYTHON_VARS = "--python-vars"
+    PARENTHETICALS = "--parentheticals"
 
 
 class MultiLineType(Enum):

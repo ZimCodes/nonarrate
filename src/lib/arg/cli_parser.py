@@ -229,6 +229,7 @@ class CLIParser:
             FilterTag.KEEP_COMMON_OBJ_CHARS.value: "Keep common [default narrators] that are saved to a Character object",
             FilterTag.KEEP_ITALIC.value: "Keep fully italic dialogues",
             FilterTag.KEEP_PARENTHESIS.value: "Keep dialogue fully wrapped in a parenthesis",
+            FilterTag.KEEP_COMMON_PARENTHETICALS.value: "Keep dialogue beginning with a word/phrase wrapped in a parenthesis",
             FilterTag.KEEP_COMMON_QUOTED_CHARS.value: "Keep common [default narrators] speakers defined in quotes and not saved to a Character object",
             FilterTag.KEEP_EMPTY_OBJ_CHARS.value: "Keep empty Character objects.",
             FilterTag.KEEP_EXPRESSION_CUES.value: "Keep expression cues. Ex: *smiles*, ~raises eyebrows~.",
@@ -272,6 +273,13 @@ class CLIParser:
             metavar="PYTHON_VARIABLE_NAMES",
             nargs="*",
             help="Removes speaker(s) by their variable name 'defined' by Python syntax, '$'",
+        )
+        self.__add_custom_filter_arg(
+            FilterTag.PARENTHETICALS.value,
+            "--ptc",
+            metavar="WORDS_OR_PHRASES",
+            nargs="*",
+            help="Remove dialogues beginning with a parenthesis containing a word/phrase.",
         )
 
     def __add_no_filters(self, optnames: dict[str, str]):

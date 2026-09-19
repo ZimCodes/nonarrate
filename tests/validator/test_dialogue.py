@@ -325,6 +325,14 @@ class TestDialogue(unittest.TestCase):
             289: 'mc"{fzs}That arrow almost hit me! Better be on guard.{/fzs}"',
             290: '"Narrator""(That arrow almost hit me! Better be on guard.)"',
             291: 'mc"«groan»"',
+            # Parentheticals
+            292: 'mc "(Thoughts) This apple is pretty..."',
+            293: 'mc "(Thoughts) This apple is pretty..." id start_d1523dd',
+            294: 'mc "(Thoughts) This apple is pretty..." with vpunch',
+            295: 'mc "\(Thoughts\) This apple is pretty..."',
+            296: 'mc "{tag}(Thoughts) This apple is pretty...{/tag}"',
+            297: 'mc "{tag}(Thoughts) This apple is pretty...{/tag}" (window_background="gui/transparent_textbox.png")',
+            298: 'mc "(Grumbles) This apple is pretty..."',
         }
 
     def validate_lines(self):
@@ -407,3 +415,11 @@ class TestDialogue(unittest.TestCase):
     def test_builtin_nvl(self):
         obj = validate_solo(BuiltInSpeakerRules.NVL.value)
         self.start(obj, [274])
+
+    def test_basic_parenthetical(self):
+        obj = validate_solo(DialogueRules.PARENTHETICAL_BASIC.value)
+        self.start(obj, [292, 293, 294, 295, 296, 297])
+
+    def test_parenthetical(self):
+        obj = validate_solo(DialogueRules.PARENTHETICAL.value("Grumbles"))
+        self.start(obj, [298])

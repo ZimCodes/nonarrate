@@ -40,7 +40,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.KEEP_ITALIC.value,
             FilterTag.KEEP_NARRATION.value,
         ]
-        self.start(args, 13)
+        self.start(args, 14)
 
     def test_nargs(self):
         args = [
@@ -56,6 +56,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.KEEP_EMPTY_OBJ_CHARS.value,
             FilterTag.KEEP_GUILLEMETS.value,
             FilterTag.KEEP_NVL.value,
+            FilterTag.KEEP_COMMON_PARENTHETICALS.value,
             FilterTag.QUOTED_CHARS.value,
             "ten",
             "narrator",
@@ -72,8 +73,11 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.PYTHON_VARS.value,
             "myname",
             "llrd",
+            FilterTag.PARENTHETICALS.value,
+            "Whisper",
+            "Grumbles",
         ]
-        self.start(args, 12)
+        self.start(args, 14)
 
     def test_regex_chain(self):
         args = [
@@ -88,6 +92,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.KEEP_PUNCTUATIONS.value,
             FilterTag.KEEP_GUILLEMETS.value,
             FilterTag.KEEP_NVL.value,
+            FilterTag.KEEP_COMMON_PARENTHETICALS.value,
             FilterTag.KEEP_EMPTY_QUOTED_CHARS.value,
             "--regex",
             FilterTag.QUOTED_CHARS.value,
@@ -113,6 +118,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.KEEP_EMPTY_QUOTED_CHARS.value,
             FilterTag.KEEP_GUILLEMETS.value,
             FilterTag.KEEP_NVL.value,
+            FilterTag.KEEP_COMMON_PARENTHETICALS.value,
             FilterTag.QUOTED_CHARS.value,
             "ten{3}",
             "seco.+",
@@ -135,6 +141,7 @@ class TestArgAssembler(unittest.TestCase):
             FilterTag.KEEP_EMPTY_QUOTED_CHARS.value,
             FilterTag.KEEP_GUILLEMETS.value,
             FilterTag.KEEP_NVL.value,
+            FilterTag.KEEP_COMMON_PARENTHETICALS.value,
         ]
         self.start(args, 5)
 

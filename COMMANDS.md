@@ -357,7 +357,8 @@ These filters deal with the **dialogue** portion of dialogue box.
 | --keep-cues         | mc "\**blushes softly*\*" <br>mc "{tag}\~*jumps*\~{/tag}"                                                             | Expression cues. \**smiles*\*, \~yawns\~, \*\**taps foot*\*\*                                                |
 | --keep-punctuations | mc "......" <br>mc "{tag}....{/tag}" <br>mc "!!!" <br>mc "????"                                                       | Dialogues with only punctuation marks                                                                        |
 | --keep-guillemets   | mc "«I am currently thinking about my situation again.»" <br>mc "‹I am currently thinking about my situation again.›" | Guillements.`›`,`‹`, `«`,`»`                                                                                 |
-
+| --keep-common-parentheticals | mc "(Thoughts) Was the microwave always this loud?" | Begins with a [common descriptor](/DEFAULT_NARRATORS.md#common-descriptors) wrapped in a parenthesis|
+| --parentheticals, --ptc | mc "(Whispers) Who in their right mind would do this?" | Begins with a phrase/word wrapped in a parenthesis |
 ***—keep-narr***
 
 Keep dialogues that do not have a speaker.
@@ -431,6 +432,24 @@ Expression cue examples:
 Keeps dialogue with only punctuation marks.
 
 By default, dialogue consisting of only punctuations are removed. To keep them, use this option.
+
+***--keep-common-parentheticals***
+
+Keeps dialogue beginning with a parenthetical containing a [common descriptor](/DEFAULT_NARRATORS.md#common-descriptors).
+
+Use this option to keep dialogue beginning with any [common descriptor](/DEFAULT_NARRATORS.md#common-descriptors) found in a parenthesis.
+
+***--parentheticals, --ptc `<word/phrase...>`***
+
+```bash
+# Dialogues containing the following are removed: "(Whispers) ....", "(While looking up) ..."
+nonarrate mycoolgame\game --ptc Whispers "While looking up"
+```
+
+Removes dialogue beginning with a parenthetical containing specified descriptors.
+
+Dialogue containing a parenthetical with any of the user specified descriptors will be
+removed.
 
 - - -
 

@@ -38,7 +38,8 @@ dataclass QuoteTextTagRule
 dataclass QuoteSurroundRule
 dataclass VarRule
 dataclass BuiltinRule
-
+dataclass ParentheticalRule
+dataclass BasicParentheticalRule
 
 'File Descriptors
 class Reader {
@@ -324,9 +325,10 @@ Rule <|-- QuoteCueRule
 Rule <|-- QuoteTextTagRule
 Rule <|-- QuoteSurroundRule
 Rule <|-- BuiltinRule
+Rule <|-- ParentheticalRule
 CharRule <|-- BasicCharRule
 ObjectRule <|-- BasicObjectRule
-
+ParentheticalRule <|-- BasicParentheticalRule
 
 'Argument Relations
 ArgChecker ..> CLIParser : uses

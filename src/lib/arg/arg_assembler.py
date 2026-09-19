@@ -18,6 +18,7 @@ class ArgAssembler:
         FilterTag.RENPY_VARS.value: ObjectStrategy,
         FilterTag.OBJ_CHARS.value: ObjectStrategy,
         FilterTag.PYTHON_VARS.value: ObjectStrategy,
+        FilterTag.PARENTHETICALS.value: IValidatorChainSolo,
     }
     __quote_validators: list[IValidatorChain] = [
         IValidatorChainSolo(QuoteRules.EXPRESSION_CUE_TILDA.value),
@@ -85,6 +86,12 @@ class ArgAssembler:
         current_validator = cls.__narg_filter(
             current_validator, cls.__escape(args, args.python_vars), FilterTag.PYTHON_VARS.value, SpeakerRules.VAR.value
         )
+        current_validator = cls.__narg_filter(
+            current_validator,
+            cls.__escape(args, args.parentheticals),
+            FilterTag.PARENTHETICALS.value,
+            DialogueRules.PARENTHETICAL.value,
+        )
 
     @staticmethod
     def __get_filters(option_name: str) -> list[IValidatorChain] | IValidatorChain:
@@ -124,6 +131,8 @@ class ArgAssembler:
                     ObjectStrategy(SpeakerRules.NVL_BASIC.value),
                     IValidatorChainSolo(BuiltInSpeakerRules.NVL.value),
                 ]
+            case FilterTag.KEEP_COMMON_PARENTHETICALS.value:
+                return IValidatorChainSolo(DialogueRules.PARENTHETICAL_BASIC.value)
             case _:
                 return IValidatorChainSolo(DialogueRules.BASIC.value)
 

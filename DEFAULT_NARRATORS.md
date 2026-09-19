@@ -16,3 +16,15 @@ Narrator character objects available to developers by default. [Ren'Py's Reserve
 
 - `nvl_narrator`
 - `narrator`
+
+## Common Descriptors
+
+Common descriptor words and phrases in a parenthetical. *(Includes capital case)*
+
+- thinking
+- think
+- thoughts
+- thought
+- inner voice
+- inner voices
+- inner monologue

@@ -1,3 +1,5 @@
+from .basic_parenthetical_rule import BasicParentheticalRule
+from .parenthetical_rule import ParentheticalRule
 from .builtin_rule import BuiltinRule
 from .rule import Rule
 from .cue_rule import CueRule
@@ -36,6 +38,10 @@ class DialogueRules(Enum):
     PARENTHESIS = Rule(
         r'^(?:([\'"])(?:(?!\1).)+\1|\w+?)\s?([\'"])(?:{\w+(?:=[^}]+)?})*\s*(?:\\|\\[\'"])?\([^()]+(?:\\?\)(?:\\[\'"])?)?\s*(?:[.?!]?(?:{/\w+})*|(?:{/\w+})*[/?!]?)\s*(?:\2|\2\s*(?:with|id) .+|\2\s*\([^)]+\))?$'
     )
+    # mc "(Whispers) At least I'm safe inside my mind."
+    PARENTHETICAL = ParentheticalRule
+    # mc "(Thoughts) I am thinking right now."
+    PARENTHETICAL_BASIC = BasicParentheticalRule()
     # mc "~yawns~"
     # mc "{tag}~yawns~{/tag}"
     EXPRESSION_CUE_TILDA = CueRule("~")
