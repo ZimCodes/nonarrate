@@ -78,7 +78,7 @@ class SpeakerRules(Enum):
     OBJECT_NONE = [
         Rule(r"(?:Dynamic)?Character\s*\(\s*(?:name\s*=\s*)?None.*\)"),
         Rule(r"(?:Dynamic)?Character\s*\(\s*\)"),
-        Rule(r"(?:Dynamic)?Character\s*\(\s*[\"']\s*[\"']\s*.*\)"),
+        Rule(r"(?:Dynamic)?Character\s*\(\s*[\"']\s*[\"']\s*(?:,.*)?\)"),
         Rule(r"(?:Dynamic)?Character\s*\((?!\s*[\"']{2}|\s*name\s?=|\s*None)(?:\s*[\w_]+\s*=\s*.+)+\)"),
         # Filters empty translation function, '_()' and '_("")'
         # Ref: https://www.renpy.org/doc/html/translation.html#menu-and-string-translations

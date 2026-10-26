@@ -1,10 +1,22 @@
 {
- "version": "0.2.0",
-  "configurations": [{
-    "type": "python",
-    "request": "launch",
-    "program": "${workspaceFolder}/src/lib/main.py",
-    "name": "start main.py",
-    "cwd": "${workspaceFolder}"
-  }]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/lib/main.py",
+      "name": "start main.py",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/lib/main.py",
+      "name": "Use Samples/",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "./Samples"
+      ]
+    }
+  ]
 }

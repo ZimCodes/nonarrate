@@ -60,11 +60,12 @@ class TestCharacter(unittest.TestCase):
                     'default dynamic = DynamicCharacter("My Mind")',
                     'default dynamic2 = DynamicCharacter("Marco")',
                     'default dynamic3 = DynamicCharacter("")',
-                    'default dynamic4 = DynamicCharacter(_())',
-                    'default nvl_narr = nvl_narrator',
+                    "default dynamic4 = DynamicCharacter(_())",
+                    "default nvl_narr = nvl_narrator",
                     '$ varvar = Character("varra")',
                     '$ varvar2 = "narrator"',
-                    'define pop5 = "narrator"'
+                    'define pop5 = "narrator"',
+                    "define st = Character(\"'Other' [stephaniename]\")",
                 ],
             )
         ]
@@ -179,7 +180,9 @@ class TestCharacter(unittest.TestCase):
             98: 'varvar "The mystery deepened."',
             99: 'varvar2 "The mystery deepened."',
             # Variable definition without Character object
-            100: 'pop5 "The mystery deepened."'
+            100: 'pop5 "The mystery deepened."',
+            # Valid Character object w/ "'
+            101: 'st "The mystery deepened."',
         }
 
     def setUp(self) -> None:
@@ -235,14 +238,12 @@ class TestCharacter(unittest.TestCase):
     def test_object_none_char_item(self):
         obj = validate_obj(SpeakerRules.OBJECT_NONE.value)
         self.start_object(
-            obj,
-            [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 79, 95, 96]
+            obj, [46, 47, 51, 56, 57, 58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 79, 95, 96]
         )
 
     def test_chaining(self):
         obj = validate_obj(SpeakerRules.OBJECT_BASIC.value, validate_obj(SpeakerRules.OBJECT.value("base")))
-        self.start_object(obj,
-                          [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78, 82, 86, 87, 88, 93])
+        self.start_object(obj, [35, 39, 40, 41, 42, 44, 45, 48, 50, 77, 78, 82, 86, 87, 88, 93])
 
     def test_spaces(self):
         """Test spaces between character object and calling parenthesis.
@@ -259,12 +260,12 @@ class TestCharacter(unittest.TestCase):
         self.start_object(obj, [52, 53, 54, 55, 58, 59, 80, 82, 85])
 
     def test_object_var(self):
-        obj = validate_obj([SpeakerRules.OBJECT_VAR.value("pop"),SpeakerRules.OBJECT_VAR.value("pop5")])
-        self.start_object(obj, [57,100])
+        obj = validate_obj([SpeakerRules.OBJECT_VAR.value("pop"), SpeakerRules.OBJECT_VAR.value("pop5")])
+        self.start_object(obj, [57, 100])
 
     def test_var_python(self):
-        obj = validate_obj([SpeakerRules.VAR.value("varvar"),SpeakerRules.VAR.value("varvar2")])
-        self.start_object(obj, [98,99])
+        obj = validate_obj([SpeakerRules.VAR.value("varvar"), SpeakerRules.VAR.value("varvar2")])
+        self.start_object(obj, [98, 99])
 
     def test_empty_char(self):
         obj = validate_solo(SpeakerRules.CHARACTER_NONE.value)
