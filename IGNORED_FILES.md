@@ -35,5 +35,5 @@ Placed here are a list of files and folders _nonarrate_ will ignore by default.
 | `*[gG]allery*` |  `[Vv]oice*`   | `[Aa][Tt][Ll]_*` | `[Aa]ction[Ee]ditor*` |
 |  `*highlight`  | `achievement*` |    `*viewer*`    |       `*image*`       |
 |   `*camera*`   |  `*minigame"`  |    `*screen*`    |     `[Rr]eplay*`      |
-| `[Ff]unction?` |  `*[Ss]tyle*`  | `*[Tt]ransform*` |   `*[Aa]nimation*`    |
+| `*[Ff]unction?` |  `*[Ss]tyle*`  | `*[Tt]ransform*` |   `*[Aa]nimation*`    |
 | `*[Ss]prite*`| | | |

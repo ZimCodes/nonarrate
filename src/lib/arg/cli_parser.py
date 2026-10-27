@@ -210,7 +210,7 @@ class CLIParser:
                 "*minigame",
                 "*screen*",
                 "[Rr]eplay*",
-                "[Ff]unction?",
+                "*[Ff]unction?",
                 "*[sS]tyle*",
                 "*[Tt]ransform*",
                 "*[Aa]nimation*",
